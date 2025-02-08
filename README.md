@@ -38,7 +38,7 @@ Given this challenge, the company is exploring how Generative AI can be integrat
 The global demand for certified software architects is accelerating due to government regulations and industry requirements.
 
 - **Market Size & Growth**: The U.S. alone has over 176,000 software architects, with 300,000 job openings. Internationally, the number of software architects is estimated to be around 600,000, and the industry is projected to grow by 21% over the next four years.
-- **Revenue Potential**: Certifiable, Inc. currently processes 200 candidates per week at a fixed certification cost of $800. With the expected increase in demand, this number could rise to 1,000-2,000 candidates weekly, translating into an annual revenue increase from certification fees alone.
+- **Revenue Potential**: Certifiable, Inc. currently processes *200 candidates per week* at a fixed certification cost of *$800*. With the expected increase in demand, this number could rise to *1,000-2,000 candidates weekly*, translating into an annual revenue increase from certification fees alone.
 - **Competitive Advantage**: As the market leader, Certifiable, Inc. holds over 80% market acceptance in the U.S. and a dominant presence in international markets. Successfully implementing AI-driven automation will strengthen its position as the most efficient and reliable certification provider globally.
 
 ### Objective
@@ -75,7 +75,70 @@ By addressing these stakeholder needs and aligning with market opportunities, Ce
 
 For the original requirements please follow [Original Requirements](requirements/original_requirements.md)
 
-## Current Challenges and Opportunities
+## Current System Overview
+
+### Functional Viewpoint
+
+> *Describes the system’s functional elements, their responsibilities, interfaces,
+> and primary interactions*
+
+Since we already have an established system, we believe the best way to describe its existing functionality is through User Journey Maps and a System Blueprint.
+
+We have identified several personas who interact with the system and actively participate in the business process:
+
+- **Candidate**
+  A software architect seeking certification through Certifiable, Inc. Candidates must pass two tests: an aptitude test and an architecture submission. They rely on timely grading, accurate feedback, and certification validation to advance their careers.
+- **Expert**
+  An employed expert software architect responsible for grading certification exams and providing detailed feedback to candidates. They are freelance contractors paid per hour and play a crucial role in ensuring the integrity of the certification process.
+- **Designated Expert**
+  A senior expert software architect with additional responsibilities beyond grading. They have the authority to modify certification tests, create or update case studies, and ensure that certification standards evolve with industry practices.
+- **Administrator**
+  A Certifiable, Inc. staff member responsible for managing expert software architects, maintaining system access, and ensuring smooth certification operations. They oversee expert profiles, system credentials, and help facilitate AI-driven enhancements.
+- **External HR**
+  Hiring managers and recruiters from various companies who rely on Certifiable, Inc.'s certifications to verify the qualifications of software architects. They use the certification database to validate credentials and make informed hiring decisions.
+
+#### Candidate Journey Map
+
+1. Registration & Application – The candidate registers on the Certifiable, Inc. platform and submits an application for certification.
+2. Aptitude Test (Test 1) – The candidate takes a timed multiple-choice and short-answer aptitude test. Multiple-choice questions are auto-graded, while expert software architects review short-answer responses.
+3. Test Results & Eligibility – If the candidate scores 80% or higher, they receive an invitation to the architecture submission test. If they fail, they receive detailed feedback and can reattempt.
+4. Architecture Submission (Test 2) – The candidate downloads a case study, designs a software architecture solution, and submits their work within two weeks.
+5. Evaluation & Feedback – Expert software architects review the submission, grade it based on set criteria, and provide feedback.
+6. Certification & Verification – If the candidate passes both tests, they receive official certification, which is stored in the database for employer verification. If they fail, they can reapply for Test 2.
+
+![Diagram](functional_viewpoint/images/candidate_journey_map.png)
+
+#### Expert Journey Map
+
+1. Profile Setup & Access – The expert software architect is onboarded by Certifiable, Inc. and gains access to the grading system. They can update their profile and set availability.
+2. Test 1 Grading (Aptitude Test) – Experts review and grade short-answer responses manually. They provide detailed feedback and ensure grading accuracy based on established evaluation criteria.
+3. Test 2 Grading (Architecture Submission) – Experts assess architecture submissions based on predefined rubrics. They spend an average of 8 hours per submission, ensuring fair and precise evaluation. Experts offer candidates detailed explanations for incorrect answers, areas of improvement, and scoring justifications to help them understand their results.
+4. Test & Case Study Improvements – Designated experts periodically analyze test performance, identify problematic questions, and propose modifications or new case studies to keep the certification process relevant.
+
+![Diagram](functional_viewpoint/images/expert_journey_map.png)
+
+#### Designated Expert Journey Map
+
+A Designated Expert has all the responsibilities of a regular Expert Software Architect, including grading aptitude tests, reviewing architecture submissions, providing feedback, and contributing to certification system updates.
+
+1. Getting Access – The designated expert receives elevated access role from the system administrator.
+2. Review Suggested Improvements from Experts – They analyze feedback and improvement suggestions submitted by expert graders regarding test questions, case studies, and grading inconsistencies. They assess recurring issues in test performance data, such as frequently failed questions.
+3. Maintain Tests - Based on expert feedback and industry advancements, designated experts update aptitude test questions. They remove outdated or problematic questions and introduce new ones to reflect emerging software architecture trends. Changes are tested to ensure balance and difficulty consistency across certification exams.
+4. Maintain Case Studies - Designated experts develop new architecture case studies to prevent content leaks and ensure the certification process remains challenging and relevant. They modify existing case studies to incorporate modern design patterns, industry best practices, and evolving regulatory requirements. Outdated or redundant case studies are deleted to maintain a streamlined and effective certification process.
+
+![Diagram](functional_viewpoint/images/designated_expert_journey_map.png)
+
+#### Service Blue Print
+
+> *A **Service Blueprint** is a detailed visual representation of a service process, illustrating interactions between users, system components, and backend processes. It provides a structured framework for understanding how a service functions by mapping out key elements such as customer actions, employee roles, supporting systems, and process flows.*
+
+![Diagram](functional_viewpoint/images/service_blueprint.png)
+
+**Key takeaways**:
+
+1. Grading the Aptitude Test takes approximately 3 hours. This process involves two primary tasks: evaluating answers and providing comments for incorrect responses. Since no specific data is available, **we assume an equal time distribution of 50% for grading and 50% for feedback**.
+2. Grading the Architecture Submission takes approximately 8 hours. This involves three key tasks: reviewing the candidate's submitted architecture, assessing it against predefined criteria, and writing detailed feedback. In the absence of precise data, **we assume an equal time distribution of 33% for understanding the submission, 33% for grading, and 33% for providing feedback**.
+3. While reducing candidate wait times is possible, it is entirely dependent on the time required for test validation and grading. Therefore, wait time improvements cannot be addressed in isolation.
 
 ## Proposed Solutions
 
