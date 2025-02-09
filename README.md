@@ -148,6 +148,29 @@ A Designated Expert has all the responsibilities of a regular Expert Software Ar
 
 > *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
 
+Understanding what data is stored and where is critical for the successful implementation of AI-driven enhancements. any ML or AI system. Unfortunately, we have limited information about the data structures used in the system. The provided diagrams give insight into the names of data objects and their relationships, but their exact contents remain unknown, requiring us to make assumptions.
+
+*Note: If the existing data model differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning the data model with the necessary structure to support AI integration.*
+
+The diagram below represents our best estimation of what the data model should look like.
+
+![Diagram](сurrent_state/informational_viewpoint/data_model.png)
+
+We will not describe every object in the diagram, but we will focus on two key ones:
+
+- **Graded Aptitude test submission**: is a historical dataset, which contains following information:
+  - Aptitude test questions as they were at the time of test validation
+  - Multiple choice answers and grades
+  - Short Answers, Grades and Expert Feedback
+  - Expert ID and Time it took validate test and provide feedback
+
+- **Graded Architecture submission**: is a historical dataset, which contains following information:
+  - Case Study and Grading Criteria as they were at the time of test validation
+  - Grades based on each Criteria and Expert Feedback
+  - Expert ID and Time it took validate test and provide feedback
+
+**We assume that data from these datasets is never deleted and contains submissions, grades, and feedback for 120,000 candidates** who have already completed the certification process.
+
 ### Cost Perspective
 
 > *Evaluates the financial impact of architectural decisions, balancing implementation, operation, and scalability costs with business value.*
@@ -177,7 +200,7 @@ Given the lack of additional information, we must make the **following assumptio
 - For the **3 hours** an Expert spends on **Aptitude Test validation**, we assume the time is evenly split: **50% for grading** and **50% for providing feedback**.
 - For the **8 hours** an Expert spends on **Case Study validation**, we assume the time is evenly distributed: **33% for understanding the submission, 33% for grading, and 33% for providing feedback**.
 - !!! We assume the system **automatically tracks** the time an Expert spends on validating tests and **stores this information** in a designated location.
-- !!! We assume there is **no established retention period**, and the database **stores graded answers and architecture submissions** of **120,000 candidates** who have already completed the certification process.
+- We assume there is **no established retention period**, and the database **stores graded answers and architecture submissions** of **120,000 candidates** who have already completed the certification process.
 - We assume the **full validation cost of $550** applies to **every candidate**, regardless of pass or fail rates.
 - We assume there are **no established quality control measures** to verify grading accuracy.
 - We assume there is **no formal appeals process** that allows candidates to challenge grading errors made by Experts.
@@ -186,43 +209,43 @@ Given the lack of additional information, we must make the **following assumptio
 
 ### Scalability is a Major Challenge
 
-The company currently employs **300 Experts** to validate tests for **200 candidates per week**. Scaling up to **1,000 candidates per week** would require either **longer wait times** (which is unacceptable) or **hiring significantly more Experts**. Hiring more Experts would also necessitate additional **managerial roles and support staff** (e.g., Administrators, Accountants, HR personnel), further **increasing operational costs**. As a result, **the cost per test would continue to rise**, negatively impacting profitability.
+The company currently employs *300 Experts* to validate tests for *200 candidates per week*. Scaling up to *1,000 candidates per week* would require either *longer wait times* (which is unacceptable) or *hiring significantly more Experts*. Hiring more Experts would also necessitate additional *managerial roles and support staff* (e.g., Administrators, Accountants, HR personnel), further *increasing operational costs*. As a result, *the cost per test would continue to rise*, negatively impacting profitability.
 
 ##### Opportunity: Investing in **automation** is essential to ensure the company's long-term viability
 
 ### High Cost Model
 
-Currently, the company spends **$550 per test validation**, which accounts for **68% of the $800 certification fee**. This is a **significant expense**, and the **primary cost driver** is the time spent by Experts on validation. Reducing validation time is **key to lowering costs**, and AI can play a major role in **optimizing productivity**.
+Currently, the company spends *$550 per test validation*, which accounts for *68% of the $800 certification fee*. This is a *significant expense*, and the *primary cost driver* is the time spent by Experts on validation. Reducing validation time is *key to lowering costs*, and AI can play a major role in *optimizing productivity*.
 
 ##### Opportunity: AI-driven productivity enhancements can significantly **reduce validation time**, leading to **lower costs per test** and increased **operational efficiency**
 
 ### Current Expert Compensation Model Discourages Efficiency
 
-Experts are **paid per hour**, meaning there is **no incentive** for them to work faster or process more tests. AI assistance can only succeed **if Experts are motivated** to use it effectively.
+Experts are *paid per hour*, meaning there is *no incentive* for them to work faster or process more tests. AI assistance can only succeed *if Experts are motivated* to use it effectively.
 
-A better approach would be a **per-test payment model** instead of hourly pay.
+A better approach would be a *per-test payment model* instead of hourly pay.
 
-- Currently, grading an **Aptitude Test** takes **3 hours**, earning an Expert **$150** ($50 per hour).
-- If AI-assisted grading **reduces validation time to 1.5 hours**, and we **pay $100 per test**, an Expert could validate **two tests in the same 3-hour period**, earning **$200 instead of $150**.
-- At the same time, the **company’s cost per test** would decrease from **$150 to $100**, improving efficiency and profitability.
+- Currently, grading an *Aptitude Test* takes *3 hours*, earning an Expert *$150* ($50 per hour).
+- If AI-assisted grading *reduces validation time to 1.5 hours*, and we *pay $100 per test*, an Expert could validate *two tests in the same 3-hour period*, earning *$200 instead of $150*.
+- At the same time, the *company’s cost per test* would decrease from *$150 to $100*, improving efficiency and profitability.
 
 ##### Opportunity: Transitioning to a **per-test payment model** would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company
 
 ### High-Quality Expectations Limit Full Automation
 
-Given the strict **accuracy and reliability requirements**, fully automating the grading process is **not viable**. A human **must remain in control** to make final grading decisions. Instead of **replacing Experts**, AI should function as an **assistant**, helping them **validate tests faster and with greater accuracy**.
+Given the strict *accuracy and reliability requirements*, fully automating the grading process is *not viable*. A human *must remain in control* to make final grading decisions. Instead of *replacing Experts*, AI should function as an *assistant*, helping them *validate tests faster and with greater accuracy*.
 
 ##### Requirement: AI should be used as an **expert assistant**, speeding up grading rather than replacing human decision-making
 
 ### Lack of a Measurable Grading Quality Process
 
-Despite high expectations for grading quality, there is **no formalized process to measure it**. Establishing a **quality baseline** is crucial before making system changes. Experts already make mistakes, and incorporating **candidate feedback loops** is essential for assessing grading accuracy. A **human-only baseline** must be established to **track improvements** as AI-assisted grading is introduced.
+Despite high expectations for grading quality, there is *no formalized process to measure it*. Establishing a *quality baseline* is crucial before making system changes. Experts already make mistakes, and incorporating *candidate feedback loops* is essential for assessing grading accuracy. A *human-only baseline* must be established to *track improvements* as AI-assisted grading is introduced.
 
 ##### Requirement: A **quality control process** must be implemented before system improvements, ensuring that grading accuracy can be measured and improved over time
 
 ### No Defined Process for Tracking Validation Time
 
-There is **no mention of how validation time is currently tracked**, yet it is a key efficiency metric for AI-assisted improvements. A proper **measurement system** must be put in place to ensure progress in **reducing validation time**.
+There is *no mention of how validation time is currently tracked*, yet it is a key efficiency metric for AI-assisted improvements. A proper *measurement system* must be put in place to ensure progress in *reducing validation time*.
 
 ##### Requirement: **Tracking validation time** is critical for evaluating AI effectiveness and must be established before automation is introduced
 
