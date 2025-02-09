@@ -106,7 +106,7 @@ We have identified several personas who interact with the system and actively pa
 5. Evaluation & Feedback – Expert software architects review the submission, grade it based on set criteria, and provide feedback.
 6. Certification & Verification – If the candidate passes both tests, they receive official certification, which is stored in the database for employer verification. If they fail, they can reapply for Test 2.
 
-![Diagram](сurrent_state/functional_viewpoint/candidate_journey_map.png)
+![Diagram](current_state/functional_viewpoint/candidate_journey_map.png)
 
 #### Expert Journey Map
 
@@ -115,7 +115,7 @@ We have identified several personas who interact with the system and actively pa
 3. Test 2 Grading (Architecture Submission) – Experts assess architecture submissions based on predefined rubrics. They spend an average of 8 hours per submission, ensuring fair and precise evaluation. Experts offer candidates detailed explanations for incorrect answers, areas of improvement, and scoring justifications to help them understand their results.
 4. Test & Case Study Improvements – Designated experts periodically analyze test performance, identify problematic questions, and propose modifications or new case studies to keep the certification process relevant.
 
-![Diagram](сurrent_state/functional_viewpoint/expert_journey_map.png)
+![Diagram](current_state/functional_viewpoint/expert_journey_map.png)
 
 #### Designated Expert Journey Map
 
@@ -126,13 +126,13 @@ A Designated Expert has all the responsibilities of a regular Expert Software Ar
 3. Maintain Tests - Based on expert feedback and industry advancements, designated experts update aptitude test questions. They remove outdated or problematic questions and introduce new ones to reflect emerging software architecture trends. Changes are tested to ensure balance and difficulty consistency across certification exams.
 4. Maintain Case Studies - Designated experts develop new architecture case studies to prevent content leaks and ensure the certification process remains challenging and relevant. They modify existing case studies to incorporate modern design patterns, industry best practices, and evolving regulatory requirements. Outdated or redundant case studies are deleted to maintain a streamlined and effective certification process.
 
-![Diagram](сurrent_state/functional_viewpoint/designated_expert_journey_map.png)
+![Diagram](current_state/functional_viewpoint/designated_expert_journey_map.png)
 
 #### Service Blue Print
 
 > *A **Service Blueprint** is a detailed visual representation of a service process, illustrating interactions between users, system components, and backend processes. It provides a structured framework for understanding how a service functions by mapping out key elements such as customer actions, employee roles, supporting systems, and process flows.*
 
-![Diagram](сurrent_state/functional_viewpoint/service_blueprint.png)
+![Diagram](current_state/functional_viewpoint/service_blueprint.png)
 
 **Key takeaways**:
 
@@ -155,7 +155,7 @@ Understanding what data is stored and where is critical for the successful imple
 
 The diagram below represents our best estimation of what the data model should look like.
 
-![Diagram](сurrent_state/informational_viewpoint/data_model.png)
+![Diagram](current_state/informational_viewpoint/data_model.png)
 
 We will not describe every object in the diagram, but we will focus on two key ones:
 
