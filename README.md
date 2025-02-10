@@ -215,7 +215,8 @@ Given the lack of additional information, we must make the **following assumptio
 
 The company currently employs *300 Experts* to validate tests for *200 candidates per week*. Scaling up to *1,000 candidates per week* would require either *longer wait times* (which is unacceptable) or *hiring significantly more Experts*. Hiring more Experts would also necessitate additional *managerial roles and support staff* (e.g., Administrators, Accountants, HR personnel), further *increasing operational costs*. As a result, *the cost per test would continue to rise*, negatively impacting profitability.
 
-> [!IMPORTANT] Opportunity: Investing in **automation** is essential to ensure the company's long-term viability
+> [!IMPORTANT]
+> Opportunity: Investing in **automation** is essential to ensure the company's long-term viability
 
 ### High Cost Model
 
@@ -233,8 +234,9 @@ A better approach would be a *per-test payment model* instead of hourly pay.
 - If AI-assisted grading *reduces validation time to 1.5 hours*, and we *pay $100 per test*, an Expert could validate *two tests in the same 3-hour period*, earning *$200 instead of $150*.
 - At the same time, the *company’s cost per test* would decrease from *$150 to $100*, improving efficiency and profitability.
 
-$${\color{red}Opportunity:}$$
-Transitioning to a **per-test payment model** would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company
+```diff
++ Opportunity: Transitioning to a **per-test payment model** would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company
+```
 
 ### High-Quality Expectations Limit Full Automation
 
