@@ -151,7 +151,7 @@ A Designated Expert has all the responsibilities of a regular Expert Software Ar
 Understanding what data is stored and where is critical for the successful implementation of AI-driven enhancements. any ML or AI system. Unfortunately, we have limited information about the data structures used in the system. The provided diagrams give insight into the names of data objects and their relationships, but their exact contents remain unknown, requiring us to make assumptions.
 
 > [!NOTE]
-> Note: If the existing data model differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning the data model with the necessary structure to support AI integration.*
+> If the existing data model differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning the data model with the necessary structure to support AI integration.*
 
 The diagram below represents our best estimation of what the data model should look like.
 
@@ -163,11 +163,13 @@ We will not describe every object in the diagram, but we will focus on two key o
   - Aptitude test questions as they were at the time of test validation
   - Multiple choice answers and grades
   - Short Answers, Grades and Expert Feedback
+  - **We assume that Grade and Feedback are stored per each Question/Answer**
   - Expert ID and Time it took validate test and provide feedback
 
 - **Graded Architecture submission**: is a historical dataset, which contains following information:
   - Case Study and Grading Criteria as they were at the time of test validation
   - Grades based on each Criteria and Expert Feedback
+  - **We assume that Grade and Feedback are stored per each Criteria**
   - Expert ID and Time it took validate test and provide feedback
 
 **We assume that data from these datasets is never deleted and contains submissions, grades, and feedback for 120,000 candidates** who have already completed the certification process.
@@ -202,6 +204,7 @@ Given the lack of additional information, we must make the **following assumptio
 - For the **8 hours** an Expert spends on **Case Study validation**, we assume the time is evenly distributed: **33% for understanding the submission, 33% for grading, and 33% for providing feedback**.
 - !!! We assume the system **automatically tracks** the time an Expert spends on validating tests and **stores this information** in a designated location.
 - We assume there is **no established retention period**, and the database **stores graded answers and architecture submissions** of **120,000 candidates** who have already completed the certification process.
+- We assume that for the Aptitude Test, the **Grade and Feedback** are recorded **for each Question/Answer**, whereas for the Case Study Test, they are recorded **for each Criterion**.
 - We assume the **full validation cost of $550** applies to **every candidate**, regardless of pass or fail rates.
 - We assume there are **no established quality control measures** to verify grading accuracy.
 - We assume there is **no formal appeals process** that allows candidates to challenge grading errors made by Experts.
