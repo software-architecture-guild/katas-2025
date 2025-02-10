@@ -151,7 +151,7 @@ A Designated Expert has all the responsibilities of a regular Expert Software Ar
 Understanding what data is stored and where is critical for the successful implementation of AI-driven enhancements. any ML or AI system. Unfortunately, we have limited information about the data structures used in the system. The provided diagrams give insight into the names of data objects and their relationships, but their exact contents remain unknown, requiring us to make assumptions.
 
 > [!NOTE]
-> If the existing data model differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning the data model with the necessary structure to support AI integration.*
+> *If the existing data model differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning the data model with the necessary structure to support AI integration.*
 
 The diagram below represents our best estimation of what the data model should look like.
 
@@ -215,15 +215,13 @@ Given the lack of additional information, we must make the **following assumptio
 
 The company currently employs *300 Experts* to validate tests for *200 candidates per week*. Scaling up to *1,000 candidates per week* would require either *longer wait times* (which is unacceptable) or *hiring significantly more Experts*. Hiring more Experts would also necessitate additional *managerial roles and support staff* (e.g., Administrators, Accountants, HR personnel), further *increasing operational costs*. As a result, *the cost per test would continue to rise*, negatively impacting profitability.
 
-> [!IMPORTANT]
-> Opportunity: Investing in **automation** is essential to ensure the company's long-term viability
+> [!IMPORTANT] Opportunity: Investing in **automation** is essential to ensure the company's long-term viability
 
 ### High Cost Model
 
 Currently, the company spends *$550 per test validation*, which accounts for *68% of the $800 certification fee*. This is a *significant expense*, and the *primary cost driver* is the time spent by Experts on validation. Reducing validation time is *key to lowering costs*, and AI can play a major role in *optimizing productivity*.
 
-> [!IMPORTANT]
-> Opportunity: AI-driven productivity enhancements can significantly **reduce validation time**, leading to **lower costs per test** and increased **operational efficiency**
+#### Opportunity: AI-driven productivity enhancements can significantly **reduce validation time**, leading to **lower costs per test** and increased **operational efficiency**
 
 ### Current Expert Compensation Model Discourages Efficiency
 
