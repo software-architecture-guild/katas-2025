@@ -200,16 +200,21 @@ Given the lack of additional information, we must make the **following assumptio
 
 ## Assumptions
 
-<mark>
 - For the **3 hours** an Expert spends on **Aptitude Test validation**, we assume the time is evenly split: **50% for grading** and **50% for providing feedback**.
+
 - For the **8 hours** an Expert spends on **Case Study validation**, we assume the time is evenly distributed: **33% for understanding the submission, 33% for grading, and 33% for providing feedback**.
+
 - !!! We assume the system **automatically tracks** the time an Expert spends on validating tests and **stores this information** in a designated location.
+
 - We assume there is **no established retention period**, and the database **stores graded answers and architecture submissions** of **120,000 candidates** who have already completed the certification process.
+
 - We assume that for the Aptitude Test, the **Grade and Feedback** are recorded **for each Question/Answer**, whereas for the Case Study Test, they are recorded **for each Criterion**.
+
 - We assume the **full validation cost of $550** applies to **every candidate**, regardless of pass or fail rates.
+
 - We assume there are **no established quality control measures** to verify grading accuracy.
+
 - We assume there is **no formal appeals process** that allows candidates to challenge grading errors made by Experts.
-</mark>
 
 ## Challenges and Opportunities
 
