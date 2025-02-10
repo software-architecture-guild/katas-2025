@@ -233,7 +233,9 @@ A better approach would be a *per-test payment model* instead of hourly pay.
 - If AI-assisted grading *reduces validation time to 1.5 hours*, and we *pay $100 per test*, an Expert could validate *two tests in the same 3-hour period*, earning *$200 instead of $150*.
 - At the same time, the *company’s cost per test* would decrease from *$150 to $100*, improving efficiency and profitability.
 
-$${\color{red}Opportunity: Transitioning to a **per-test payment model** would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company}$$
+<div class="markdown-alert markdown-alert-important" dir="auto">
+  Opportunity: Transitioning to a per-test payment model would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company
+</div>
 
 
 ### High-Quality Expectations Limit Full Automation
