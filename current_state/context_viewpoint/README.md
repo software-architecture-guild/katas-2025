@@ -36,9 +36,7 @@ As we can see, the system is interacting only with people:
 
 > The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another
 
-We propose new logical organization for the system, which is a bit different from presented one. We would like to re-group components into following groups:
-
-We propose a new logical organization for the system, which differs slightly from the presented one. We would like to re-group components into the following groups:
+We propose a revised logical organization for the system, with slight modifications from the current structure. Our goal is to re-group components into the following categories to provide better clarity when explaining future system changes:
 
 - **Candidate Space**
   Responsible for interaction with Candidates. Includes Candidate Testing UI, Candidate Registration, Candidate Status, and Notification service. Here, Candidates can sign up, take tests, and receive notifications when test validation results are available.
@@ -65,7 +63,7 @@ The diagram illustrates the **Candidate Space** and its interaction with various
 
 The **Candidate Testing UI (Component: Web App)** serves as the central interface where candidates provide their information, submit aptitude test answers, and upload architecture solutions.
 
-#### Workflow <!-- omit in toc -->
+#### Workflow
 
 Step 1: Candidate Registration
 
@@ -103,7 +101,7 @@ The system ensures a seamless process for candidates from registration to certif
 
 The diagram illustrates the **Expert and Admin Space**, which supports the certification process by allowing experts and administrators to manage exams, grading, and certification logs. The architecture is divided into multiple sections, including expert administration, grading, and overall maintenance. The system ensures an efficient process for maintaining certification standards, analyzing test performance, and allowing expert-driven updates to exam content.
 
-#### Workflow <!-- omit in toc -->
+#### Workflow
 
 Step 1: Administrative Functions
 
@@ -127,6 +125,7 @@ Step 3: Expert Grading Process
 - Short answers are sent to the **Expert Grading UI (Component: Web App)** for evaluation by software architects.
 - The **Architecture Solution Exam (Container: Service)** processes case study submissions and forwards them for expert review.
 - Experts manually grade short-answer responses and architecture solutions, providing detailed feedback.
+- Experts submit the time spent validating a test along with the validated test itself.
 
 Step 4: Certification Review & Reporting
 
@@ -139,7 +138,7 @@ Step 4: Certification Review & Reporting
 
 This diagram represents the **Aptitude Test** process, which is the **first stage** of the certification process for software architects. It illustrates the workflow for test retrieval, answers submission, grading, and notification.
 
-#### Workflow <!-- omit in toc -->
+#### Workflow
 
 The aptitude test process follows a structured step-by-step approach.
 
@@ -181,7 +180,7 @@ Step 5: Candidate Notification & Result Delivery
 
 This diagram represents the **Architecture Solution Exam** process, which is the **second stage** of the certification process for software architects. It illustrates the workflow for case study retrieval, architecture submission, grading, and final certification.
 
-#### Workflow <!-- omit in toc -->
+#### Workflow
 
 Step 1: Case Study Retrieval
 
@@ -211,7 +210,7 @@ Step 4: Candidate Notification & Certification
 
 The diagram illustrates the **Certified Architects Public Space**, which manages certification issuance, verification, and result retrieval for candidates and HR representatives. It ensures that successful candidates receive their certification and that organizations can verify certification status.
 
-#### Workflow <!-- omit in toc -->
+#### Workflow
 
 Step 1: Architecture Solution Evaluation
 

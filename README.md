@@ -1,6 +1,6 @@
 # The Software Architecture Guild Architectural Kata by O'Reilly, February 2025
 
-## Team members
+## Team members <!-- omit in toc -->
 
 - [Ilya Hardzeenka](https://www.linkedin.com/in/ilya-hardzeenka/)
 - [Ksenia Bernat](https://www.linkedin.com/in/kseniya-bernat-342900104/)
@@ -8,7 +8,30 @@
 - [Mikalai (Nick) Herman](https://www.linkedin.com/in/gekola/)
 - [Oleg Zubchenko](https://www.linkedin.com/in/rgbd-me/)
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
+
+- [Welcome](#welcome)
+- [Business Case](#business-case)
+  - [Background](#background)
+  - [Market Opportunity](#market-opportunity)
+  - [Objective](#objective)
+  - [Stakeholders](#stakeholders)
+  - [External Stakeholders](#external-stakeholders)
+  - [Original requirements](#original-requirements)
+- [Current System Overview](#current-system-overview)
+  - [Functional Viewpoint](#functional-viewpoint)
+  - [Context Viewpoint](#context-viewpoint)
+  - [Informational Viewpoint](#informational-viewpoint)
+  - [Cost Perspective](#cost-perspective)
+  - [Quality Perspective](#quality-perspective)
+- [Assumptions](#assumptions)
+- [Challenges and Opportunities](#challenges-and-opportunities)
+- [Proposed Solutions](#proposed-solutions)
+  - [Overview](#overview)
+  - [Solution 1](#solution-1)
+  - [Solution 2](#solution-2)
+  - [Solution 3](#solution-3)
+- [Final words](#final-words)
 
 ## Welcome
 
@@ -144,6 +167,34 @@ A Designated Expert has all the responsibilities of a regular Expert Software Ar
 
 > *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
 
+Detailed description of logical structure of the system can be found by in a [separate document](current_state/context_viewpoint/README.md). Here we will point out the most important aspects of current structure.
+
+#### Level 2 - Container diagram - Certification Platform
+
+> The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another
+
+We propose a revised logical organization for the system, with slight modifications from the current structure. Our goal is to re-group components into the following categories to provide better clarity when explaining future system changes.
+
+> [!NOTE]
+> *If the existing structure differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning logical structure with the necessary structure to support AI integration.*
+
+- **Candidate Space**
+  Responsible for interaction with Candidates. Includes Candidate Testing UI, Candidate Registration, Candidate Status, and Notification service. Here, Candidates can sign up, take tests, and receive notifications when test validation results are available.
+- **Expert and Admin Space**
+  Responsible for handling interactions with Experts, Designated Experts, and Administrators. Here, Experts and Designated Experts can collaborate to create and modify existing Tests and Case Studies, as well as grade submitted tests and architecture solutions. Administrators and Experts can also manage Expert user profiles here.
+- **Aptitude Test**
+  Service responsible for organizing the Aptitude Test process. It delivers the test to Candidates and accepts their answers. It automatically grades multiple-choice questions and presents short answers for manual grading. It also accepts grades and feedback submitted by Experts.
+- **Architecture Solution Exam**
+  Service responsible for organizing the Case Study Test process. It randomly selects a Case Study for the Candidate and accepts their solution. It presents the submitted solution to the Expert for evaluation and accepts grades and feedback.
+- **Certified Architects Public Space**
+  Service responsible for generating, storing, and distributing Certificates to Candidates and external HRs. It also generates a notification with the results of the Architecture Solution Exam and Certificate information.
+
+![Diagram](current_state/context_viewpoint/level2_containers.png)
+
+In addition to the new structure, we have made one key assumption. There is no information on how experts' time is tracked, who reviews it, or how their salaries are managed. While accounting is not our primary focus, understanding the time spent by experts per test is crucial for the future changes we plan to introduce.
+
+**We assume that experts submit the time spent along with the validated test or architecture submission**.
+
 ### Informational Viewpoint
 
 > *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
@@ -204,7 +255,7 @@ Given the lack of additional information, we must make the **following assumptio
 
 - For the **8 hours** an Expert spends on **Case Study validation**, we assume the time is evenly distributed: **33% for understanding the submission, 33% for grading, and 33% for providing feedback**.
 
-- !!! We assume the system **automatically tracks** the time an Expert spends on validating tests and **stores this information** in a designated location.
+- We assume the system **automatically tracks** the time an Expert spends on validating tests and **stores this information** in a designated location.
 
 - We assume there is **no established retention period**, and the database **stores graded answers and architecture submissions** of **120,000 candidates** who have already completed the certification process.
 
@@ -218,19 +269,19 @@ Given the lack of additional information, we must make the **following assumptio
 
 ## Challenges and Opportunities
 
-### Scalability is a Major Challenge
+#### Scalability is a Major Challenge
 
 The company currently employs *300 Experts* to validate tests for *200 candidates per week*. Scaling up to *1,000 candidates per week* would require either *longer wait times* (which is unacceptable) or *hiring significantly more Experts*. Hiring more Experts would also necessitate additional *managerial roles and support staff* (e.g., Administrators, Accountants, HR personnel), further *increasing operational costs*. As a result, *the cost per test would continue to rise*, negatively impacting profitability.
 
 #### <mark>Opportunity: Investing in **automation** is essential to ensure the company's long-term viability</mark>
 
-### High Cost Model
+#### High Cost Model
 
 Currently, the company spends *$550 per test validation*, which accounts for *68% of the $800 certification fee*. This is a *significant expense*, and the *primary cost driver* is the time spent by Experts on validation. Reducing validation time is *key to lowering costs*, and AI can play a major role in *optimizing productivity*.
 
 #### <mark>Opportunity: AI-driven productivity enhancements can significantly **reduce validation time**, leading to **lower costs per test** and increased **operational efficiency**</mark>
 
-### Current Expert Compensation Model Discourages Efficiency
+#### Current Expert Compensation Model Discourages Efficiency
 
 Experts are *paid per hour*, meaning there is *no incentive* for them to work faster or process more tests. AI assistance can only succeed *if Experts are motivated* to use it effectively.
 
@@ -242,19 +293,19 @@ A better approach would be a *per-test payment model* instead of hourly pay.
 
 #### <mark>Opportunity: Transitioning to a **per-test payment model** would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company</mark>
 
-### High-Quality Expectations Limit Full Automation
+#### High-Quality Expectations Limit Full Automation
 
 Given the strict *accuracy and reliability requirements*, fully automating the grading process is *not viable*. A human *must remain in control* to make final grading decisions. Instead of *replacing Experts*, AI should function as an *assistant*, helping them *validate tests faster and with greater accuracy*.
 
 #### <mark>Requirement: AI should be used as an **expert assistant**, speeding up grading rather than replacing human decision-making</mark>
 
-### Lack of a Measurable Grading Quality Process
+#### Lack of a Measurable Grading Quality Process
 
 Despite high expectations for grading quality, there is *no formalized process to measure it*. Establishing a *quality baseline* is crucial before making system changes. Experts already make mistakes, and incorporating *candidate feedback loops* is essential for assessing grading accuracy. A *human-only baseline* must be established to *track improvements* as AI-assisted grading is introduced.
 
 #### <mark>Requirement: A **quality control process** must be implemented before system improvements, ensuring that grading accuracy can be measured and improved over time</mark>
 
-### No Defined Process for Tracking Validation Time
+#### No Defined Process for Tracking Validation Time
 
 There is *no mention of how validation time is currently tracked*, yet it is a key efficiency metric for AI-assisted improvements. A proper *measurement system* must be put in place to ensure progress in *reducing validation time*.
 
