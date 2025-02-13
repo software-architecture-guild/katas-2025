@@ -73,6 +73,7 @@ The primary objective is to modernize the SoftArchCert system by leveraging Gene
 - **Enhance Efficiency**: Reduce manual workload by automating grading processes, candidate feedback, and test modifications.
 - **Maintain Accuracy & Quality**: Ensure AI-driven grading maintains the high standards required for certification validity.
 - **Scale Operations**: Support a five to tenfold increase in certification candidates without overwhelming human graders.
+- **Ensure SLA Adherence & Global Expansion**: Maintain certification processing times and guarantee adherence to SLAs as candidate volume scales and operations expand internationally.
 - **Cost Optimization**: Implement AI solutions that align with budget constraints while providing maximum efficiency.
 
 ### Stakeholders
@@ -89,8 +90,8 @@ Several key stakeholders will be impacted by this initiative:
 ### External Stakeholders
 
 - **Certification Candidates**: Software architects seeking certification who will experience a potentially faster, AI-enhanced grading process.
-- **Accreditation Bodies (SALB & International Licensing Boards)**: Organizations responsible for maintaining certification integrity and compliance.
-- **Employers & Hiring Managers**: Companies that rely on Certifiable, Inc. certifications for hiring and verifying software architects.
+- **Accreditation Bodies (SALB & International Licensing Boards)**: Organizations responsible for maintaining certification integrity and compliance. Although not directly impacted by the AI-driven changes, they may exercise increased oversight to ensure that certification integrity and compliance standards are upheld. Any perceived decline in quality could trigger additional audits or adjustments to certification requirements.
+- **Employers & Hiring Managers**: Companies that rely on Certifiable, Inc. certifications for hiring and verifying software architects. While not directly impacted by system changes, the accelerated certification process is expected to increase the number of qualified architects in the job market, facilitating recruitment and hiring. However, any decline in certification standards or trust could have the opposite effect—diminishing the value of certification as a reliable indicator of candidate competence.
 
 By addressing these stakeholder needs and aligning with market opportunities, Certifiable, Inc. can ensure its continued dominance in the certification industry while meeting the demands of an expanding global market.
 
@@ -116,15 +117,15 @@ We have identified several personas who interact with the system and actively pa
 - **Designated Expert**
   A senior expert software architect with additional responsibilities beyond grading. They have the authority to modify certification tests, create or update case studies, and ensure that certification standards evolve with industry practices.
 - **Administrator**
-  A Certifiable, Inc. staff member responsible for managing expert software architects, maintaining system access, and ensuring smooth certification operations. They oversee expert profiles, system credentials, and help facilitate AI-driven enhancements.
+  A Certifiable, Inc. staff member responsible for managing expert software architects, maintaining system access, and ensuring smooth certification operations. They oversee expert profiles, system credentials, and handle operational issues that may arise during the certification process.
 - **External HR**
   Hiring managers and recruiters from various companies who rely on Certifiable, Inc.'s certifications to verify the qualifications of software architects. They use the certification database to validate credentials and make informed hiring decisions.
 
 #### Candidate Journey Map
 
-1. Registration & Application – The candidate registers on the Certifiable, Inc. platform and submits an application for certification.
+1. Registration & Payment – The candidate registers on the Certifiable, Inc. platform, fills out the registration form, confirms their email, and pays for the certification test to gain access to the aptitude test.
 2. Aptitude Test (Test 1) – The candidate takes a timed multiple-choice and short-answer aptitude test. Multiple-choice questions are auto-graded, while expert software architects review short-answer responses.
-3. Test Results & Eligibility – If the candidate scores 80% or higher, they receive an invitation to the architecture submission test. If they fail, they receive detailed feedback and can reattempt.
+3. Test Results & Eligibility – If the candidate scores 80% or higher, they receive an invitation to the architecture submission test. If they fail, they receive detailed feedback and must start the process from the beginning to reattempt.
 4. Architecture Submission (Test 2) – The candidate downloads a case study, designs a software architecture solution, and submits their work within two weeks.
 5. Evaluation & Feedback – Expert software architects review the submission, grade it based on set criteria, and provide feedback.
 6. Certification & Verification – If the candidate passes both tests, they receive official certification, which is stored in the database for employer verification. If they fail, they can reapply for Test 2.
@@ -199,7 +200,7 @@ In addition to the new structure, we have made one key assumption. There is no i
 
 > *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
 
-Understanding what data is stored and where is critical for the successful implementation of AI-driven enhancements. any ML or AI system. Unfortunately, we have limited information about the data structures used in the system. The provided diagrams give insight into the names of data objects and their relationships, but their exact contents remain unknown, requiring us to make assumptions.
+Understanding what data is stored and where is critical for any system, and especially relevant as we consider future AI-driven enhancements. Unfortunately, we have limited information about the data structures used in the system. The provided diagrams offer insights into the names of data objects and their relationships, but their exact contents remain unknown, requiring us to make assumptions.
 
 > [!NOTE]
 > *If the existing data model differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning the data model with the necessary structure to support AI integration.*
@@ -258,6 +259,8 @@ Given the lack of additional information, we must make the **following assumptio
 - We assume the system **automatically tracks** the time an Expert spends on validating tests and **stores this information** in a designated location.
 
 - We assume there is **no established retention period**, and the database **stores graded answers and architecture submissions** of **120,000 candidates** who have already completed the certification process.
+
+- We assume that each created **Case Study** includes a comprehensive evaluation rubric, containing a detailed set of assessment criteria.
 
 - We assume that for the Aptitude Test, the **Grade and Feedback** are recorded **for each Question/Answer**, whereas for the Case Study Test, they are recorded **for each Criterion**.
 
