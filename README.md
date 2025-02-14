@@ -12,25 +12,19 @@
 
 - [Welcome](#welcome)
 - [Business Case](#business-case)
-  - [Background](#background)
-  - [Market Opportunity](#market-opportunity)
   - [Objective](#objective)
-  - [Stakeholders](#stakeholders)
-  - [External Stakeholders](#external-stakeholders)
-  - [Original requirements](#original-requirements)
+- [Original requirements](#original-requirements)
 - [Current System Overview](#current-system-overview)
-  - [Functional Viewpoint](#functional-viewpoint)
-  - [Context Viewpoint](#context-viewpoint)
-  - [Informational Viewpoint](#informational-viewpoint)
-  - [Cost Perspective](#cost-perspective)
-  - [Quality Perspective](#quality-perspective)
-- [Challenges and Opportunities](#challenges-and-opportunities)
+  - [High Level Architecture](#high-level-architecture)
   - [Assumptions](#assumptions)
-- [Proposed Solutions](#proposed-solutions)
-  - [Overview](#overview)
-  - [Solution 1](#solution-1)
-  - [Solution 2](#solution-2)
-  - [Solution 3](#solution-3)
+  - [Challenges and Opportunities](#challenges-and-opportunities)
+- [Proposed Architecture](#proposed-architecture)
+  - [Decisions](#decisions)
+  - [High-Level Architecture](#high-level-architecture-1)
+  - [Aptitude Test: Solution 1](#aptitude-test-solution-1)
+  - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
+  - [Architecture Exam: Solution 3](#architecture-exam-solution-3)
+  - [Architecture Exam: Solution 4](#architecture-exam-solution-4)
 - [Final words](#final-words)
 
 ## Welcome
@@ -50,13 +44,13 @@ In our work we mainly utilize following techniques:
 
 ## Business Case
 
-### Background
+### Background <!-- omit in toc -->
 
 Certifiable, Inc. is a recognized leader in software architecture certification, providing accredited certification to software architects primarily in the U.S. Due to recent regulatory changes, international markets including the U.K., Europe, and Asia now require software architects to be certified, significantly increasing the demand for certification services. With this anticipated expansion, Certifiable, Inc. is facing a substantial surge in certification requests—estimated to grow 5-10 times their current volume. The existing manual processes for test grading and certification management are proving to be inefficient and unsustainable at this scale.
 
 Given this challenge, the company is exploring how Generative AI can be integrated into their current system to optimize operations, improve efficiency, and maintain high certification standards while managing cost constraints.
 
-### Market Opportunity
+### Market Opportunity <!-- omit in toc -->
 
 The global demand for certified software architects is accelerating due to government regulations and industry requirements.
 
@@ -76,7 +70,7 @@ The primary objective is to modernize the SoftArchCert system by leveraging Gene
 - **Ensure SLA Adherence & Global Expansion**: Maintain certification processing times and guarantee adherence to SLAs as candidate volume scales and operations expand internationally.
 - **Cost Optimization**: Implement AI solutions that align with budget constraints while providing maximum efficiency.
 
-### Stakeholders
+### Stakeholders <!-- omit in toc -->
 
 Several key stakeholders will be impacted by this initiative:
 
@@ -87,7 +81,7 @@ Several key stakeholders will be impacted by this initiative:
 - **System Administrators**: Responsible for maintaining certification systems and implementing AI-enhanced features.
 - **Technology Team**: Architects and developers responsible for integrating AI into the SoftArchCert system.
 
-### External Stakeholders
+### External Stakeholders <!-- omit in toc -->
 
 - **Certification Candidates**: Software architects seeking certification who will experience a potentially faster, AI-enhanced grading process.
 - **Accreditation Bodies (SALB & International Licensing Boards)**: Organizations responsible for maintaining certification integrity and compliance. Although not directly impacted by the AI-driven changes, they may exercise increased oversight to ensure that certification integrity and compliance standards are upheld. Any perceived decline in quality could trigger additional audits or adjustments to certification requirements.
@@ -95,13 +89,15 @@ Several key stakeholders will be impacted by this initiative:
 
 By addressing these stakeholder needs and aligning with market opportunities, Certifiable, Inc. can ensure its continued dominance in the certification industry while meeting the demands of an expanding global market.
 
-### Original requirements
+## Original requirements
 
 For the original requirements please follow [Original Requirements](requirements/original_requirements.md)
 
 ## Current System Overview
 
-### Functional Viewpoint
+### High Level Architecture
+
+#### Functional Viewpoint
 
 > *Describes the system’s functional elements, their responsibilities, interfaces,
 > and primary interactions*
@@ -121,7 +117,7 @@ We have identified several personas who interact with the system and actively pa
 - **External HR**
   Hiring managers and recruiters from various companies who rely on Certifiable, Inc.'s certifications to verify the qualifications of software architects. They use the certification database to validate credentials and make informed hiring decisions.
 
-#### Candidate Journey Map
+##### Candidate Journey Map
 
 1. Registration & Payment – The candidate registers on the Certifiable, Inc. platform, fills out the registration form, confirms their email, and pays for the certification test to gain access to the aptitude test.
 2. Aptitude Test (Test 1) – The candidate takes a timed multiple-choice and short-answer aptitude test. Multiple-choice questions are auto-graded, while expert software architects review short-answer responses.
@@ -132,7 +128,7 @@ We have identified several personas who interact with the system and actively pa
 
 ![Diagram](current_state/functional_viewpoint/candidate_journey_map.png)
 
-#### Expert Journey Map
+##### Expert Journey Map
 
 1. Profile Setup & Access – The expert software architect is onboarded by Certifiable, Inc. and gains access to the grading system. They can update their profile and set availability.
 2. Test 1 Grading (Aptitude Test) – Experts review and grade short-answer responses manually. They provide detailed feedback and ensure grading accuracy based on established evaluation criteria.
@@ -141,7 +137,7 @@ We have identified several personas who interact with the system and actively pa
 
 ![Diagram](current_state/functional_viewpoint/expert_journey_map.png)
 
-#### Designated Expert Journey Map
+##### Designated Expert Journey Map
 
 A Designated Expert has all the responsibilities of a regular Expert Software Architect, including grading aptitude tests, reviewing architecture submissions, providing feedback, and contributing to certification system updates.
 
@@ -152,7 +148,7 @@ A Designated Expert has all the responsibilities of a regular Expert Software Ar
 
 ![Diagram](current_state/functional_viewpoint/designated_expert_journey_map.png)
 
-#### Service Blue Print
+##### Service Blue Print
 
 > *A **Service Blueprint** is a detailed visual representation of a service process, illustrating interactions between users, system components, and backend processes. It provides a structured framework for understanding how a service functions by mapping out key elements such as customer actions, employee roles, supporting systems, and process flows.*
 
@@ -164,13 +160,13 @@ A Designated Expert has all the responsibilities of a regular Expert Software Ar
 2. Grading the Architecture Submission takes approximately 8 hours. This involves three key tasks: reviewing the candidate's submitted architecture, assessing it against predefined criteria, and writing detailed feedback. In the absence of precise data, **we assume an equal time distribution of 33% for understanding the submission, 33% for grading, and 33% for providing feedback**.
 3. While reducing candidate wait times is possible, it is entirely dependent on the time required for test validation and grading. Therefore, wait time improvements cannot be addressed in isolation.
 
-### Context Viewpoint
+#### Context Viewpoint
 
 > *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
 
 Detailed description of logical structure of the system can be found by in a [separate document](current_state/context_viewpoint/README.md). Here we will point out the most important aspects of current structure.
 
-#### Level 2 - Container diagram - Certification Platform
+##### Level 2 - Container diagram - Certification Platform
 
 > The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another
 
@@ -196,7 +192,7 @@ In addition to the new structure, we have made one key assumption. There is no i
 
 **We assume that experts submit the time spent along with the validated test or architecture submission**.
 
-### Informational Viewpoint
+#### Informational Viewpoint
 
 > *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
 
@@ -226,7 +222,7 @@ We will not describe every object in the diagram, but we will focus on two key o
 
 **We assume that data from these datasets is never deleted and contains submissions, grades, and feedback for 120,000 candidates** who have already completed the certification process.
 
-### Cost Perspective
+#### Cost Perspective
 
 > *Evaluates the financial impact of architectural decisions, balancing implementation, operation, and scalability costs with business value.*
 
@@ -234,7 +230,7 @@ Candidates pay $800 per certification. The validation process alone takes 11 hou
 
 Additionally, there are other costs to consider, including hosting expenses, designated experts’ time for maintaining tests and case studies, and administrator salaries. While not all candidates will pass Test 1, potentially reducing average validation costs, relying on failure rates as a cost-saving strategy is not practical. Therefore, **we assume the full validation cost applies to every candidate** to ensure accurate financial planning.
 
-### Quality Perspective
+#### Quality Perspective
 
 > *Focuses on ensuring the system meets defined Service Level Agreements (SLAs) by maintaining reliability, performance, accuracy, and user expectations.*
 
@@ -249,8 +245,6 @@ Given the lack of additional information, we must make the **following assumptio
 
 - **There are no existing quality control measures in place to ensure grading accuracy.**
 - **There is no formal appeals process that allows candidates to challenge grading errors made by Experts.**
-
-## Challenges and Opportunities
 
 ### Assumptions
 
@@ -272,19 +266,21 @@ Given the lack of additional information, we must make the **following assumptio
 
 - We assume there is **no formal appeals process** that allows candidates to challenge grading errors made by Experts.
 
-### Scalability is a Major Challenge <!-- omit in toc -->
+### Challenges and Opportunities
+
+#### Scalability is a Major Challenge
 
 The company currently employs *300 Experts* to validate tests for *200 candidates per week*. Scaling up to *1,000 candidates per week* would require either *longer wait times* (which is unacceptable) or *hiring significantly more Experts*. Hiring more Experts would also necessitate additional *managerial roles and support staff* (e.g., Administrators, Accountants, HR personnel), further *increasing operational costs*. As a result, *the cost per test would continue to rise*, negatively impacting profitability.
 
 #### <mark>Opportunity: Investing in **automation** is essential to ensure the company's long-term viability</mark>
 
-### High Cost Model <!-- omit in toc -->
+#### High Cost Model
 
 Currently, the company spends *$550 per test validation*, which accounts for *68% of the $800 certification fee*. This is a *significant expense*, and the *primary cost driver* is the time spent by Experts on validation. Reducing validation time is *key to lowering costs*, and AI can play a major role in *optimizing productivity*.
 
 #### <mark>Opportunity: AI-driven productivity enhancements can significantly **reduce validation time**, leading to **lower costs per test** and increased **operational efficiency**</mark>
 
-### Current Expert Compensation Model Discourages Efficiency <!-- omit in toc -->
+#### Current Expert Compensation Model Discourages Efficiency
 
 Experts are *paid per hour*, meaning there is *no incentive* for them to work faster or process more tests. AI assistance can only succeed *if Experts are motivated* to use it effectively.
 
@@ -296,29 +292,39 @@ A better approach would be a *per-test payment model* instead of hourly pay.
 
 #### <mark>Opportunity: Transitioning to a **per-test payment model** would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company</mark>
 
-### High-Quality Expectations Limit Full Automation <!-- omit in toc -->
+#### High-Quality Expectations Limit Full Automation
 
 Given the strict *accuracy and reliability requirements*, fully automating the grading process is *not viable*. A human *must remain in control* to make final grading decisions. Instead of *replacing Experts*, AI should function as an *assistant*, helping them *validate tests faster and with greater accuracy*.
 
 #### <mark>Requirement: AI should be used as an **expert assistant**, speeding up grading rather than replacing human decision-making</mark>
 
-### Lack of a Measurable Grading Quality Process <!-- omit in toc -->
+#### Lack of a Measurable Grading Quality Process
 
 Despite high expectations for grading quality, there is *no formalized process to measure it*. Establishing a *quality baseline* is crucial before making system changes. Experts already make mistakes, and incorporating *candidate feedback loops* is essential for assessing grading accuracy. A *human-only baseline* must be established to *track improvements* as AI-assisted grading is introduced.
 
 #### <mark>Requirement: A **quality control process** must be implemented before system improvements, ensuring that grading accuracy can be measured and improved over time</mark>
 
-### No Defined Process for Tracking Validation Time <!-- omit in toc -->
+#### No Defined Process for Tracking Validation Time
 
 There is *no mention of how validation time is currently tracked*, yet it is a key efficiency metric for AI-assisted improvements. A proper *measurement system* must be put in place to ensure progress in *reducing validation time*.
 
 #### <mark>Requirement: **Tracking validation time** is critical for evaluating AI effectiveness and must be established before automation is introduced</mark>
 
-## Proposed Solutions
+## Proposed Architecture
 
-### Overview
+### Decisions
 
-### Solution 1
+### High-Level Architecture
+
+#### Functional Viewpoint
+
+#### Context Viewpoint
+
+#### Informational Viewpoint
+
+#### Operational Viewpoint
+
+### Aptitude Test: Solution 1
 
 #### Architecture
 
@@ -326,7 +332,7 @@ Diagrams + ADRs
 
 #### Implementation Milestones
 
-### Solution 2
+### Aptitude Test: Solution 2
 
 #### Architecture
 
@@ -334,7 +340,15 @@ Diagrams + ADRs
 
 #### Implementation Milestones
 
-### Solution 3
+### Architecture Exam: Solution 3
+
+#### Architecture
+
+Diagrams + ADRs
+
+#### Implementation Milestones
+
+### Architecture Exam: Solution 4
 
 #### Architecture
 
