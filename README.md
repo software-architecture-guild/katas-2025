@@ -137,6 +137,8 @@ We have identified several personas who interact with the system and actively pa
 
 ![Diagram](current_state/functional_viewpoint/candidate_journey_map.png)
 
+**Workflow:**
+
 1. Registration & Payment – The candidate registers on the Certifiable, Inc. platform, fills out the registration form, confirms their email, and pays for the certification test to gain access to the aptitude test.
 2. Aptitude Test (Test 1) – The candidate takes a timed multiple-choice and short-answer aptitude test. Multiple-choice questions are auto-graded, while expert software architects review short-answer responses.
 3. Test Results & Eligibility – If the candidate scores 80% or higher, they receive an invitation to the architecture submission test. If they fail, they receive detailed feedback and must start the process from the beginning to reattempt.
@@ -148,6 +150,8 @@ We have identified several personas who interact with the system and actively pa
 
 ![Diagram](current_state/functional_viewpoint/expert_journey_map.png)
 
+**Workflow:**
+
 1. Profile Setup & Access – The expert software architect is onboarded by Certifiable, Inc. and gains access to the grading system. They can update their profile and set availability.
 2. Test 1 Grading (Aptitude Test) – Experts review and grade short-answer responses manually. They provide detailed feedback and ensure grading accuracy based on established evaluation criteria.
 3. Test 2 Grading (Architecture Submission) – Experts assess architecture submissions based on predefined rubrics. They spend an average of 8 hours per submission, ensuring fair and precise evaluation. Experts offer candidates detailed explanations for incorrect answers, areas of improvement, and scoring justifications to help them understand their results.
@@ -158,6 +162,8 @@ We have identified several personas who interact with the system and actively pa
 A Designated Expert has all the responsibilities of a regular Expert Software Architect, including grading aptitude tests, reviewing architecture submissions, providing feedback, and contributing to certification system updates.
 
 ![Diagram](current_state/functional_viewpoint/designated_expert_journey_map.png)
+
+**Workflow:**
 
 1. Getting Access – The designated expert receives elevated access role from the system administrator.
 2. Review Suggested Improvements from Experts – They analyze feedback and improvement suggestions submitted by expert graders regarding test questions, case studies, and grading inconsistencies. They assess recurring issues in test performance data, such as frequently failed questions.
@@ -193,15 +199,17 @@ We propose a revised logical organization for the system, with slight modificati
 
 ![Diagram](current_state/context_viewpoint/level2_containers.png)
 
-- **Candidate Space**
+**Workflow:**
+
+- **Candidate Space**\
   Responsible for interaction with Candidates. Includes Candidate Testing UI, Candidate Registration, Candidate Status, and Notification service. Here, Candidates can sign up, take tests, and receive notifications when test validation results are available.
-- **Expert and Admin Space**
+- **Expert and Admin Space**\
   Responsible for handling interactions with Experts, Designated Experts, and Administrators. Here, Experts and Designated Experts can collaborate to create and modify existing Tests and Case Studies, as well as grade submitted tests and architecture solutions. Administrators and Experts can also manage Expert user profiles here.
-- **Aptitude Test**
+- **Aptitude Test**\
   Service responsible for organizing the Aptitude Test process. It delivers the test to Candidates and accepts their answers. It automatically grades multiple-choice questions and presents short answers for manual grading. It also accepts grades and feedback submitted by Experts.
-- **Architecture Solution Exam**
+- **Architecture Solution Exam**\
   Service responsible for organizing the Case Study Test process. It randomly selects a Case Study for the Candidate and accepts their solution. It presents the submitted solution to the Expert for evaluation and accepts grades and feedback.
-- **Certified Architects Public Space**
+- **Certified Architects Public Space**\
   Service responsible for generating, storing, and distributing Certificates to Candidates and external HRs. It also generates a notification with the results of the Architecture Solution Exam and Certificate information.
 
 In addition to the new structure, we have made one key assumption. There is no information on how experts' time is tracked, who reviews it, or how their salaries are managed. While accounting is not our primary focus, understanding the time spent by experts per test is crucial for the future changes we plan to introduce.
