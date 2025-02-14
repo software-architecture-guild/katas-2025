@@ -24,8 +24,8 @@
   - [Informational Viewpoint](#informational-viewpoint)
   - [Cost Perspective](#cost-perspective)
   - [Quality Perspective](#quality-perspective)
-- [Assumptions](#assumptions)
 - [Challenges and Opportunities](#challenges-and-opportunities)
+  - [Assumptions](#assumptions)
 - [Proposed Solutions](#proposed-solutions)
   - [Overview](#overview)
   - [Solution 1](#solution-1)
@@ -250,7 +250,9 @@ Given the lack of additional information, we must make the **following assumptio
 - **There are no existing quality control measures in place to ensure grading accuracy.**
 - **There is no formal appeals process that allows candidates to challenge grading errors made by Experts.**
 
-## Assumptions
+## Challenges and Opportunities
+
+### Assumptions
 
 - For the **3 hours** an Expert spends on **Aptitude Test validation**, we assume the time is evenly split: **50% for grading** and **50% for providing feedback**.
 
@@ -269,8 +271,6 @@ Given the lack of additional information, we must make the **following assumptio
 - We assume there are **no established quality control measures** to verify grading accuracy.
 
 - We assume there is **no formal appeals process** that allows candidates to challenge grading errors made by Experts.
-
-## Challenges and Opportunities
 
 ### Scalability is a Major Challenge <!-- omit in toc -->
 
