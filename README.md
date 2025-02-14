@@ -314,6 +314,18 @@ There is *no mention of how validation time is currently tracked*, yet it is a k
 
 ### Decisions
 
+Before we dive into architectural proposals we need to align on fundamental decisions being made:
+
+#### [ADR 1:  AI/ML Development Principles](adrs/adr-1-principles.md)
+
+AI/ML development within our architecture must adhere to the following principles:
+
+- **Multiple AI/ML solutions must be developed in parallel** rather than assuming a single model will be optimal.
+- **Real-world testing must validate reliability**, using empirical performance data to select the most effective solution.
+- **Iterative evaluation and refinement must continuously** ensure that models evolve based on actual usage conditions.
+- **Decisions on model selection should be data-driven**, prioritizing solutions that demonstrate superior real-world effectiveness.
+- **Fallback mechanisms should be in place**, allowing for seamless transitions if a model underperforms or becomes unreliable over time.
+
 ### High-Level Architecture
 
 #### Functional Viewpoint
