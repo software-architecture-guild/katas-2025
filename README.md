@@ -20,7 +20,7 @@
 > **Proposed Architecture**\
 > outlines our solutions to the identified challenges and opportunities. It documents the *fundamental decisions* necessary for the successful implementation of these changes. The section continues with a *High-Level Architecture* that integrates AI solutions into the existing system and detailed descriptions of the *AI solutions* themselves.
 >
-> **Final Words** speaks for itself ;)
+> **Final Words** speak for themselves ;)
 
 ## Table of Contents
 
