@@ -272,7 +272,7 @@ Given the lack of additional information, we must make the **following assumptio
 
 The company currently employs *300 Experts* to validate tests for *200 candidates per week*. Scaling up to *1,000 candidates per week* would require either *longer wait times* (which is unacceptable) or *hiring significantly more Experts*. Hiring more Experts would also necessitate additional *managerial roles and support staff* (e.g., Administrators, Accountants, HR personnel), further *increasing operational costs*. As a result, *the cost per test would continue to rise*, negatively impacting profitability.
 
-#### <mark>Opportunity: Investing in **automation** is essential to ensure the company's long-term viability</mark>
+<mark>**Opportunity: Investing in *automation* is essential to ensure the company's long-term viability**</mark>
 
 #### High Cost Model
 
