@@ -539,61 +539,61 @@ Detailed description of all changes to the system can be found by in a [separate
 **Workflow:**
 
 1. **Data Loading**:
-   - The system loads **candidate submissions**, **grading criteria**, and **historical grading data** from:
-     - **Aptitude Test** (Multiple-choice and short-answer responses)
-     - **Architecture Solution Exam** (Case study submissions, grading rubrics)
-   - Retrieves **past expert grading decisions**, **feedback records**, and **grading time logs** for AI model refinement.
+   - The system loads candidate submissions, grading criteria, and historical grading data from:
+     - Aptitude Test (Multiple-choice and short-answer responses)
+     - Architecture Solution Exam (Case study submissions, grading rubrics)
+   - Retrieves past expert grading decisions, feedback records, and grading time logs for AI model refinement.
 
 2. **Generating AI-Based Grading Suggestions**:
-   - Each **Aptitude Test Solution** and **Architecture Exam Solution** processes:
-     - **Candidate responses** (short answers, architecture submissions)
-     - **Predefined grading criteria and rubrics**
-     - **Past grading patterns from experts**
-   - AI-driven models **generate suggested grades and feedback**.
-   - Suggestions, confidence scores, and AI-extracted rationales are **stored in AI Core**.
+   - Each Aptitude Test Solution and Architecture Exam Solution processes:
+     - Candidate responses (short answers, architecture submissions)
+     - Predefined grading criteria and rubrics
+     - Past grading patterns from experts
+   - AI-driven models generate suggested grades and feedback.
+   - Suggestions, confidence scores, and AI-extracted rationales are stored in AI Core.
 
 3. **Serving AI Suggestions to Experts**:
-   - **AI Core** delivers **grading suggestions** to **Expert Grading Space**.
-   - Experts see **AI-generated grades, explanations, and confidence scores**.
-   - Experts can **review, accept, or modify** AI-generated grades before submission.
+   - AI Core delivers grading suggestions to Expert Grading Space.
+   - Experts see AI-generated grades, explanations, and confidence scores.
+   - Experts can review, accept, or modify AI-generated grades before submission.
 
 4. **Expert Feedback on AI Suggestions**:
-   - Experts **approve or override** AI-generated suggestions.
-   - System **logs expert feedback**, including:
-     - **Accepted/rejected suggestions**
-     - **Adjustments made to grades**
-     - **Time spent reviewing AI-generated inputs**
-   - This feedback is stored in **AI Core** as **suggestions status**.
+   - Experts approve or override AI-generated suggestions.
+   - System logs expert feedback, including:
+     - Accepted/rejected suggestions
+     - Adjustments made to grades
+     - Time spent reviewing AI-generated inputs
+   - This feedback is stored in AI Core as suggestions status.
 
 5. **AI Performance Tracking & Continuous Improvement**:
-   - **AI Engineers** track **suggestion accuracy**, **expert modifications**, and **confidence vs. rejection rates**.
-   - AI models are **fine-tuned based on real expert corrections**.
+   - AI Engineers track suggestion accuracy, expert modifications, and confidence vs. rejection rates.
+   - AI models are fine-tuned based on real expert corrections.
 
 6. **Anomaly Detection & Expert Review**:
-   - **AI Analytics App** analyzes **historical grading trends** and **real-time grading activities**.
-   - Detects **grading inconsistencies, outliers, and suspicious patterns**.
+   - AI Analytics App analyzes historical grading trends and real-time grading activities.
+   - Detects grading inconsistencies, outliers, and suspicious patterns.
    - Flags cases where:
-     - AI suggestions **deviate significantly from expert decisions**.
-     - **Experts inconsistently apply grading rubrics**.
-   - **Anomalies are sent to Expert Admin Space** for **manual review and intervention**.
+     - AI suggestions deviate significantly from expert decisions.
+     - Experts inconsistently apply grading rubrics.
+   - Anomalies are sent to Expert Admin Space for manual review and intervention.
 
 7. **Quality & Time Performance Metrics Calculation**:
-   - **AI Analytics App** stores:
-     - **Anomalies and appeal statuses**
-     - **Accuracy metrics for AI-suggested grades**
-     - **Turnaround time for expert grading and appeals**
-   - **Quality statistics** (grading consistency, rubric adherence) and **performance metrics** (average grading time, bottlenecks) are calculated.
+   - AI Analytics App stores:
+     - Anomalies and appeal statuses
+     - Accuracy metrics for AI-suggested grades
+     - Turnaround time for expert grading and appeals
+   - Quality statistics (grading consistency, rubric adherence) and performance metrics (average grading time, bottlenecks) are calculated.
 
 8. **Continuous AI Model Enhancement**:
-   - **AI Engineers** analyze:
-     - **Grading quality trends**
-     - **Time performance efficiency**
-     - **Expert rejection/modification trends on AI suggestions**
-   - **Necessary refinements** are made to AI models:
-     - **Updating AI-generated grading criteria**
-     - **Fine-tuning confidence thresholds for suggestions**
-     - **Adjusting AI learning patterns based on expert corrections**
-   - AI models are **retrained periodically** for **improved accuracy and efficiency**.
+   - AI Engineers analyze:
+     - Grading quality trends
+     - Time performance efficiency
+     - Expert rejection/modification trends on AI suggestions
+   - Necessary refinements are made to AI models:
+     - Updating AI-generated grading criteria
+     - Fine-tuning confidence thresholds for suggestions
+     - Adjusting AI learning patterns based on expert corrections
+   - AI models are retrained periodically for improved accuracy and efficiency.
 
 ### Informational Viewpoint
 
