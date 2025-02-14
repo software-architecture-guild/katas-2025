@@ -6,16 +6,15 @@ In this viewpoint we will only highlight changes made to [Current State architec
 
 ## Table of Contents <!-- omit in toc -->
 
-- [Level 1 - System Context](#level-1---system-context)
 - [Level 2 - Container diagram - Certification Platform](#level-2---container-diagram---certification-platform)
 - [Level 3 - Components](#level-3---components)
+  - [Level 3 - Components - AI Assistant](#level-3---components---ai-assistant)
   - [Level 3 - Components - Candidate Space](#level-3---components---candidate-space)
   - [Level 3 - Components - Expert and Admin Space](#level-3---components---expert-and-admin-space)
   - [Level 3 - Components - Aptitude Test](#level-3---components---aptitude-test)
   - [Level 3 - Components - Architecture Solution Exam](#level-3---components---architecture-solution-exam)
-  - [Level 3 - Components - Certification Space](#level-3---components---certification-space)
 
-## Level 2 - Container diagram - Certification Platform
+# Level 2 - Container diagram - Certification Platform
 
 > The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another
 
@@ -34,15 +33,15 @@ In this viewpoint we will only highlight changes made to [Current State architec
    - Candidates can raise an appeal.
    - Designated experts review appeals and make necessary corrections.
 
-## Level 3 - Components
+# Level 3 - Components
 
 > The Component diagram shows how a container is made up of a number of "components", what each of those components are, their responsibilities and the technology/implementation details.
 
-### Level 3 - Components - AI Assistant
+## Level 3 - Components - AI Assistant
 
 ![Diagram](level3_components_ai_assistant.png)
 
-#### Workflow
+### Workflow
 
 1. **Data Loading**:
    - The system loads **candidate submissions**, **grading criteria**, and **historical grading data** from:
@@ -101,7 +100,7 @@ In this viewpoint we will only highlight changes made to [Current State architec
      - **Adjusting AI learning patterns based on expert corrections**
    - AI models are **retrained periodically** for **improved accuracy and efficiency**.
 
-### Level 3 - Components - Candidate Space
+## Level 3 - Components - Candidate Space
 
 ![Diagram](level3_components_candidate.png)
 
@@ -112,7 +111,7 @@ In this viewpoint we will only highlight changes made to [Current State architec
    - Appeals are forwarded to the **Expert and Admin Space** for review.
    - **Appeals status updates** are sent back to the **Candidate Testing UI**.
 
-### Level 3 - Components - Expert and Admin Space
+## Level 3 - Components - Expert and Admin Space
 
 ![Diagram](level3_components_expert_and_admin.png)
 
@@ -138,7 +137,7 @@ In this viewpoint we will only highlight changes made to [Current State architec
    - **Case Study Grading Criterion** now interacts with the **AI Assistant**.
    - Appeals and anomalies data flow between **Appeals App**, **Anomalies App**, and **Expert Admin UI**.
 
-### Level 3 - Components - Aptitude Test
+## Level 3 - Components - Aptitude Test
 
 ![Diagram](level3_components_aptitude_test.png)
 
@@ -149,7 +148,7 @@ In this viewpoint we will only highlight changes made to [Current State architec
    - Receives **short answers** from **Ungraded Short Answers (DB)**.
    - Receives **aptitude test short answers grade and feedback** from **Aptitude Test Grades (DB)**.
 
-### Level 3 - Components - Architecture Solution Exam
+## Level 3 - Components - Architecture Solution Exam
 
 ![Diagram](level3_components_architecture_exam.png)
 
