@@ -278,7 +278,7 @@ The company currently employs *300 Experts* to validate tests for *200 candidate
 
 Currently, the company spends *$550 per test validation*, which accounts for *68% of the $800 certification fee*. This is a *significant expense*, and the *primary cost driver* is the time spent by Experts on validation. Reducing validation time is *key to lowering costs*, and AI can play a major role in *optimizing productivity*.
 
-#### <mark>Opportunity: AI-driven productivity enhancements can significantly **reduce validation time**, leading to **lower costs per test** and increased **operational efficiency**</mark>
+<mark>**Opportunity: AI-driven productivity enhancements can significantly *reduce validation time*, leading to *lower costs per test* and increased *operational efficiency***</mark>
 
 #### Current Expert Compensation Model Discourages Efficiency
 
@@ -290,25 +290,25 @@ A better approach would be a *per-test payment model* instead of hourly pay.
 - If AI-assisted grading *reduces validation time to 1.5 hours*, and we *pay $100 per test*, an Expert could validate *two tests in the same 3-hour period*, earning *$200 instead of $150*.
 - At the same time, the *company’s cost per test* would decrease from *$150 to $100*, improving efficiency and profitability.
 
-#### <mark>Opportunity: Transitioning to a **per-test payment model** would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company</mark>
+<mark>**Opportunity: Transitioning to a *per-test payment model* would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company**</mark>
 
 #### High-Quality Expectations Limit Full Automation
 
 Given the strict *accuracy and reliability requirements*, fully automating the grading process is *not viable*. A human *must remain in control* to make final grading decisions. Instead of *replacing Experts*, AI should function as an *assistant*, helping them *validate tests faster and with greater accuracy*.
 
-#### <mark>Requirement: AI should be used as an **expert assistant**, speeding up grading rather than replacing human decision-making</mark>
+<mark>**Requirement: AI should be used as an *expert assistant*, speeding up grading rather than replacing human decision-making**</mark>
 
 #### Lack of a Measurable Grading Quality Process
 
 Despite high expectations for grading quality, there is *no formalized process to measure it*. Establishing a *quality baseline* is crucial before making system changes. Experts already make mistakes, and incorporating *candidate feedback loops* is essential for assessing grading accuracy. A *human-only baseline* must be established to *track improvements* as AI-assisted grading is introduced.
 
-#### <mark>Requirement: A **quality control process** must be implemented before system improvements, ensuring that grading accuracy can be measured and improved over time</mark>
+<mark>**Requirement: A *quality control process* must be implemented before system improvements, ensuring that grading accuracy can be measured and improved over time**</mark>
 
 #### No Defined Process for Tracking Validation Time
 
 There is *no mention of how validation time is currently tracked*, yet it is a key efficiency metric for AI-assisted improvements. A proper *measurement system* must be put in place to ensure progress in *reducing validation time*.
 
-#### <mark>Requirement: **Tracking validation time** is critical for evaluating AI effectiveness and must be established before automation is introduced</mark>
+<mark>**Requirement: *Tracking validation time* is critical for evaluating AI effectiveness and must be established before automation is introduced**</mark>
 
 ## Proposed Architecture
 
