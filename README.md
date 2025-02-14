@@ -534,7 +534,7 @@ Detailed description of all changes to the system can be found by in a [separate
 
 #### Level 3 - Components - AI Assistant
 
-![Diagram](level3_components_ai_assistant.png)
+![Diagram](future_state/context_viewpoint/level3_components_ai_assistant.png)
 
 **Workflow:**
 
