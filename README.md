@@ -350,6 +350,52 @@ AI/ML development within our architecture must adhere to the following principle
 - **Decisions on model selection should be data-driven**, prioritizing solutions that demonstrate superior real-world effectiveness.
 - **Fallback mechanisms should be in place**, allowing for seamless transitions if a model underperforms or becomes unreliable over time.
 
+Embedding these principles into our AI/ML development lifecycle ensures we make data-driven, real-world-validated decisions while maintaining adaptability and resilience against unforeseen challenges.
+
+### [ADR 2: Current Expert Compensation Model Discourages Efficiency](adrs/adr-2-compensation-model.md)
+
+To encourage efficiency and align expert compensation with performance, the following changes are proposed:
+
+- **Transition from an hourly compensation model to a per-evaluation payment structure**, ensuring experts are rewarded based on completed reviews rather than time spent.
+- **Introduce performance-based incentives**, providing bonuses for experts who consistently deliver high-quality, accurate, and timely evaluations.
+- **Encourage AI-assisted grading**, allowing experts to use automated tools to accelerate their work while maintaining oversight and accuracy.
+
+Implementing this new compensation model will significantly improve efficiency, scalability, and sustainability while ensuring grading remains accurate and fair.
+
+### [ADR 3: AI/ML as an Assistant, Not a Fully Automated System](adrs/adr-3-assistant-only.md)
+
+AI/ML usage within our system will adhere to the following principles:
+
+- **AI/ML will only function as an assistant**, never as a fully automated decision-maker.
+- **Experts will retain full control over all grading and certification decisions**, with AI/ML acting in a supportive role.
+- **AI-generated recommendations will require human validation** before being acted upon.
+- **Transparency in AI suggestions must be maintained**, ensuring that experts understand how recommendations are derived.
+- **AI-assisted tools should focus on increasing efficiency** rather than replacing human expertise.
+
+By embedding these principles, we ensure that AI remains a **trusted assistant** rather than an autonomous decision-maker, preserving the credibility and quality of our certification process.
+
+### [ADR 4: Implementing a Quality Control Process Before System Improvements](adrs/adr-4-quality-control.md)
+
+To maintain high standards of accuracy and reliability, the following quality control measures will be implemented:
+
+- **Anomaly Detection Process**: Validate grades against similar past submissions to identify and correct deviations, ensuring consistency in grading standards.
+- **Introduce Appeal Process**: Implement a structured process allowing candidates to formally contest grades, capturing potential false negative errors and ensuring fairness.
+- **Baseline Performance Metrics**: Establish a benchmark for current expert grading accuracy and consistency to compare against future performance.
+- **Quality Audits**: Regular reviews of expert grading accuracy to identify inconsistencies, ensure adherence to defined evaluation criteria, and identify those needing additional training or recalibration.
+
+By establishing a rigorous quality control process, we ensure that all future system enhancements are backed by empirical data, improve expert grading accuracy, and uphold the credibility of our certification program.
+
+### [ADR 4: Implementing a Quality Control Process Before System Improvements](adrs/adr-5-performance-control.md)
+
+To assess AI effectiveness in validation processes, the following measures will be implemented:
+
+- **Track Expert Validation Time**: We assume that expert validation time tracking is already in place. If not, it should be implemented to measure how long experts spend grading each submission.
+- **Establish Baseline Metrics**: Capture pre-automation validation times to compare against AI-assisted workflows.
+- **Monitor AI Impact on Efficiency**: Regularly evaluate whether AI reduces validation time while maintaining grading quality.
+- **Optimize Processes Based on Data**: Use time measurement insights to refine AI models and improve overall efficiency.
+
+By measuring validation time, we establish a concrete framework for assessing AI effectiveness, ensuring automation leads to real efficiency gains without compromising grading quality.
+
 ## High-Level Architecture
 
 ### Functional Viewpoint
