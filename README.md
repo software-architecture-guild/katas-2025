@@ -11,16 +11,13 @@
 ## Document Structure
 
 > [!TIP]
-> **Introduction** provides a welcome message and a brief overview of our way of working. It also introduces the **Business Case** and includes a link to the original requirements.
+> **Introduction**
+> provides a welcome message and a brief overview of our way of working. It also introduces the *Business Case* and includes a link to the original requirements.
 >
-> **Current System Overview** presents our interpretation of the system architecture, identifying key challenges and opportunities for improvement. A crucial part of this section is the **assumptions we made** due to gaps in available information.
+> **Current System Overview**
+> presents our interpretation of the system architecture, identifying key challenges and opportunities for improvement. A crucial part of this section is the *assumptions we made* due to gaps in available information.
 >
-> **Proposed Architecture** outlines our solutions to the identified challenges and opportunities. It documents the **fundamental decisions** necessary for the successful implementation of these changes.
->
-> The section continues with:
->
-> - A **High-Level Architecture** that integrates AI solutions into the existing system.
-> - Detailed descriptions of the **AI solutions** themselves.
+> **Proposed Architecture** outlines our solutions to the identified challenges and opportunities. It documents the *fundamental decisions* necessary for the successful implementation of these changes. The section continues with a *High-Level Architecture* that integrates AI solutions into the existing system and detailed descriptions of the **AI solutions** themselves.
 >
 > **Final Words** speaks for itself ;)
 
