@@ -1,4 +1,4 @@
-# The Software Architecture Guild Architectural Kata by O'Reilly, February 2025
+# The Software Architecture Guild Architectural Kata by O'Reilly, February 2025 <!-- omit in toc -->
 
 ## Team members <!-- omit in toc -->
 
@@ -8,30 +8,40 @@
 - [Mikalai (Nick) Herman](https://www.linkedin.com/in/gekola/)
 - [Oleg Zubchenko](https://www.linkedin.com/in/rgbd-me/)
 
-## Table of Contents <!-- omit in toc -->
+## Document Structure
 
-- [Welcome](#welcome)
-- [Business Case](#business-case)
-  - [Background](#background)
-  - [Market Opportunity](#market-opportunity)
-  - [Objective](#objective)
-  - [Stakeholders](#stakeholders)
-  - [External Stakeholders](#external-stakeholders)
+> [!TIP]
+> **Introduction**\
+> provides a welcome message and a brief overview of our way of working. It also introduces the *Business Case* and includes a link to the original requirements.
+>
+> **Current System Overview**\
+> presents our interpretation of the system architecture, identifying key challenges and opportunities for improvement. A crucial part of this section is the *assumptions we made* due to gaps in available information.
+>
+> **Proposed Architecture**\
+> outlines our solutions to the identified challenges and opportunities. It documents the *fundamental decisions* necessary for the successful implementation of these changes. The section continues with a *High-Level Architecture* that integrates AI solutions into the existing system and detailed descriptions of the *AI solutions* themselves.
+>
+> **Final Words** speak for themselves ;)
+
+## Table of Contents
+
+- [Introduction](#introduction)
+  - [Welcome](#welcome)
+  - [Business Case](#business-case)
   - [Original requirements](#original-requirements)
 - [Current System Overview](#current-system-overview)
-  - [Functional Viewpoint](#functional-viewpoint)
-  - [Context Viewpoint](#context-viewpoint)
-  - [Informational Viewpoint](#informational-viewpoint)
-  - [Cost Perspective](#cost-perspective)
-  - [Quality Perspective](#quality-perspective)
-- [Assumptions](#assumptions)
-- [Challenges and Opportunities](#challenges-and-opportunities)
-- [Proposed Solutions](#proposed-solutions)
-  - [Overview](#overview)
-  - [Solution 1](#solution-1)
-  - [Solution 2](#solution-2)
-  - [Solution 3](#solution-3)
+  - [High Level Architecture](#high-level-architecture)
+  - [Assumptions](#assumptions)
+  - [Challenges and Opportunities](#challenges-and-opportunities)
+- [Proposed Architecture](#proposed-architecture)
+  - [Decisions](#decisions)
+  - [High-Level Architecture](#high-level-architecture-1)
+  - [Aptitude Test: Solution 1](#aptitude-test-solution-1)
+  - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
+  - [Architecture Exam: Solution 3](#architecture-exam-solution-3)
+  - [Architecture Exam: Solution 4](#architecture-exam-solution-4)
 - [Final words](#final-words)
+
+# Introduction
 
 ## Welcome
 
@@ -68,7 +78,7 @@ The global demand for certified software architects is accelerating due to gover
 
 The primary objective is to modernize the SoftArchCert system by leveraging Generative AI to streamline the certification process while maintaining accuracy, reliability, and cost-effectiveness.
 
-#### Key Goals
+### Key Goals
 
 - **Enhance Efficiency**: Reduce manual workload by automating grading processes, candidate feedback, and test modifications.
 - **Maintain Accuracy & Quality**: Ensure AI-driven grading maintains the high standards required for certification validity.
@@ -95,11 +105,13 @@ Several key stakeholders will be impacted by this initiative:
 
 By addressing these stakeholder needs and aligning with market opportunities, Certifiable, Inc. can ensure its continued dominance in the certification industry while meeting the demands of an expanding global market.
 
-### Original requirements
+## Original requirements
 
 For the original requirements please follow [Original Requirements](requirements/original_requirements.md)
 
-## Current System Overview
+# Current System Overview
+
+## High Level Architecture
 
 ### Functional Viewpoint
 
@@ -123,6 +135,10 @@ We have identified several personas who interact with the system and actively pa
 
 #### Candidate Journey Map
 
+![Diagram](current_state/functional_viewpoint/candidate_journey_map.png)
+
+**Workflow:**
+
 1. Registration & Payment – The candidate registers on the Certifiable, Inc. platform, fills out the registration form, confirms their email, and pays for the certification test to gain access to the aptitude test.
 2. Aptitude Test (Test 1) – The candidate takes a timed multiple-choice and short-answer aptitude test. Multiple-choice questions are auto-graded, while expert software architects review short-answer responses.
 3. Test Results & Eligibility – If the candidate scores 80% or higher, they receive an invitation to the architecture submission test. If they fail, they receive detailed feedback and must start the process from the beginning to reattempt.
@@ -130,27 +146,29 @@ We have identified several personas who interact with the system and actively pa
 5. Evaluation & Feedback – Expert software architects review the submission, grade it based on set criteria, and provide feedback.
 6. Certification & Verification – If the candidate passes both tests, they receive official certification, which is stored in the database for employer verification. If they fail, they can reapply for Test 2.
 
-![Diagram](current_state/functional_viewpoint/candidate_journey_map.png)
-
 #### Expert Journey Map
+
+![Diagram](current_state/functional_viewpoint/expert_journey_map.png)
+
+**Workflow:**
 
 1. Profile Setup & Access – The expert software architect is onboarded by Certifiable, Inc. and gains access to the grading system. They can update their profile and set availability.
 2. Test 1 Grading (Aptitude Test) – Experts review and grade short-answer responses manually. They provide detailed feedback and ensure grading accuracy based on established evaluation criteria.
 3. Test 2 Grading (Architecture Submission) – Experts assess architecture submissions based on predefined rubrics. They spend an average of 8 hours per submission, ensuring fair and precise evaluation. Experts offer candidates detailed explanations for incorrect answers, areas of improvement, and scoring justifications to help them understand their results.
 4. Test & Case Study Improvements – Designated experts periodically analyze test performance, identify problematic questions, and propose modifications or new case studies to keep the certification process relevant.
 
-![Diagram](current_state/functional_viewpoint/expert_journey_map.png)
-
 #### Designated Expert Journey Map
 
 A Designated Expert has all the responsibilities of a regular Expert Software Architect, including grading aptitude tests, reviewing architecture submissions, providing feedback, and contributing to certification system updates.
+
+![Diagram](current_state/functional_viewpoint/designated_expert_journey_map.png)
+
+**Workflow:**
 
 1. Getting Access – The designated expert receives elevated access role from the system administrator.
 2. Review Suggested Improvements from Experts – They analyze feedback and improvement suggestions submitted by expert graders regarding test questions, case studies, and grading inconsistencies. They assess recurring issues in test performance data, such as frequently failed questions.
 3. Maintain Tests - Based on expert feedback and industry advancements, designated experts update aptitude test questions. They remove outdated or problematic questions and introduce new ones to reflect emerging software architecture trends. Changes are tested to ensure balance and difficulty consistency across certification exams.
 4. Maintain Case Studies - Designated experts develop new architecture case studies to prevent content leaks and ensure the certification process remains challenging and relevant. They modify existing case studies to incorporate modern design patterns, industry best practices, and evolving regulatory requirements. Outdated or redundant case studies are deleted to maintain a streamlined and effective certification process.
-
-![Diagram](current_state/functional_viewpoint/designated_expert_journey_map.png)
 
 #### Service Blue Print
 
@@ -179,18 +197,20 @@ We propose a revised logical organization for the system, with slight modificati
 > [!NOTE]
 > *If the existing structure differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning logical structure with the necessary structure to support AI integration.*
 
-- **Candidate Space**
-  Responsible for interaction with Candidates. Includes Candidate Testing UI, Candidate Registration, Candidate Status, and Notification service. Here, Candidates can sign up, take tests, and receive notifications when test validation results are available.
-- **Expert and Admin Space**
-  Responsible for handling interactions with Experts, Designated Experts, and Administrators. Here, Experts and Designated Experts can collaborate to create and modify existing Tests and Case Studies, as well as grade submitted tests and architecture solutions. Administrators and Experts can also manage Expert user profiles here.
-- **Aptitude Test**
-  Service responsible for organizing the Aptitude Test process. It delivers the test to Candidates and accepts their answers. It automatically grades multiple-choice questions and presents short answers for manual grading. It also accepts grades and feedback submitted by Experts.
-- **Architecture Solution Exam**
-  Service responsible for organizing the Case Study Test process. It randomly selects a Case Study for the Candidate and accepts their solution. It presents the submitted solution to the Expert for evaluation and accepts grades and feedback.
-- **Certified Architects Public Space**
-  Service responsible for generating, storing, and distributing Certificates to Candidates and external HRs. It also generates a notification with the results of the Architecture Solution Exam and Certificate information.
-
 ![Diagram](current_state/context_viewpoint/level2_containers.png)
+
+**Workflow:**
+
+- **Candidate Space**\
+  Responsible for interaction with Candidates. Includes Candidate Testing UI, Candidate Registration, Candidate Status, and Notification service. Here, Candidates can sign up, take tests, and receive notifications when test validation results are available.
+- **Expert and Admin Space**\
+  Responsible for handling interactions with Experts, Designated Experts, and Administrators. Here, Experts and Designated Experts can collaborate to create and modify existing Tests and Case Studies, as well as grade submitted tests and architecture solutions. Administrators and Experts can also manage Expert user profiles here.
+- **Aptitude Test**\
+  Service responsible for organizing the Aptitude Test process. It delivers the test to Candidates and accepts their answers. It automatically grades multiple-choice questions and presents short answers for manual grading. It also accepts grades and feedback submitted by Experts.
+- **Architecture Solution Exam**\
+  Service responsible for organizing the Case Study Test process. It randomly selects a Case Study for the Candidate and accepts their solution. It presents the submitted solution to the Expert for evaluation and accepts grades and feedback.
+- **Certified Architects Public Space**\
+  Service responsible for generating, storing, and distributing Certificates to Candidates and external HRs. It also generates a notification with the results of the Architecture Solution Exam and Certificate information.
 
 In addition to the new structure, we have made one key assumption. There is no information on how experts' time is tracked, who reviews it, or how their salaries are managed. While accounting is not our primary focus, understanding the time spent by experts per test is crucial for the future changes we plan to introduce.
 
@@ -272,19 +292,19 @@ Given the lack of additional information, we must make the **following assumptio
 
 ## Challenges and Opportunities
 
-### Scalability is a Major Challenge <!-- omit in toc -->
+### Scalability is a Major Challenge
 
 The company currently employs *300 Experts* to validate tests for *200 candidates per week*. Scaling up to *1,000 candidates per week* would require either *longer wait times* (which is unacceptable) or *hiring significantly more Experts*. Hiring more Experts would also necessitate additional *managerial roles and support staff* (e.g., Administrators, Accountants, HR personnel), further *increasing operational costs*. As a result, *the cost per test would continue to rise*, negatively impacting profitability.
 
-#### <mark>Opportunity: Investing in **automation** is essential to ensure the company's long-term viability</mark>
+<mark>**Opportunity: Investing in *automation* is essential to ensure the company's long-term viability**</mark>
 
-### High Cost Model <!-- omit in toc -->
+### High Cost Model
 
 Currently, the company spends *$550 per test validation*, which accounts for *68% of the $800 certification fee*. This is a *significant expense*, and the *primary cost driver* is the time spent by Experts on validation. Reducing validation time is *key to lowering costs*, and AI can play a major role in *optimizing productivity*.
 
-#### <mark>Opportunity: AI-driven productivity enhancements can significantly **reduce validation time**, leading to **lower costs per test** and increased **operational efficiency**</mark>
+<mark>**Opportunity: AI-driven productivity enhancements can significantly *reduce validation time*, leading to *lower costs per test* and increased *operational efficiency***</mark>
 
-### Current Expert Compensation Model Discourages Efficiency <!-- omit in toc -->
+### Current Expert Compensation Model Discourages Efficiency
 
 Experts are *paid per hour*, meaning there is *no incentive* for them to work faster or process more tests. AI assistance can only succeed *if Experts are motivated* to use it effectively.
 
@@ -294,52 +314,128 @@ A better approach would be a *per-test payment model* instead of hourly pay.
 - If AI-assisted grading *reduces validation time to 1.5 hours*, and we *pay $100 per test*, an Expert could validate *two tests in the same 3-hour period*, earning *$200 instead of $150*.
 - At the same time, the *company’s cost per test* would decrease from *$150 to $100*, improving efficiency and profitability.
 
-#### <mark>Opportunity: Transitioning to a **per-test payment model** would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company</mark>
+<mark>**Opportunity: Transitioning to a *per-test payment model* would incentivize Experts to work faster and maximize efficiency, benefiting both Experts and the company**</mark>
 
-### High-Quality Expectations Limit Full Automation <!-- omit in toc -->
+### High-Quality Expectations Limit Full Automation
 
 Given the strict *accuracy and reliability requirements*, fully automating the grading process is *not viable*. A human *must remain in control* to make final grading decisions. Instead of *replacing Experts*, AI should function as an *assistant*, helping them *validate tests faster and with greater accuracy*.
 
-#### <mark>Requirement: AI should be used as an **expert assistant**, speeding up grading rather than replacing human decision-making</mark>
+<mark>**Requirement: AI should be used as an *expert assistant*, speeding up grading rather than replacing human decision-making**</mark>
 
-### Lack of a Measurable Grading Quality Process <!-- omit in toc -->
+### Lack of a Measurable Grading Quality Process
 
 Despite high expectations for grading quality, there is *no formalized process to measure it*. Establishing a *quality baseline* is crucial before making system changes. Experts already make mistakes, and incorporating *candidate feedback loops* is essential for assessing grading accuracy. A *human-only baseline* must be established to *track improvements* as AI-assisted grading is introduced.
 
-#### <mark>Requirement: A **quality control process** must be implemented before system improvements, ensuring that grading accuracy can be measured and improved over time</mark>
+<mark>**Requirement: A *quality control process* must be implemented before system improvements, ensuring that grading accuracy can be measured and improved over time**</mark>
 
-### No Defined Process for Tracking Validation Time <!-- omit in toc -->
+### No Defined Process for Tracking Validation Time
 
 There is *no mention of how validation time is currently tracked*, yet it is a key efficiency metric for AI-assisted improvements. A proper *measurement system* must be put in place to ensure progress in *reducing validation time*.
 
-#### <mark>Requirement: **Tracking validation time** is critical for evaluating AI effectiveness and must be established before automation is introduced</mark>
+<mark>**Requirement: *Tracking validation time* is critical for evaluating AI effectiveness and must be established before automation is introduced**</mark>
 
-## Proposed Solutions
+# Proposed Architecture
 
-### Overview
+## Decisions
 
-### Solution 1
+Before we dive into architectural proposals we need to align on fundamental decisions being made:
 
-#### Architecture
+### [ADR 1:  AI/ML Development Principles](adrs/adr-1-principles.md)
+
+AI/ML development within our architecture must adhere to the following principles:
+
+- **Multiple AI/ML solutions must be developed in parallel** rather than assuming a single model will be optimal.
+- **Real-world testing must validate reliability**, using empirical performance data to select the most effective solution.
+- **Iterative evaluation and refinement must continuously** ensure that models evolve based on actual usage conditions.
+- **Decisions on model selection should be data-driven**, prioritizing solutions that demonstrate superior real-world effectiveness.
+- **Fallback mechanisms should be in place**, allowing for seamless transitions if a model underperforms or becomes unreliable over time.
+
+Embedding these principles into our AI/ML development lifecycle ensures we make data-driven, real-world-validated decisions while maintaining adaptability and resilience against unforeseen challenges.
+
+### [ADR 2: Current Expert Compensation Model Discourages Efficiency](adrs/adr-2-compensation-model.md)
+
+To encourage efficiency and align expert compensation with performance, the following changes are proposed:
+
+- **Transition from an hourly compensation model to a per-evaluation payment structure**, ensuring experts are rewarded based on completed reviews rather than time spent.
+- **Introduce performance-based incentives**, providing bonuses for experts who consistently deliver high-quality, accurate, and timely evaluations.
+- **Encourage AI-assisted grading**, allowing experts to use automated tools to accelerate their work while maintaining oversight and accuracy.
+
+Implementing this new compensation model will significantly improve efficiency, scalability, and sustainability while ensuring grading remains accurate and fair.
+
+### [ADR 3: AI/ML as an Assistant, Not a Fully Automated System](adrs/adr-3-assistant-only.md)
+
+AI/ML usage within our system will adhere to the following principles:
+
+- **AI/ML will only function as an assistant**, never as a fully automated decision-maker.
+- **Experts will retain full control over all grading and certification decisions**, with AI/ML acting in a supportive role.
+- **AI-generated recommendations will require human validation** before being acted upon.
+- **Transparency in AI suggestions must be maintained**, ensuring that experts understand how recommendations are derived.
+- **AI-assisted tools should focus on increasing efficiency** rather than replacing human expertise.
+
+By embedding these principles, we ensure that AI remains a **trusted assistant** rather than an autonomous decision-maker, preserving the credibility and quality of our certification process.
+
+### [ADR 4: Implementing a Quality Control Process Before System Improvements](adrs/adr-4-quality-control.md)
+
+To maintain high standards of accuracy and reliability, the following quality control measures will be implemented:
+
+- **Anomaly Detection Process**: Validate grades against similar past submissions to identify and correct deviations, ensuring consistency in grading standards.
+- **Introduce Appeal Process**: Implement a structured process allowing candidates to formally contest grades, capturing potential false negative errors and ensuring fairness.
+- **Baseline Performance Metrics**: Establish a benchmark for current expert grading accuracy and consistency to compare against future performance.
+- **Quality Audits**: Regular reviews of expert grading accuracy to identify inconsistencies, ensure adherence to defined evaluation criteria, and identify those needing additional training or recalibration.
+
+By establishing a rigorous quality control process, we ensure that all future system enhancements are backed by empirical data, improve expert grading accuracy, and uphold the credibility of our certification program.
+
+### [ADR 4: Implementing a Quality Control Process Before System Improvements](adrs/adr-5-performance-control.md)
+
+To assess AI effectiveness in validation processes, the following measures will be implemented:
+
+- **Track Expert Validation Time**: We assume that expert validation time tracking is already in place. If not, it should be implemented to measure how long experts spend grading each submission.
+- **Establish Baseline Metrics**: Capture pre-automation validation times to compare against AI-assisted workflows.
+- **Monitor AI Impact on Efficiency**: Regularly evaluate whether AI reduces validation time while maintaining grading quality.
+- **Optimize Processes Based on Data**: Use time measurement insights to refine AI models and improve overall efficiency.
+
+By measuring validation time, we establish a concrete framework for assessing AI effectiveness, ensuring automation leads to real efficiency gains without compromising grading quality.
+
+## High-Level Architecture
+
+### Functional Viewpoint
+
+### Context Viewpoint
+
+### Informational Viewpoint
+
+### Operational Viewpoint
+
+## Aptitude Test: Solution 1
+
+### Architecture
 
 Diagrams + ADRs
 
-#### Implementation Milestones
+### Implementation Milestones
 
-### Solution 2
+## Aptitude Test: Solution 2
 
-#### Architecture
-
-Diagrams + ADRs
-
-#### Implementation Milestones
-
-### Solution 3
-
-#### Architecture
+### Architecture
 
 Diagrams + ADRs
 
-#### Implementation Milestones
+### Implementation Milestones
 
-## Final words
+## Architecture Exam: Solution 3
+
+### Architecture
+
+Diagrams + ADRs
+
+### Implementation Milestones
+
+## Architecture Exam: Solution 4
+
+### Architecture
+
+Diagrams + ADRs
+
+### Implementation Milestones
+
+# Final words
