@@ -115,8 +115,7 @@ For the original requirements please follow [Original Requirements](requirements
 
 ### Functional Viewpoint
 
-> *Describes the system’s functional elements, their responsibilities, interfaces,
-> and primary interactions*
+> *Describes the system’s functional elements, their responsibilities, interfaces, and primary interactions*
 
 Since we already have an established system, we believe the best way to describe its existing functionality is through User Journey Maps and a System Blueprint.
 
@@ -385,7 +384,7 @@ To maintain high standards of accuracy and reliability, the following quality co
 
 By establishing a rigorous quality control process, we ensure that all future system enhancements are backed by empirical data, improve expert grading accuracy, and uphold the credibility of our certification program.
 
-### [ADR 4: Implementing a Quality Control Process Before System Improvements](adrs/adr-5-performance-control.md)
+### [ADR 5: Measure Validation Time to Assess AI Effectiveness](adrs/adr-5-performance-control.md)
 
 To assess AI effectiveness in validation processes, the following measures will be implemented:
 
@@ -398,13 +397,126 @@ By measuring validation time, we establish a concrete framework for assessing AI
 
 ## High-Level Architecture
 
+As stated in ADRs, in order to enable AI implementation within the system we need to add several new processes and functionalities to the system:
+
+- **Detect Grade Anomalies:** Identifies inconsistencies in grading by comparing new grades against historical data to detect deviations that require expert review.
+
+- **Candidate Appeal Process:** Allows candidates to formally challenge their grades, ensuring a structured review process to identify and correct potential grading errors.
+
+- **Suggestions Generation Process:** Uses AI or predefined rules to provide recommendations to experts, assisting in grading decisions, feedback generation, and test modifications.
+
+- **Quality Measurement Process:** Evaluates the accuracy and consistency of grading by tracking expert performance, candidate feedback, and statistical deviations.
+
+- **Effectiveness Measurement Process:** Assesses the impact of AI and process improvements by tracking validation time, expert workload reduction, and overall grading accuracy.
+
+Implementation details for those processes can be found in the architectural viewpoints below.
+
 ### Functional Viewpoint
+
+> *Describes the system’s functional elements, their responsibilities, interfaces, and primary interactions*
+
+#### Candidate Journey Map
+
+![Diagram](future_state/functional_viewpoint/candidate_journey_map.png)
+
+**Changes**:
+
+1. **File an Appeal Process (New Step)**
+   - Candidate accesses the website.
+   - Candidate fills out the appeal form.
+   - Candidate submits the appeal request.
+   - System receives and stores the appeal request.
+   - System sends a confirmation email with an estimated appeal review time.
+
+2. **Get the Appeal Result Process (New Step)**
+   - Designated Expert is notified of the appeal.
+   - Designated Expert reviews the submitted test.
+   - Designated Expert re-evaluates the test based on appeal criteria.
+   - System collects corrected grades and feedback.
+   - System recalculates the total score based on the review.
+   - System updates candidate records if necessary.
+   - System sends an email to the candidate with the appeal result.
+   - If the appeal is successful, the system grants access to the next test or issue a certificate.
+
+#### Expert Journey Map
+
+![Diagram](future_state/functional_viewpoint/expert_journey_map.png)
+
+**Changes**:
+
+1. **AI Assistance in Grading (Added Feature)**
+   - AI-generated grade and feedback suggestions are now provided for both the **Aptitude Test** and **Case Study Test** validation processes.
+   - Experts can review and either accept or reject AI-suggested grades and feedback.
+   - The system tracks expert decisions on AI-suggested grades and feedback.
+
+#### Designated Expert Journey Map
+
+![Diagram](future_state/functional_viewpoint/designated_expert_journey_map.png)
+
+**Changes**:
+
+1. **Review Appeals (New Step)**
+   - Designated Expert accesses the appeals review system.
+   - System serves candidate appeals for review.
+   - Designated Expert reviews appeal details.
+   - Designated Expert corrects grades and provides feedback.
+   - System updates candidate records with the revised grade and feedback.
+   - System notifies the candidate about the appeal result.
+
+2. **Review Anomalies (New Step)**
+   - System generates and stores grading anomalies.
+   - System serves detected grading anomalies to the Designated Expert.
+   - Designated Expert reviews anomalies in test grading.
+   - Designated Expert corrects grades and provides feedback if necessary.
+   - System updates records with corrected grades.
+
+#### Service Blue Print
+
+> *A **Service Blueprint** is a detailed visual representation of a service process, illustrating interactions between users, system components, and backend processes. It provides a structured framework for understanding how a service functions by mapping out key elements such as customer actions, employee roles, supporting systems, and process flows.*
+
+![Diagram](future_state/functional_viewpoint/service_blueprint.png)
+
+**Changes**:
+
+1. **Appeal Process (New Steps)**
+   - **Fill Out Appeal Form**
+     - Candidate accesses the Appeal UI.
+     - Candidate fills out and submits the appeal form.
+     - System stores the appeal request.
+
+   - **Get Appeal Result**
+     - System processes the appeal request.
+     - Designated Expert manually reviews the appeal.
+     - System updates the grade and feedback based on the review.
+     - Candidate receives an email with the appeal result.
+
+2. **AI-Assisted Grading Enhancements**
+   - **Generate Suggestions**
+     - AI generates grading and feedback suggestions for both Aptitude and Case Study tests.
+
+   - **Review / Adjust Suggestions**
+     - Experts review AI-generated grading suggestions.
+     - Experts accept or modify suggestions before submission.
+
+   - **Detect Grade Anomalies**
+     - System identifies potential inconsistencies in grading.
+     - Anomalies are flagged for expert review.
+
+   - **Review Grade Anomalies**
+     - Designated Experts review flagged grading anomalies.
+     - Experts adjust grades if necessary before final submission.
 
 ### Context Viewpoint
 
+> *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
+
 ### Informational Viewpoint
 
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+
 ### Operational Viewpoint
+
+> *Describes how the system will operate to fulfill the required functionality.*
 
 ## Aptitude Test: Solution 1
 
