@@ -13,7 +13,7 @@
   - [Level 3 - Components - Architecture Solution Exam](#level-3---components---architecture-solution-exam)
   - [Level 3 - Components - Certification Space](#level-3---components---certification-space)
 
-## Level 1 - System Context
+# Level 1 - System Context
 
 > A System Context Diagram is a high-level visual representation that depicts a system or software application in its broader context. It illustrates how the system interacts with external entities, such as users, other systems, or data sources.
 
@@ -32,7 +32,7 @@ As we can see, the system is interacting only with people:
 
 ![Diagram](level1_system_context.png)
 
-## Level 2 - Container diagram - Certification Platform
+# Level 2 - Container diagram - Certification Platform
 
 > The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another
 
@@ -51,11 +51,11 @@ We propose a revised logical organization for the system, with slight modificati
 
 ![Diagram](level2_containers.png)
 
-## Level 3 - Components
+# Level 3 - Components
 
 > The Component diagram shows how a container is made up of a number of "components", what each of those components are, their responsibilities and the technology/implementation details.
 
-### Level 3 - Components - Candidate Space
+## Level 3 - Components - Candidate Space
 
 ![Diagram](level3_components_candidate.png)
 
@@ -63,7 +63,7 @@ The diagram illustrates the **Candidate Space** and its interaction with various
 
 The **Candidate Testing UI (Component: Web App)** serves as the central interface where candidates provide their information, submit aptitude test answers, and upload architecture solutions.
 
-#### Workflow
+### Workflow
 
 Step 1: Candidate Registration
 
@@ -95,13 +95,13 @@ Step 5: Certification and Notifications
 
 The system ensures a seamless process for candidates from registration to certification, tracking progress at each stage while integrating automated and manual grading mechanisms.
 
-### Level 3 - Components - Expert and Admin Space
+## Level 3 - Components - Expert and Admin Space
 
 ![Diagram](level3_components_expert_and_admin.png)
 
 The diagram illustrates the **Expert and Admin Space**, which supports the certification process by allowing experts and administrators to manage exams, grading, and certification logs. The architecture is divided into multiple sections, including expert administration, grading, and overall maintenance. The system ensures an efficient process for maintaining certification standards, analyzing test performance, and allowing expert-driven updates to exam content.
 
-#### Workflow
+### Workflow
 
 Step 1: Administrative Functions
 
@@ -132,13 +132,13 @@ Step 4: Certification Review & Reporting
 - The **Aptitude Test Analysis App (Microservice)** generates reports on test grading and performance trends.
 - Experts analyze certification logs to improve test accuracy and relevance.
 
-### Level 3 - Components - Aptitude Test
+## Level 3 - Components - Aptitude Test
 
 ![Diagram](level3_components_aptitude_test.png)
 
 This diagram represents the **Aptitude Test** process, which is the **first stage** of the certification process for software architects. It illustrates the workflow for test retrieval, answers submission, grading, and notification.
 
-#### Workflow
+### Workflow
 
 The aptitude test process follows a structured step-by-step approach.
 
@@ -174,13 +174,13 @@ Step 5: Candidate Notification & Result Delivery
 - Candidates receive notifications regarding their performance.
 - If the candidate meets the passing criteria, they proceed to the **Architecture Solution Exam** (Stage 2 of the certification process).
 
-### Level 3 - Components - Architecture Solution Exam
+## Level 3 - Components - Architecture Solution Exam
 
 ![Diagram](level3_components_architecture_exam.png)
 
 This diagram represents the **Architecture Solution Exam** process, which is the **second stage** of the certification process for software architects. It illustrates the workflow for case study retrieval, architecture submission, grading, and final certification.
 
-#### Workflow
+### Workflow
 
 Step 1: Case Study Retrieval
 
@@ -204,13 +204,13 @@ Step 4: Candidate Notification & Certification
 - The **graded architecture solution** is sent back to the candidate through the **Candidate Platform**.
 - The **Certified Architects Public Space (Container: Service)** receives the final **certification verification notification**, making the results accessible for public verification.
 
-### Level 3 - Components - Certification Space
+## Level 3 - Components - Certification Space
 
 ![Diagram](level3_components_certification.png)
 
 The diagram illustrates the **Certified Architects Public Space**, which manages certification issuance, verification, and result retrieval for candidates and HR representatives. It ensures that successful candidates receive their certification and that organizations can verify certification status.
 
-#### Workflow
+### Workflow
 
 Step 1: Architecture Solution Evaluation
 
