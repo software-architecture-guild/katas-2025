@@ -39,6 +39,20 @@ In this viewpoint we will only highlight changes made to [Current State architec
 
 ## Level 3 - Components - AI Assistant
 
+We propose implementing the **AI Assistant** using a **Micro-Kernel Architecture**.
+
+The **Core Component** will act as the **central aggregator and integrator** for AI-based suggestion generators. It will include:
+
+- A **User Interface** for **AI Engineers** to manage and refine AI solutions.
+- A **Suggestions Database** to store AI-generated grading recommendations.
+- An **API** to serve AI-generated suggestions to the **Expert UI** during the grading process.
+
+Each AI-powered grading solution will:
+
+- Access **historical grading data** from a shared **common storage**.
+- Provide an **API** for AI Engineers to adjust and refine the grading model.
+- Populate the **Suggestions Database** in a standardized format, ensuring consistency across different solutions.
+
 ![Diagram](level3_components_ai_assistant.png)
 
 ### Workflow
