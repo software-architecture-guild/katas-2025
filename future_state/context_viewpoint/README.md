@@ -53,6 +53,8 @@ Each AI-powered grading solution will:
 - Provide an **API** for AI Engineers to adjust and refine the grading model.
 - Populate the **Suggestions Database** in a standardized format, ensuring consistency across different solutions.
 
+This approach enables the use of multiple suggestion generators simultaneously and allows for seamless replacement if any solution proves ineffective.
+
 ![Diagram](level3_components_ai_assistant.png)
 
 ### Workflow
