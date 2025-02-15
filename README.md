@@ -621,13 +621,36 @@ This approach enables the use of multiple suggestion generators simultaneously a
 
 > *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
 
-### Operational Viewpoint
+One of the key advantages of this proposed solution is that the original data model can remain unchanged, provided it either matches or closely resembles the structure outlined in the current informational viewpoint.
 
-> *Describes how the system will operate to fulfill the required functionality.*
+Below is a diagram illustrating the additional informational elements we plan to incorporate into the system:
+
+![Diagram](future_state/informational_viewpoint/data_model.png)
+
+#### Additions
+
+1. **Push Data from Operational to Analytical Storage System**
+  The Aptitude Test, Aptitude Test Submission, Graded Aptitude Test Submission, Case Study, Architecture Submission, and Graded Architecture Submission tables will be synchronized with their corresponding operational tables.\  
+  Advantages of this approach:
+   - It enables future flexibility by allowing different data models for operational and AI systems.  
+   - It allows data to be removed from operational systems, improving their performance.  
+
+2. **Suggestions Model Structure**
+A centralized Suggestions Table will store common suggestions, while each solution will maintain its own set of dedicated tables for specific operations. This structure ensures flexibility while preserving connections between related datasets.  
+
+3. **Anomalies and Appeals Tracking**
+Anomalies and Appeals tables will be introduced in the Expert Admin Space to track and manage grading quality issues efficiently.  
+
+4. **Validation Analysis**
+A Validation Analysis Table will store weekly snapshots of quality and performance data for each test and expert. This dataset will enable various analytical assessments to monitor and improve grading accuracy and efficiency.  
 
 ## Aptitude Test: Solution 1
 
 ### Architecture
+
+#### Operational Viewpoint
+
+> *Describes how the system will operate to fulfill the required functionality.*
 
 Diagrams + ADRs
 
