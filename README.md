@@ -395,6 +395,24 @@ To assess AI effectiveness in validation processes, the following measures will 
 
 By measuring validation time, we establish a concrete framework for assessing AI effectiveness, ensuring automation leads to real efficiency gains without compromising grading quality.
 
+### [ADR 6: AI Assistant Implementation Using Microkernel Architecture](adrs/adr-6-ai-assistant-architecture.md)
+
+We have decided to target the following architectural characteristics:
+
+- **Cost**: Lowering costs is a primary factor for introducing the AI Assistant. The cost should be lower than the current manual grading approach.
+- **Evolvability**: AI is continuously evolving, and the architecture must support easy integration of new components or replacement of existing ones.
+- **Simplicity**: AI systems are inherently complex, so our architecture should not introduce unnecessary additional complexity.
+
+![Diagram](adrs/adr6-architecture-selection.png)
+
+Based on our targeted architectural characteristics, the **Microkernel architecture** was chosen:
+
+- **Cost**: The Microkernel architecture enables modular AI components, reducing overall system complexity and minimizing operational costs.
+- **Evolvability**: The plug-in architecture supports easy integration of new AI models or the replacement of existing ones as AI technologies evolve.
+- **Simplicity**: The Microkernel approach maintains a clear separation between the core system and AI extensions, ensuring that complexity remains manageable.
+
+By adopting a **Microkernel architecture**, we ensure that the AI Assistant remains adaptable, scalable, and maintainable, aligning with long-term business and technical goals while minimizing risks associated with AI deployment.
+
 ## High-Level Architecture
 
 As stated in ADRs, in order to enable AI implementation within the system we need to add several new processes and functionalities to the system:
