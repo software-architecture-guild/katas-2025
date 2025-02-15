@@ -23,13 +23,14 @@ In this viewpoint we will only highlight changes made to [Current State architec
 **Changes:**
 
 1. Introduced **AI Assistant** with several functions:
+
    - Store historical records for all tests, candidate submissions, their grades and feedback, and the time experts spend grading.
    - Generate suggestions that experts can accept or reject when grading submissions.
    - Collect suggestions status to calculate suggestions performance and adjust the AI Assistant accordingly.
    - Detect anomalies and notify the designated expert for review.
    - Collect anomalies and appeals status to calculate grading quality.
-
 2. Introduced a **new appeal process**:
+
    - Candidates can raise an appeal.
    - Designated experts review appeals and make necessary corrections.
 
@@ -41,7 +42,7 @@ In this viewpoint we will only highlight changes made to [Current State architec
 
 We propose implementing the **AI Assistant** using a **Micro-Kernel Architecture**.
 
-The **Core Component** will act as the **central aggregator and integrator** for AI-based suggestion generators. It will include:
+The **Core Component** will act as the **central aggregator and integrator** for AI-based solutions. It will include:
 
 - A **User Interface** for **AI Engineers** to manage and refine AI solutions.
 - A **Suggestions Database** to store AI-generated grading recommendations.
@@ -53,6 +54,11 @@ Each AI-powered grading solution will:
 - Provide an **API** for AI Engineers to adjust and refine the grading model.
 - Populate the **Suggestions Database** in a standardized format, ensuring consistency across different solutions.
 
+AI Analytics will:
+
+- Analyze graded submissions to detect anomalies
+- Calculate Validation Quality and Performance metrics
+
 This approach enables the use of multiple suggestion generators simultaneously and allows for seamless replacement if any solution proves ineffective.
 
 ![Diagram](level3_components_ai_assistant.png)
@@ -60,52 +66,54 @@ This approach enables the use of multiple suggestion generators simultaneously a
 ### Workflow
 
 1. **Data Loading**:
+
    - The system loads **candidate submissions**, **grading criteria**, and **historical grading data** from:
      - **Aptitude Test** (Multiple-choice and short-answer responses)
      - **Architecture Solution Exam** (Case study submissions, grading rubrics)
    - Retrieves **past expert grading decisions**, **feedback records**, and **grading time logs** for AI model refinement.
-
 2. **Generating AI-Based Grading Suggestions**:
+
    - Each **Aptitude Test Solution** and **Architecture Exam Solution** processes:
      - **Candidate responses** (short answers, architecture submissions)
      - **Predefined grading criteria and rubrics**
      - **Past grading patterns from experts**
    - AI-driven models **generate suggested grades and feedback**.
    - Suggestions, confidence scores, and AI-extracted rationales are **stored in AI Core**.
-
 3. **Serving AI Suggestions to Experts**:
+
    - **AI Core** delivers **grading suggestions** to **Expert Grading Space**.
    - Experts see **AI-generated grades, explanations, and confidence scores**.
    - Experts can **review, accept, or modify** AI-generated grades before submission.
-
 4. **Expert Feedback on AI Suggestions**:
+
    - Experts **approve or override** AI-generated suggestions.
    - System **logs expert feedback**, including:
      - **Accepted/rejected suggestions**
      - **Adjustments made to grades**
      - **Time spent reviewing AI-generated inputs**
    - This feedback is stored in **AI Core** as **suggestions status**.
-
 5. **AI Performance Tracking & Continuous Improvement**:
+
    - **AI Engineers** track **suggestion accuracy**, **expert modifications**, and **confidence vs. rejection rates**.
    - AI models are **fine-tuned based on real expert corrections**.
-
 6. **Anomaly Detection & Expert Review**:
+
    - **AI Analytics App** analyzes **historical grading trends** and **real-time grading activities**.
    - Detects **grading inconsistencies, outliers, and suspicious patterns**.
    - Flags cases where:
      - AI suggestions **deviate significantly from expert decisions**.
      - **Experts inconsistently apply grading rubrics**.
    - **Anomalies are sent to Expert Admin Space** for **manual review and intervention**.
-
 7. **Quality & Time Performance Metrics Calculation**:
+
    - **AI Analytics App** stores:
      - **Anomalies and appeal statuses**
      - **Accuracy metrics for AI-suggested grades**
      - **Turnaround time for expert grading and appeals**
    - **Quality statistics** (grading consistency, rubric adherence) and **performance metrics** (average grading time, bottlenecks) are calculated.
-
+   - AI Analytics App serve all metrics to the Core App.
 8. **Continuous AI Model Enhancement**:
+
    - **AI Engineers** analyze:
      - **Grading quality trends**
      - **Time performance efficiency**
@@ -134,21 +142,22 @@ This approach enables the use of multiple suggestion generators simultaneously a
 **Changes:**
 
 1. **AI Assistant Integration**:
+
    - Introduced **AI Assistant (Container: System)**.
    - **Generates suggestions** for grading.
    - Tracks **suggestions status**.
-
 2. **Anomalies Detection**:
+
    - **Anomalies App (Component: Microservice)** added.
    - Tracks and stores **anomalies** and **anomalies status**.
    - **Notifies designated experts** for review.
-
 3. **Appeals Handling**:
+
    - **Appeals App (Component: Microservice)** added.
    - **Appeals Database (Component: DB)** introduced for storing appeals and appeal statuses.
    - Tracks **appeals status**.
-
 4. **New Data Flows**:
+
    - AI Assistant now **sends anomalies and appeal statuses** to the system.
    - **Case Study Grading Criterion** now interacts with the **AI Assistant**.
    - Appeals and anomalies data flow between **Appeals App**, **Anomalies App**, and **Expert Admin UI**.
