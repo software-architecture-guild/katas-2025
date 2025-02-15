@@ -548,6 +548,11 @@ Each AI-powered grading solution will:
 - Provide an **API** for AI Engineers to adjust and refine the grading model.
 - Populate the **Suggestions Database** in a standardized format, ensuring consistency across different solutions.
 
+AI Analytics will:
+
+- Analyze graded submissions to detect anomalies
+- Calculate Validation Quality and Performance metrics
+
 This approach enables the use of multiple suggestion generators simultaneously and allows for seamless replacement if any solution proves ineffective.
 
 ![Diagram](future_state/context_viewpoint/level3_components_ai_assistant.png)
@@ -599,6 +604,7 @@ This approach enables the use of multiple suggestion generators simultaneously a
      - Accuracy metrics for AI-suggested grades
      - Turnaround time for expert grading and appeals
    - Quality statistics (grading consistency, rubric adherence) and performance metrics (average grading time, bottlenecks) are calculated.
+   - AI Analytics App serve all metrics to the Core App.
 
 8. **Continuous AI Model Enhancement**:
    - AI Engineers analyze:
