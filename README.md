@@ -677,6 +677,61 @@ Once a version is live in production, a **continuous feedback loop** ensures tha
 
 ![Diagram](future_state/development_viewpoint/development_process.png)
 
+### Cost Perspective
+
+#### Current Cost
+
+Let's conduct a thought experiment to estimate potential cost savings when validating a case study.
+
+- Today, an expert spends 8 hours on validation, costing the company **$400 per test**.
+- The expert's time is divided as follows:
+  - 33% – Understanding the architecture solution
+  - 33% – Validating it against grading criteria
+  - 33% – Writing feedback
+
+We assume the first 33% (understanding the solution) remains unchanged, but we believe we can significantly reduce the other two tasks, resulting in an overall **50% reduction in time**.
+
+#### Targeted Cost Reduction
+
+- New target: **4 hours per test** instead of 8 hours.
+- If the expert remains on an hourly wage, the cost per test drops to **$200**.
+- Instead, we propose switching to a per-test payment model, offering the expert **$300 per test**.
+- This results in **$100 in savings per test**, which can be allocated to an AI Assistant.
+
+#### Estimating AI Assistant Costs
+
+To estimate the AI cost per test, we assume the most compute-heavy scenario by uploading the entire submission to the LLM.
+
+- **Average submission size**: 5,000 words (~7,000 tokens)
+- **AI interaction**: We ask 50 questions about the submission.
+  - Each question: ~20 tokens
+  - Each response: ~150 tokens (abstract summary)
+  - Total question-related tokens:  
+    - `170 × 50 = 8,500` tokens  
+- **Total token usage per test**:
+  - Input tokens: 7,000
+  - Output tokens: 8,500
+
+#### Cost Calculation
+
+**GPT-4o Pricing**
+
+- $5.00 per 1M input tokens
+- $15.00 per 1M output tokens
+
+```sql
+(7,000 × 5) + (8,500 × 15) / 1,000,000 = (35,000 + 127,500) / 1,000,000 = 0.1625
+```
+
+**Cost per test: $0.16**  
+
+Even if our estimate is off by **10×**, the cost remains only **$1.60**.  
+Even run 10 solutions at the same time, the cost is still just **$16 per test**.
+
+#### Conclusion
+
+The proposed solution is **highly cost-effective** in terms of LLM usage. With AI assistance, we can significantly reduce expert validation time while keeping the LLM cost negligible.
+
 ## Aptitude Test: Solution 1
 
 ### Architecture
