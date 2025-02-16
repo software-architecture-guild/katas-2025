@@ -37,7 +37,8 @@
   - [High-Level Architecture](#high-level-architecture-1)
   - [Aptitude Test: Solution 1](#aptitude-test-solution-1)
   - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
-  - [Architecture Exam: Solution 3](#architecture-exam-solution-3)
+  - [Architecture Exam: Solution 3a - Direct Prompting](#architecture-exam-solution-3a---direct-prompting)
+  - [Architecture Exam: Solution 3b - Direct Prompting](#architecture-exam-solution-3b---direct-prompting)
   - [Architecture Exam: Solution 4](#architecture-exam-solution-4)
 - [Final words](#final-words)
 
@@ -682,13 +683,110 @@ Diagrams + ADRs
 
 ### Implementation Milestones
 
-## Architecture Exam: Solution 3
+## Architecture Exam: Solution 3a - Direct Prompting
 
-### Architecture
+### Idea
 
-Diagrams + ADRs
+Adding or modifying a Case Study is an infrequent event. On average, a new Case Study is introduced every three months, and the grading criteria for existing Case Studies are updated every two to four months. This allows us to implement static prompts for each grading criterion, which can be reused to generate suggestions efficiently.
 
-### Implementation Milestones
+An AI Engineer will monitor the performance of these prompts and adjust them whenever the acceptance rate drops below 80%.
+
+Another key factor is the speed of the grading process. If the system scales to 1,000 candidates per week across five Case Studies, it would generate approximately 200 validated suggestions per week. As a result, adjustments based on expert feedback will naturally occur at a slower pace.
+
+This slow rate of change means that a small team of engineers will be sufficient to maintain the system while ensuring high-quality AI-generated suggestions. Additionally, we anticipate that these engineers will leverage LLMs to refine and create new prompts. While this aspect is not reflected in the current design diagrams, it will be incorporated into the next version of the solution (3b).
+
+### Context Viewpoint
+
+> *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
+
+![Diagram](future_state/solution_3a/context_viewpoint.png)
+
+#### Workflow
+
+This workflow describes an AI-assisted grading system for the Architecture Exam, integrating AI-generated suggestions with expert validation to enhance the grading process.
+
+1. The **AI Engineer** create grading criteria Prompts via the AI Admin UI (Web App).
+
+2. **Candidates** submit their architecture solutions, which are stored in the Architecture Exam Database.
+
+3. The **Suggestions Generator (Microservice)** retrieves the architecture submission from the Architecture Exam Database.  
+   - It sends the submission, along with grading criteria prompts and prompt configurations (retrieved from the Solution 3 Database), to the LLM (Large Language Model).  
+   - The LLM processes the input and returns grading suggestions.
+
+4. The **Suggestions Generator** stores the generated grading suggestions in the Suggestions Database.  
+   - The Solution 3 API (Microservice) retrieves grading criteria prompts and prompt configurations from the Solution 3 Database.  
+   - The Suggestions API (Microservice) provides access to stored suggestions.
+
+5. The **Expert Grading Space** retrieves grading suggestions from the Suggestions API.  
+   - Experts review, validate, and modify AI-generated suggestions before finalizing grading.  
+   - The Suggestions API updates the grading status in the Suggestions Database.
+
+6. The **AI Engineer** monitors AI-generated suggestions via the AI Admin UI (Web App).  
+   - The AI Admin UI (embed Solution 3 MFE UI) enables updates to:
+     - View AI-generated grading suggestions.  
+     - Review feedback on AI-generated prompts.  
+     - Review prompt performance to improve future grading suggestions.  
+     - Modify Grading criteria prompts.  
+     - Modify Prompt configurations.  
+
+### Informational Viewpoint
+
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+
+![Diagram](future_state/solution_3a/informational_viewpoint.png)
+
+#### Definitions
+
+1. **Prompts Configuration (Solution 3 Database)**: Stores information about grading prompts used for AI-generated suggestions.
+   - **Prompt ID (PK)** – Unique identifier for each prompt.  
+   - **Status** – Indicates if the prompt is active, deprecated, or under review.  
+   - **Selection Rate** – Tracks how often this prompt is selected for generating suggestions.
+
+2. **Grading Criteria Prompts (Solution 3 Database)**: Defines grading criteria for case studies, linked to prompts.
+   - **ID (PK)** – Unique identifier for each grading criterion.  
+   - **Case Study ID (FK)** – Links the grading criteria to a specific case study.  
+   - **Name** – Name of the grading criterion.  
+   - **Prompt** – The text of the grading prompt.  
+   - **Version (Immutable)** – Each change to a prompt results in a new version.  
+   - **Created By / At** – Stores information about the creator and timestamp.  
+
+### Operational Viewpoint
+
+> *Describes how the system will operate to fulfill the required functionality.*
+
+The diagram illustrates the process of generating and enhancing the quality of AI-generated grading suggestions through an iterative approach. This process ensures that the AI-generated suggestions used in grading maintain high accuracy, relevance, and acceptance by human experts.
+
+![Diagram](future_state/solution_3a/operational_viewpoint.png)
+
+#### Workflow
+
+1. **Generating Initial Suggestions**  
+   - A grading criterion is introduced or updated based on the case study requirements. 
+   - The Prompt Engineer reviews the new or updated grading criterion. 
+   - A new grading criterion prompt is created, defining how AI should assess candidate submissions. 
+   - The newly created prompt is enabled for 100% of submissions, meaning all grading suggestions will be generated using this prompt. 
+   - The prompt configuration is stored in the system, and the Suggestions Generator (Microservice) starts using it to produce grading suggestions.
+
+2. **Evaluating Suggestion Quality**  
+   - AI-generated suggestions are stored in the Suggestions Database (DB), along with their acceptance status. 
+   - The system monitors suggestion performance by tracking how often human experts accept or reject the AI-generated suggestions. 
+   - If 80% or more of the suggestions are accepted by experts, the prompt is considered effective, and no changes are required. 
+   - If the acceptance rate is below 80%, the prompt needs optimization.
+
+3. **Enhancing Suggestion Quality**  
+   - If the prompt’s performance is below 80% acceptance, a new version of the grading criterion prompt is created. 
+   - Instead of deploying the new prompt to all submissions immediately, it is gradually enabled for X% of submissions to assess its effectiveness. 
+   - The new prompt version (vN) is stored and configured within the system. 
+   - The Suggestions Generator now produces AI-generated grading suggestions based on the updated prompt.
+
+4. **Continuous Performance Monitoring and Improvement**  
+   - The system tracks the performance of the new prompt version by analyzing the acceptance rate of AI-generated suggestions. 
+   - If 80% or more of the suggestions are accepted, the new version is fully enabled for 100% of submissions, replacing the previous version. 
+   - If the new prompt still underperforms, it goes through further iterations until it meets the quality threshold.
+
+This iterative improvement cycle ensures that AI-generated grading suggestions remain high-quality, reliable, and aligned with expert expectations, leading to efficient and accurate candidate evaluations.
+
+## Architecture Exam: Solution 3b - Direct Prompting
 
 ## Architecture Exam: Solution 4
 
