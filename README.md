@@ -661,7 +661,21 @@ A centralized Suggestions Table will store common suggestions, while each soluti
 Anomalies and Appeals tables will be introduced in the Expert Admin Space to track and manage grading quality issues efficiently.  
 
 4. **Validation Analysis**
-A Validation Analysis Table will store weekly snapshots of quality and performance data for each test and expert. This dataset will enable various analytical assessments to monitor and improve grading accuracy and efficiency.  
+A Validation Analysis Table will store weekly snapshots of quality and performance data for each test and expert. This dataset will enable various analytical assessments to monitor and improve grading accuracy and efficiency.
+
+### Development Viewpoint
+
+> *Describes the architecture that supports the software development process.*
+
+One of the most compelling aspects of the Microkernel architecture we have chosen is its ability to support multiple solutions running simultaneously in production with real experts performing grading. This same approach extends naturally to multiple versions of the same solution, enabling real-world validation beyond traditional pre-production testing.  
+
+While we will maintain non-production environments for functional testing and regression validation, the true evaluation of AI-generated suggestions will take place in production. The Expert UI will display all generated suggestions, regardless of whether they come from different solutions or different versions of the same solution and Expert will choose one of them (the best one).  
+
+To enhance flexibility and independence between solutions, we propose a **separate repository for each solution**, allowing multiple versions to coexist within that repository. Each version will follow **GitHub Flow**, maintaining a standing `release/versionX` branch alongside multiple feature branches. Additionally, multiple `release/version{X,Y,Z}` branches may exist simultaneously, reflecting multiple versions deployed in production at the same time.  
+
+Once a version is live in production, a **continuous feedback loop** ensures that expert evaluations inform AI Engineers. Experts' interactions with AI-generated suggestions will feed back performance metrics, helping refine future iterations. Each solution will **calculate its own suggestion performance**, allowing for experimentation with different evaluation algorithms. Beyond this, AI Engineers will continuously monitor overall grading quality and validation speed to assess whether the AI Assistant is effectively fulfilling its role.
+
+![Diagram](future_state/development_viewpoint/development_process.png)
 
 ## Aptitude Test: Solution 1
 
@@ -761,27 +775,27 @@ The diagram illustrates the process of generating and enhancing the quality of A
 #### Workflow
 
 1. **Generating Initial Suggestions**  
-   - A grading criterion is introduced or updated based on the case study requirements. 
-   - The Prompt Engineer reviews the new or updated grading criterion. 
-   - A new grading criterion prompt is created, defining how AI should assess candidate submissions. 
-   - The newly created prompt is enabled for 100% of submissions, meaning all grading suggestions will be generated using this prompt. 
+   - A grading criterion is introduced or updated based on the case study requirements.
+   - The Prompt Engineer reviews the new or updated grading criterion.
+   - A new grading criterion prompt is created, defining how AI should assess candidate submissions.
+   - The newly created prompt is enabled for 100% of submissions, meaning all grading suggestions will be generated using this prompt.
    - The prompt configuration is stored in the system, and the Suggestions Generator (Microservice) starts using it to produce grading suggestions.
 
 2. **Evaluating Suggestion Quality**  
-   - AI-generated suggestions are stored in the Suggestions Database (DB), along with their acceptance status. 
-   - The system monitors suggestion performance by tracking how often human experts accept or reject the AI-generated suggestions. 
-   - If 80% or more of the suggestions are accepted by experts, the prompt is considered effective, and no changes are required. 
+   - AI-generated suggestions are stored in the Suggestions Database (DB), along with their acceptance status.
+   - The system monitors suggestion performance by tracking how often human experts accept or reject the AI-generated suggestions.
+   - If 80% or more of the suggestions are accepted by experts, the prompt is considered effective, and no changes are required.
    - If the acceptance rate is below 80%, the prompt needs optimization.
 
 3. **Enhancing Suggestion Quality**  
-   - If the prompt’s performance is below 80% acceptance, a new version of the grading criterion prompt is created. 
-   - Instead of deploying the new prompt to all submissions immediately, it is gradually enabled for X% of submissions to assess its effectiveness. 
-   - The new prompt version (vN) is stored and configured within the system. 
+   - If the prompt’s performance is below 80% acceptance, a new version of the grading criterion prompt is created.
+   - Instead of deploying the new prompt to all submissions immediately, it is gradually enabled for X% of submissions to assess its effectiveness.
+   - The new prompt version (vN) is stored and configured within the system.
    - The Suggestions Generator now produces AI-generated grading suggestions based on the updated prompt.
 
 4. **Continuous Performance Monitoring and Improvement**  
-   - The system tracks the performance of the new prompt version by analyzing the acceptance rate of AI-generated suggestions. 
-   - If 80% or more of the suggestions are accepted, the new version is fully enabled for 100% of submissions, replacing the previous version. 
+   - The system tracks the performance of the new prompt version by analyzing the acceptance rate of AI-generated suggestions.
+   - If 80% or more of the suggestions are accepted, the new version is fully enabled for 100% of submissions, replacing the previous version.
    - If the new prompt still underperforms, it goes through further iterations until it meets the quality threshold.
 
 This iterative improvement cycle ensures that AI-generated grading suggestions remain high-quality, reliable, and aligned with expert expectations, leading to efficient and accurate candidate evaluations.
