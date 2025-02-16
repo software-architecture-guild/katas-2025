@@ -709,7 +709,7 @@ This workflow describes an AI-assisted grading system for the Architecture Exam,
 
 2. **Candidates** submit their architecture solutions, which are stored in the Architecture Exam Database.
 
-3. The **Suggestions Generator (Microservice)** retrieves the architecture submission from the Architecture Exam Database.  
+3. The **Suggestions Generator (Microservice)** retrieves the architecture submission from the Architecture Exam Historical Database.  
    - It sends the submission, along with grading criteria prompts and prompt configurations (retrieved from the Solution 3 Database), to the LLM (Large Language Model).  
    - The LLM processes the input and returns grading suggestions.
 
@@ -787,6 +787,72 @@ The diagram illustrates the process of generating and enhancing the quality of A
 This iterative improvement cycle ensures that AI-generated grading suggestions remain high-quality, reliable, and aligned with expert expectations, leading to efficient and accurate candidate evaluations.
 
 ## Architecture Exam: Solution 3b - Direct Prompting
+
+### Idea
+
+The main idea is that **Solution 3a** is already functional, and our goal is to automate the manual tasks performed by the AI Engineer to maintain suggestion quality at the desired level.
+
+To achieve this, we will introduce a new component called the **Prompt Optimizer**. This component will track the performance of grading prompts and use an LLM to optimize them. The optimization process will involve analyzing rejected suggestions and comparing them with the correct answers provided by experts. Based on this data, the LLM will refine existing grading prompts to improve future suggestions automatically.
+
+### Context Viewpoint
+
+> *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
+
+This updated diagram introduces new elements to automate and optimize the grading prompt process. The highlighted additions focus on improving the **performance tracking and automatic refinement of grading prompts** using an **LLM-based optimization system**.
+
+![Diagram](future_state/solution_3b/context_viewpoint.png)
+
+#### Additions
+
+1. **Prompt Optimizer (New Component: Microservice)**  
+   - This new component is responsible for tracking prompt performance and optimizing grading criteria prompts when necessary.  
+   - It collects case studies, grading criteria, graded submissions, used prompts, and received suggestions.  
+   - It sends **optimized prompts** to improve grading consistency and accuracy.
+
+2. **Optimization Prompts Flow**  
+   - The **Prompt Optimizer** monitors Prompts performance and retrieves declined suggestions through  Solution 3 API.
+   - The **Prompt Optimizer** for declined suggestions, reads grading criteria, case studies and graded submissions from Architecture Exam Historical Database.
+   - The **Prompt Optimizer** interacts with the **LLM (External Component)** to refine grading prompts.  
+   - The LLM is provided with **rejected AI-generated suggestions** alongside the **expert's correct grading response**.  
+   - Based on this comparison, the LLM proposes **improvements to the grading prompt** to enhance future AI-generated suggestions.
+   - The **Prompt Optimizer** generates **Optimization Prompts** based on past performance and sends them to **Solution 3 API** for testing.
+
+### Operational Viewpoint
+
+> *Describes how the system will operate to fulfill the required functionality.*
+
+This diagram illustrates the **workflow for generating and optimizing AI-generated grading suggestions** to ensure high accuracy and expert alignment. The process continuously refines grading prompts based on performance data and expert feedback.
+
+![Diagram](future_state/solution_3b/operational_viewpoint.png)
+
+#### Workflow
+
+1. **Creating a New Grading Criterion Prompt**  
+   - A new or updated grading criterion is identified from the Case Study Database.  
+   - The Prompt Engineer reviews the grading criterion and creates a new grading prompt.  
+   - The new prompt is enabled for 100% of submissions and stored in the system.  
+   - The Suggestions Generator begins using the prompt to generate AI-powered grading suggestions.  
+   - The generated suggestions are stored in the Suggestions Database, and graded submissions are recorded for future evaluation.  
+
+2. **Evaluating Suggestion Quality**  
+   - AI-generated suggestions are monitored through prompt performance tracking.  
+   - The Prompt Generator analyzes how often experts accept or reject AI-generated suggestions.  
+   - If **80% or more of the suggestions are accepted**, the prompt is considered effective.  
+   - If the acceptance rate falls below 80%, the prompt needs optimization.  
+
+3. **Enhancing the Quality of AI-Generated Suggestions**  
+   - If a prompt underperforms, a new version of the grading criterion prompt is created.  
+   - The updated prompt is gradually enabled for X% of submissions to test its effectiveness.  
+   - The prompt configuration is updated, and the Suggestions Generator starts using the new version.  
+   - Once the updated prompt achieves **80% or more accepted suggestions**, it is fully enabled for 100% of submissions.
+   - *NOTE: Multiple versions of new grading prompt could be created in parallel and evaluated at the same time.*
+
+4. **Continuous Performance Monitoring and Improvement**  
+   - The system tracks the performance of AI-generated suggestions over time.  
+   - When necessary, new versions of grading prompts are introduced, ensuring consistent quality.  
+   - The process is iterative, meaning prompts are continuously refined and improved to maintain high-quality grading standards.  
+
+This **iterative improvement cycle** ensures that AI-generated grading suggestions remain **accurate, reliable, and aligned with expert expectations**, leading to efficient and high-quality candidate evaluations.
 
 ## Architecture Exam: Solution 4
 
