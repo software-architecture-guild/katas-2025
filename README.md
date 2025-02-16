@@ -862,4 +862,85 @@ Diagrams + ADRs
 
 ### Implementation Milestones
 
+## Appeal Process, Anomaly Detection and Analytics
+
+### Idea
+
+The integration of AI into high-stakes certification grading introduces significant challenges in maintaining accuracy, consistency, and trust. Manual oversight becomes impractical at scale, yet even partial automation risks errors undermining certifications and careers. AI systems lack inherent alignment with human expertise and historical standards, risking inconsistencies from human or AI misalignment if it is applied carelessly.
+
+Central to this challenge is the need for a structured quality assurance framework to validate AI’s role in the grading process. Firstly, candidates must have a formal channel to dispute grades, as even manual process can lead to falsely rejected certification. Secondly falsely approved certifications should also be discovered. Automated anomaly detection can proactively identify deviations: graded submissions can be cross-checked against historically similar cases, flagging discrepancies (e.g., conflicting scores for comparable answers) for expert re-evaluation.
+
+Equally critical is continuous quality monitoring to measure AI’s impact. Metrics such as anomaly resolution rates, appeal outcomes, and grading time trends must be tracked to verify whether AI achieves its intended benefits — higher consistency, reduced review times. Embedding of these mechanisms enables the automation of the grading process via AI assistance.
+
+### Context Viewpoint
+
+> *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
+
+![Diagram](future_state/solution_5/context_viewpoint.png)
+
+#### Anomaly Detection Workflow
+
+This workflow describes and AI-assisted detection of anomalies in Expert-provided grades. The workflow describes the Aptitude test workflow, and with small adjustments can be applied to the Case study submission grades as well.
+
+1. **Expert** reviews the Candidate's Submission and provides a grade and feedback.
+
+2. **Submission Capture Job** injests the submission and sends it to **Anomaly Detection** service.
+
+3. **Anomaly Detection** finds misalignment between the grades of the submission and other similar submissions and flags it for a review.
+   - **Submission Search** performs search of submissions with a similar text.
+   - Most similar submissions (top 5) are compared by grade with the original submission.
+   - If the misalignment with similar submissions grades is significant, the submission is forwarded to be re-validated by a **Designated Expert**.
+
+3. **Designated Expert** re-validates the submission.
+   - Grade and Description is updated.
+   - Anomaly Status (Corrected / Ignored) is sent to **Corrections Capture** service to be analyzed later.
+
+5. **Corrections Capture** persists the anomaly resolution to **Performance Metrics** DB.
+
+6. **AI Engineers** access the **Performance Metrics** database analyze the collected data.
+   - Metrics related to AI-usage, validation time, AI accuracy, Experts Accuracy can be calculated based on the collected datasets.
+
+#### Appeals Workflow
+
+This workflow describes the Appeal process, where candidates who wish to dispute the grading results can justify their request for a revalidation.
+
+1. **Candidate** Submits the Appeal Form
+   - Candidate receives test results and disputes the grade via the **Candidate UI**.  
+   - **Candidate UI** stores the Appeal for later review.
+
+2. **Experts / Designated Experts** review appeals
+   - **Experts / Designated Experts** are notified about the unprocessed appeals.
+   - **Experts / Designated Experts** reviews the submission and provides an updated grade and feedback.
+      - Appeal can be rejected, without grade changes
+      - Appeal can be approved, with correcting the grades and feedback
+   - **Appeals App** notifies testing components and **AI Analytrics App** about the grade updates.
+
+
+3. **Capture Corrections** persists the appeal outcome and persists the information to the **Performance Metrics DB**.
+
+4. **AI Engineers** Analyze appeal data in the **Performance Metrics DB** to:  
+   - Track appeal volume and resolution rates.  
+   - Identify recurring grading errors.
+   - Measure average resolution time.
+   - Make decisions to address identified errors.
+
+### Operational Viewpoint
+
+> *Describes how the system will operate to fulfill the required functionality.*
+
+**Anomaly Detection**
+![Diagram](future_state/solution_5/operational_viewpoint_anomaly_detection.png)
+
+**Appeal Process**
+![Diagram](future_state/solution_5/operational_viewpoint_appeal_process.png)
+
+#### Anomaly Detection Workflow
+
+TODO
+
+#### Appeal Workflow
+
+TODO
+
+
 # Final words
