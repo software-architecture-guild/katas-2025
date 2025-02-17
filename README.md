@@ -855,6 +855,9 @@ By continuously refining grading suggestions based on expert validation, this ap
 ## Aptitude Test: Solution 2
 
 ### Idea
+Solution 2 enhances AI-assisted grading by leveraging a Large Language Model (LLM) to generate grading suggestions and feedback for short-answer responses. Unlike Solution 1a, which primarily relies on text search to find similar past answers, Solution 2 employs advanced AI techniques to analyze responses in context, generate meaningful feedback, and improve grading consistency.
+
+This approach bridges the gap between human intuition and AI automation, ensuring that the system not only matches similar answers but also understands variations and provides contextually relevant grading insights. Experts review the AI-generated suggestions, refining and improving the model over time.
 
 ### Context Viewpoint
 
@@ -862,12 +865,39 @@ By continuously refining grading suggestions based on expert validation, this ap
 
 ![Diagram](future_state/solution_2/context_viewpoint.jpg)
 
+
 ### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
 
 ![Diagram](future_state/solution_2/operational_viewpoint.jpg)
 #### Workflow
+The workflow describes an LLM-powered grading system that combines historical answer data, AI-driven suggestions, and expert validation to optimize short-answer assessment.
+
+1. Submission & Preprocessing
+	•	Short-answer responses from the Aptitude Test are stored in the Architecture Exam Historical DB.
+	•	The Answers Preprocessing Microservice clusters and organizes responses based on historical data.
+
+2. AI-Powered Suggestions Generation
+	•	The Suggestions Generator Microservice captures submitted answers.
+	•	Instead of searching for exact past matches (as in Solution 1a), an LLM processes the answer, analyzing it in context.
+	•	The Prompt Craft Database provides grading templates, expert feedback, and structured evaluation criteria.
+	•	The LLM generates grading suggestions and relevant feedback based on historical responses and expert-defined criteria.
+	•	The generated suggestions are stored in the Suggestions DB and forwarded to the Suggestions API Microservice.
+3. Expert Review & Refinement
+	•	Suggestions are sent to the Expert Grading Space for validation.
+	•	Human experts review, refine, or override AI-generated grades and feedback.
+	•	Experts’ decisions improve the AI’s performance by continuously refining the grading prompts and AI understanding.
+	•	The Suggestions API updates suggestion statuses based on expert feedback, enhancing the model’s learning process.
+
+4. AI Oversight & Continuous Learning
+	•	The AI Admin UI enables AI engineers to monitor grading suggestions, configure grading prompts, and track system performance.
+	•	Experts can request regeneration of suggestions to improve grading accuracy.
+
+5. Feedback Loop & Optimization
+	•	The final graded answers and expert decisions are indexed in the Architecture Exam Historical DB.
+	•	AI-generated suggestions are compared to expert judgments to assess accuracy.
+	•	This continuous feedback loop ensures that the AI model improves over time, refining its ability to understand answers more contextually and provide more precise grading recommendations.
 
 ### Informational Viewpoint
 > *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
