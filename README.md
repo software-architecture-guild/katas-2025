@@ -852,15 +852,26 @@ By continuously refining grading suggestions based on expert validation, this ap
 
 #### Workflow
 
-Diagrams + ADRs
-
 ## Aptitude Test: Solution 2
 
-### Architecture
+### Idea
 
-Diagrams + ADRs
+### Context Viewpoint
 
-### Implementation Milestones
+> *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
+
+![Diagram](future_state/solution_2/context_viewpoint.jpg)
+
+### Operational Viewpoint
+
+> *Describes how the system will operate to fulfill the required functionality.*
+
+![Diagram](future_state/solution_2/operational_viewpoint.jpg)
+#### Workflow
+
+### Informational Viewpoint
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+#### Definitions
 
 ## Architecture Exam: Solution 3a - Direct Prompting
 
