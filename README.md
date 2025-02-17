@@ -18,7 +18,7 @@
 > presents our interpretation of the system architecture, identifying key challenges and opportunities for improvement. A crucial part of this section is the *assumptions we made* due to gaps in available information.
 >
 > **Proposed Architecture**\
-> outlines our solutions to the identified challenges and opportunities. It documents the *fundamental decisions* necessary for the successful implementation of these changes. The section continues with a *High-Level Architecture* that integrates AI solutions into the existing system and detailed descriptions of the *AI solutions* themselves.
+> outlines our solutions to the identified challenges and opportunities. It documents the *fundamental decisions* necessary to successfully implement these changes. The section continues with a *High-Level Architecture* that integrates AI solutions into the existing system and detailed descriptions of the *AI solutions* themselves.
 >
 > **Final Words** speak for themselves ;)
 
@@ -29,17 +29,19 @@
   - [Business Case](#business-case)
   - [Original requirements](#original-requirements)
 - [Current System Overview](#current-system-overview)
-  - [High Level Architecture](#high-level-architecture)
+  - [High-Level Architecture](#high-level-architecture)
   - [Assumptions](#assumptions)
   - [Challenges and Opportunities](#challenges-and-opportunities)
 - [Proposed Architecture](#proposed-architecture)
   - [Decisions](#decisions)
   - [High-Level Architecture](#high-level-architecture-1)
-  - [Aptitude Test: Solution 1](#aptitude-test-solution-1)
+  - [Aptitude Test: Solution 1a - Text search](#aptitude-test-solution-1a---text-search)
+  - [Aptitude Test: Solution 1b - Semantic search](#aptitude-test-solution-1b---semantic-search)
   - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
   - [Architecture Exam: Solution 3a - Direct Prompting](#architecture-exam-solution-3a---direct-prompting)
   - [Architecture Exam: Solution 3b - Direct Prompting](#architecture-exam-solution-3b---direct-prompting)
   - [Architecture Exam: Solution 4](#architecture-exam-solution-4)
+  - [Appeal Process, Anomaly Detection and Analytics](#appeal-process-anomaly-detection-and-analytics)
 - [Final words](#final-words)
 
 # Introduction
@@ -52,20 +54,20 @@ We are the Software Architecture Guild — a group of seasoned software architec
 
 Our mission is to design and shape the foundation upon which software architectures evolve, AI-driven insights emerge, and intelligent solutions are built.
 
-As architects, we understand the power and potential of AI to transform industries, drive efficiencies, and unlock new possibilities. We are at the forefront of designing, securing, and optimizing software ecosystems to fully leverage AI capabilities and create adaptive, scalable, and intelligent systems.
+As architects, we understand AI's power and potential to transform industries, drive efficiencies, and unlock new possibilities. We are at the forefront of designing, securing, and optimizing software ecosystems to fully leverage AI capabilities and create adaptive, scalable, and intelligent systems.
 
-In our work we mainly utilize following techniques:
+In our work, we mainly utilize the following techniques:
 
-- [Viewpoints and Perspectives Framework by Rozanski,Woods](https://www.viewpoints-and-perspectives.info/)
+- [Viewpoints and Perspectives Framework by Rozanski, Woods](https://www.viewpoints-and-perspectives.info/)
 - [C4 Modeling approach](https://c4model.com/)
 
 ## Business Case
 
 ### Background
 
-Certifiable, Inc. is a recognized leader in software architecture certification, providing accredited certification to software architects primarily in the U.S. Due to recent regulatory changes, international markets including the U.K., Europe, and Asia now require software architects to be certified, significantly increasing the demand for certification services. With this anticipated expansion, Certifiable, Inc. is facing a substantial surge in certification requests—estimated to grow 5-10 times their current volume. The existing manual processes for test grading and certification management are proving to be inefficient and unsustainable at this scale.
+Certifiable, Inc. is a recognized leader in software architecture certification, providing accredited certification to software architects primarily in the U.S. Due to recent regulatory changes, international markets, including the U.K., Europe, and Asia, now require software architects to be certified, significantly increasing the demand for certification services. With this anticipated expansion, Certifiable, Inc. is facing a substantial surge in certification requests—estimated to grow 5-10 times their current volume. The existing manual processes for test grading and certification management are proving to be inefficient and unsustainable at this scale.
 
-Given this challenge, the company is exploring how Generative AI can be integrated into their current system to optimize operations, improve efficiency, and maintain high certification standards while managing cost constraints.
+Given this challenge, the company is exploring how Generative AI can be integrated into its current system to optimize operations, improve efficiency, and maintain high certification standards while managing cost constraints.
 
 ### Market Opportunity
 
@@ -73,7 +75,7 @@ The global demand for certified software architects is accelerating due to gover
 
 - **Market Size & Growth**: The U.S. alone has over 176,000 software architects, with 300,000 job openings. Internationally, the number of software architects is estimated to be around 600,000, and the industry is projected to grow by 21% over the next four years.
 - **Revenue Potential**: Certifiable, Inc. currently processes *200 candidates per week* at a fixed certification cost of *$800*. With the expected increase in demand, this number could rise to *1,000-2,000 candidates weekly*, translating into an annual revenue increase from certification fees alone.
-- **Competitive Advantage**: As the market leader, Certifiable, Inc. holds over 80% market acceptance in the U.S. and a dominant presence in international markets. Successfully implementing AI-driven automation will strengthen its position as the most efficient and reliable certification provider globally.
+- **Competitive Advantage**: As the market leader, Certifiable, Inc. holds over 80% market acceptance in the U.S. and a dominant presence in international markets. Implementing AI-driven automation will strengthen its position as the most efficient and reliable certification provider globally.
 
 ### Objective
 
@@ -84,12 +86,12 @@ The primary objective is to modernize the SoftArchCert system by leveraging Gene
 - **Enhance Efficiency**: Reduce manual workload by automating grading processes, candidate feedback, and test modifications.
 - **Maintain Accuracy & Quality**: Ensure AI-driven grading maintains the high standards required for certification validity.
 - **Scale Operations**: Support a five to tenfold increase in certification candidates without overwhelming human graders.
-- **Ensure SLA Adherence & Global Expansion**: Maintain certification processing times and guarantee adherence to SLAs as candidate volume scales and operations expand internationally.
-- **Cost Optimization**: Implement AI solutions that align with budget constraints while providing maximum efficiency.
+- **Ensure SLA Adherence & Global Expansion**: Maintain certification processing times and guarantee SLA adherence as candidate volume scales and operations expand internationally.
+- **Cost Optimization**: Implement AI solutions that align with budget constraints while maximizing efficiency.
 
 ### Stakeholders
 
-Several key stakeholders will be impacted by this initiative:
+This initiative will impact several key stakeholders:
 
 #### Internal Stakeholders
 
@@ -108,11 +110,11 @@ By addressing these stakeholder needs and aligning with market opportunities, Ce
 
 ## Original requirements
 
-For the original requirements please follow [Original Requirements](requirements/original_requirements.md)
+For the original requirements, please follow [Original Requirements](requirements/original_requirements.md)
 
 # Current System Overview
 
-## High Level Architecture
+## High-Level Architecture
 
 ### Functional Viewpoint
 
@@ -123,15 +125,15 @@ Since we already have an established system, we believe the best way to describe
 We have identified several personas who interact with the system and actively participate in the business process:
 
 - **Candidate**
-  A software architect seeking certification through Certifiable, Inc. Candidates must pass two tests: an aptitude test and an architecture submission. They rely on timely grading, accurate feedback, and certification validation to advance their careers.
+  A software architect seeking certification through Certifiable, Inc. Candidates must pass an aptitude test and an architecture submission. They rely on timely grading, accurate feedback, and certification validation to advance their careers.
 - **Expert**
   An employed expert software architect responsible for grading certification exams and providing detailed feedback to candidates. They are freelance contractors paid per hour and play a crucial role in ensuring the integrity of the certification process.
 - **Designated Expert**
-  A senior expert software architect with additional responsibilities beyond grading. They have the authority to modify certification tests, create or update case studies, and ensure that certification standards evolve with industry practices.
+  A senior expert software architect with additional responsibilities beyond grading. They can modify certification tests, create or update case studies, and ensure that certification standards evolve with industry practices.
 - **Administrator**
-  A Certifiable, Inc. staff member responsible for managing expert software architects, maintaining system access, and ensuring smooth certification operations. They oversee expert profiles, system credentials, and handle operational issues that may arise during the certification process.
+  A Certifiable, Inc. staff member responsible for managing expert software architects, maintaining system access, and ensuring smooth certification operations. They oversee expert profiles and system credentials and handle operational issues that may arise during the certification process.
 - **External HR**
-  Hiring managers and recruiters from various companies who rely on Certifiable, Inc.'s certifications to verify the qualifications of software architects. They use the certification database to validate credentials and make informed hiring decisions.
+  Hiring managers and recruiters from various companies rely on Certifiable, Inc.'s certifications to verify the qualifications of software architects. They use the certification database to validate credentials and make informed hiring decisions.
 
 #### Candidate Journey Map
 
@@ -139,12 +141,12 @@ We have identified several personas who interact with the system and actively pa
 
 **Workflow:**
 
-1. Registration & Payment – The candidate registers on the Certifiable, Inc. platform, fills out the registration form, confirms their email, and pays for the certification test to gain access to the aptitude test.
-2. Aptitude Test (Test 1) – The candidate takes a timed multiple-choice and short-answer aptitude test. Multiple-choice questions are auto-graded, while expert software architects review short-answer responses.
-3. Test Results & Eligibility – If the candidate scores 80% or higher, they receive an invitation to the architecture submission test. If they fail, they receive detailed feedback and must start the process from the beginning to reattempt.
+1. Registration & Payment — To access the aptitude test, the candidate registers on the Certifiable, Inc. platform, fills out the registration form, confirms their email, and pays for the certification test.
+2. Aptitude Test (Test 1) — The candidate takes a timed multiple-choice and short-answer aptitude test. The multiple-choice questions are auto-graded, while expert software architects review the short-answer responses.
+3. Test Results & Eligibility – If candidates score 80% or higher, they receive an invitation to the architecture submission test. If they fail, they receive detailed feedback and must start the process from the beginning to reattempt.
 4. Architecture Submission (Test 2) – The candidate downloads a case study, designs a software architecture solution, and submits their work within two weeks.
 5. Evaluation & Feedback – Expert software architects review the submission, grade it based on set criteria, and provide feedback.
-6. Certification & Verification – If the candidate passes both tests, they receive official certification, which is stored in the database for employer verification. If they fail, they can reapply for Test 2.
+6. Certification & Verification – If candidates pass both tests, they receive official certification stored in the database for employer verification. If they fail, they can reapply for Test 2.
 
 #### Expert Journey Map
 
@@ -153,8 +155,8 @@ We have identified several personas who interact with the system and actively pa
 **Workflow:**
 
 1. Profile Setup & Access – The expert software architect is onboarded by Certifiable, Inc. and gains access to the grading system. They can update their profile and set availability.
-2. Test 1 Grading (Aptitude Test) – Experts review and grade short-answer responses manually. They provide detailed feedback and ensure grading accuracy based on established evaluation criteria.
-3. Test 2 Grading (Architecture Submission) – Experts assess architecture submissions based on predefined rubrics. They spend an average of 8 hours per submission, ensuring fair and precise evaluation. Experts offer candidates detailed explanations for incorrect answers, areas of improvement, and scoring justifications to help them understand their results.
+2. Test 1 Grading (Aptitude Test) – Experts manually review and grade short-answer responses. They provide detailed feedback and ensure grading accuracy based on established evaluation criteria.
+3. Test 2 Grading (Architecture Submission)—Experts assess architecture submissions based on predefined rubrics. They spend an average of 8 hours per submission, ensuring a fair and precise evaluation. To help candidates understand their results, experts offer detailed explanations for incorrect answers, areas of improvement, and scoring justifications.
 4. Test & Case Study Improvements – Designated experts periodically analyze test performance, identify problematic questions, and propose modifications or new case studies to keep the certification process relevant.
 
 #### Designated Expert Journey Map
@@ -165,9 +167,9 @@ A Designated Expert has all the responsibilities of a regular Expert Software Ar
 
 **Workflow:**
 
-1. Getting Access – The designated expert receives elevated access role from the system administrator.
+1. Getting Access – The designated expert receives an elevated access role from the system administrator.
 2. Review Suggested Improvements from Experts – They analyze feedback and improvement suggestions submitted by expert graders regarding test questions, case studies, and grading inconsistencies. They assess recurring issues in test performance data, such as frequently failed questions.
-3. Maintain Tests - Based on expert feedback and industry advancements, designated experts update aptitude test questions. They remove outdated or problematic questions and introduce new ones to reflect emerging software architecture trends. Changes are tested to ensure balance and difficulty consistency across certification exams.
+3. Maintain Tests - Designated experts update aptitude test questions based on expert feedback and industry advancements. They remove outdated or problematic questions and introduce new ones to reflect emerging software architecture trends. Changes are tested to ensure balance and difficulty consistency across certification exams.
 4. Maintain Case Studies - Designated experts develop new architecture case studies to prevent content leaks and ensure the certification process remains challenging and relevant. They modify existing case studies to incorporate modern design patterns, industry best practices, and evolving regulatory requirements. Outdated or redundant case studies are deleted to maintain a streamlined and effective certification process.
 
 #### Service Blue Print
@@ -179,23 +181,23 @@ A Designated Expert has all the responsibilities of a regular Expert Software Ar
 **Key takeaways**:
 
 1. Grading the Aptitude Test takes approximately 3 hours. This process involves two primary tasks: evaluating answers and providing comments for incorrect responses. Since no specific data is available, **we assume an equal time distribution of 50% for grading and 50% for feedback**.
-2. Grading the Architecture Submission takes approximately 8 hours. This involves three key tasks: reviewing the candidate's submitted architecture, assessing it against predefined criteria, and writing detailed feedback. In the absence of precise data, **we assume an equal time distribution of 33% for understanding the submission, 33% for grading, and 33% for providing feedback**.
-3. While reducing candidate wait times is possible, it is entirely dependent on the time required for test validation and grading. Therefore, wait time improvements cannot be addressed in isolation.
+2. Grading the Architecture Submission takes approximately 8 hours. This involves three key tasks: reviewing the candidate's submitted architecture, assessing it against predefined criteria, and writing detailed feedback. Without precise data, **we assume an equal time distribution of 33% for understanding the submission, 33% for grading, and 33% for providing feedback**.
+3. Reducing candidate wait times is possible but entirely depends on the time required for test validation and grading. Therefore, wait time improvements cannot be addressed in isolation.
 
 ### Context Viewpoint
 
 > *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
 
-Detailed description of logical structure of the system can be found by in a [separate document](current_state/context_viewpoint/README.md). Here we will point out the most important aspects of current structure.
+A detailed description of the system's logical structure can be found in a [separate document](current_state/context_viewpoint/README.md). Here, we will point out the most important aspects of the current structure.
 
 #### Level 2 - Container diagram - Certification Platform
 
-> The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another
+> The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate.
 
-We propose a revised logical organization for the system, with slight modifications from the current structure. Our goal is to re-group components into the following categories to provide better clarity when explaining future system changes.
+We propose a revised logical organization for the system, with slight modifications from the current structure. We aim to re-group components into the following categories to clarify future system changes better.
 
 > [!NOTE]
-> *If the existing structure differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning logical structure with the necessary structure to support AI integration.*
+> *If the existing structure differs from our assumptions, a prerequisite implementation step will be introduced before any proposed AI-related changes can be implemented. This step would involve aligning logical structure with the necessary structure to support AI integration.*
 
 ![Diagram](current_state/context_viewpoint/level2_containers.png)
 
@@ -204,7 +206,7 @@ We propose a revised logical organization for the system, with slight modificati
 - **Candidate Space**\
   Responsible for interaction with Candidates. Includes Candidate Testing UI, Candidate Registration, Candidate Status, and Notification service. Here, Candidates can sign up, take tests, and receive notifications when test validation results are available.
 - **Expert and Admin Space**\
-  Responsible for handling interactions with Experts, Designated Experts, and Administrators. Here, Experts and Designated Experts can collaborate to create and modify existing Tests and Case Studies, as well as grade submitted tests and architecture solutions. Administrators and Experts can also manage Expert user profiles here.
+  Responsible for handling interactions with Experts, Designated Experts, and Administrators. Here, Experts and Designated Experts can collaborate to create and modify existing Tests and Case Studies, as well as grades, submitted tests, and architecture solutions. Administrators and Experts can also manage Expert user profiles here.
 - **Aptitude Test**\
   Service responsible for organizing the Aptitude Test process. It delivers the test to Candidates and accepts their answers. It automatically grades multiple-choice questions and presents short answers for manual grading. It also accepts grades and feedback submitted by Experts.
 - **Architecture Solution Exam**\
@@ -212,15 +214,15 @@ We propose a revised logical organization for the system, with slight modificati
 - **Certified Architects Public Space**\
   Service responsible for generating, storing, and distributing Certificates to Candidates and external HRs. It also generates a notification with the results of the Architecture Solution Exam and Certificate information.
 
-In addition to the new structure, we have made one key assumption. There is no information on how experts' time is tracked, who reviews it, or how their salaries are managed. While accounting is not our primary focus, understanding the time spent by experts per test is crucial for the future changes we plan to introduce.
+In addition to the new structure, we have made one key assumption. There is no information on how experts' time is tracked, who reviews it, or how their salaries are managed. While accounting is not our primary focus, understanding the time experts spend per test is crucial for the future changes we plan to introduce.
 
-**We assume that experts submit the time spent along with the validated test or architecture submission**.
+**We assume that experts submit the time spent with the validated test or architecture submission**.
 
 ### Informational Viewpoint
 
-> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+> *Describes how the architecture stores, manipulates, manages, and distributes information.*
 
-Understanding what data is stored and where is critical for any system, and especially relevant as we consider future AI-driven enhancements. Unfortunately, we have limited information about the data structures used in the system. The provided diagrams offer insights into the names of data objects and their relationships, but their exact contents remain unknown, requiring us to make assumptions.
+Understanding what data is stored and where is critical for any system is especially relevant as we consider future AI-driven enhancements. Unfortunately, we have limited information about the data structures used in the system. The diagrams offer insights into the names of data objects and their relationships, but their exact contents remain unknown, requiring us to make assumptions.
 
 > [!NOTE]
 > *If the existing data model differs from our assumptions, it will introduce a prerequisite implementation step before any proposed AI-related changes can be implemented. This step would involve aligning the data model with the necessary structure to support AI integration.*
@@ -231,18 +233,18 @@ The diagram below represents our best estimation of what the data model should l
 
 We will not describe every object in the diagram, but we will focus on two key ones:
 
-- **Graded Aptitude test submission**: is a historical dataset, which contains following information:
+- **Graded Aptitude test submission**: is a historical dataset which contains the following information:
   - Aptitude test questions as they were at the time of test validation
   - Multiple choice answers and grades
-  - Short Answers, Grades and Expert Feedback
-  - **We assume that Grade and Feedback are stored per each Question/Answer**
-  - Expert ID and Time it took validate test and provide feedback
+  - Short Answers, Grades, and Expert Feedback
+  - **We assume that Grades and Feedback are stored per each Question/Answer**
+  - Expert ID and Time it took to validate the test and provide feedback
 
-- **Graded Architecture submission**: is a historical dataset, which contains following information:
+- **Graded Architecture submission**: is a historical dataset which contains the following information:
   - Case Study and Grading Criteria as they were at the time of test validation
   - Grades based on each Criteria and Expert Feedback
   - **We assume that Grade and Feedback are stored per each Criteria**
-  - Expert ID and Time it took validate test and provide feedback
+  - Expert ID and Time it took to validate the test and provide feedback
 
 **We assume that data from these datasets is never deleted and contains submissions, grades, and feedback for 120,000 candidates** who have already completed the certification process.
 
@@ -250,9 +252,9 @@ We will not describe every object in the diagram, but we will focus on two key o
 
 > *Evaluates the financial impact of architectural decisions, balancing implementation, operation, and scalability costs with business value.*
 
-Candidates pay $800 per certification. The validation process alone takes 11 hours of an Expert’s time, who is compensated at $50 per hour, resulting in a $550 validation cost, which accounts for 68% of the test fee.
+Candidates pay $800 per certification. The validation process alone takes 11 hours of an Expert’s time, which is compensated at $50 per hour, resulting in a $550 validation cost, accounting for 68% of the test fee.
 
-Additionally, there are other costs to consider, including hosting expenses, designated experts’ time for maintaining tests and case studies, and administrator salaries. While not all candidates will pass Test 1, potentially reducing average validation costs, relying on failure rates as a cost-saving strategy is not practical. Therefore, **we assume the full validation cost applies to every candidate** to ensure accurate financial planning.
+Additionally, there are other costs to consider, including hosting expenses, designated experts’ time for maintaining tests and case studies, and administrator salaries. While not all candidates will pass Test 1, potentially reducing average validation costs, relying on failure rates as a cost-saving strategy is impractical. Therefore, **we assume the full validation cost applies to every candidate** to ensure accurate financial planning.
 
 ### Quality Perspective
 
@@ -260,14 +262,14 @@ Additionally, there are other costs to consider, including hosting expenses, des
 
 Here are the requirements provided:
 
-- As a recognized leader in certification, accuracy of tests, case studies, and grading is fundamental and inaccurate grading can result in a
-  candidate not getting or maintaining a job and can impact a candidate's career.
+- As a recognized leader in certification, accuracy of tests, case studies, and grading is fundamental, and inaccurate grading can result in a
+  candidate not getting or maintaining a job, which can impact a candidate's career.
 - Inaccurate or misleading certification exams and case studies can undermine the credibility of the company’s current standing in the
-  marketplace, so accuracy of the certification process is vital for the success of the company.
+  marketplace, so the accuracy of the certification process is vital for the company's success.
 
 Given the lack of additional information, we must make the **following assumptions**:
 
-- **There are no existing quality control measures in place to ensure grading accuracy.**
+- **There are no existing quality control measures to ensure grading accuracy.**
 - **There is no formal appeals process that allows candidates to challenge grading errors made by Experts.**
 
 ## Assumptions
@@ -280,7 +282,7 @@ Given the lack of additional information, we must make the **following assumptio
 
 - We assume there is **no established retention period**, and the database **stores graded answers and architecture submissions** of **120,000 candidates** who have already completed the certification process.
 
-- We assume that each created **Case Study** includes a comprehensive evaluation rubric, containing a detailed set of assessment criteria.
+- We assume that each created **Case Study** includes a comprehensive evaluation rubric containing a detailed set of assessment criteria.
 
 - We assume that for the Aptitude Test, the **Grade and Feedback** are recorded **for each Question/Answer**, whereas for the Case Study Test, they are recorded **for each Criterion**.
 
@@ -298,9 +300,9 @@ The company currently employs *300 Experts* to validate tests for *200 candidate
 
 <mark>**Opportunity: Investing in *automation* is essential to ensure the company's long-term viability**</mark>
 
-### High Cost Model
+### High-Cost Model
 
-Currently, the company spends *$550 per test validation*, which accounts for *68% of the $800 certification fee*. This is a *significant expense*, and the *primary cost driver* is the time spent by Experts on validation. Reducing validation time is *key to lowering costs*, and AI can play a major role in *optimizing productivity*.
+Currently, the company spends *$550 per test validation*, which accounts for *68% of the $800 certification fee*. This is a *significant expense*, and the *primary cost driver* is the time Experts spend on validation. Reducing validation time is *key to lowering costs*, and AI can play a significant role in *optimizing productivity*.
 
 <mark>**Opportunity: AI-driven productivity enhancements can significantly *reduce validation time*, leading to *lower costs per test* and increased *operational efficiency***</mark>
 
@@ -318,7 +320,7 @@ A better approach would be a *per-test payment model* instead of hourly pay.
 
 ### High-Quality Expectations Limit Full Automation
 
-Given the strict *accuracy and reliability requirements*, fully automating the grading process is *not viable*. A human *must remain in control* to make final grading decisions. Instead of *replacing Experts*, AI should function as an *assistant*, helping them *validate tests faster and with greater accuracy*.
+Given the strict *accuracy and reliability requirements*, fully automating the grading process is *not viable*. A human *must remain in control* to make final grading decisions. Instead of *replacing Experts*, AI should function as an *assistant*, helping them *validate tests faster and more accurately*.
 
 <mark>**Requirement: AI should be used as an *expert assistant*, speeding up grading rather than replacing human decision-making**</mark>
 
@@ -330,7 +332,7 @@ Despite high expectations for grading quality, there is *no formalized process t
 
 ### No Defined Process for Tracking Validation Time
 
-There is *no mention of how validation time is currently tracked*, yet it is a key efficiency metric for AI-assisted improvements. A proper *measurement system* must be put in place to ensure progress in *reducing validation time*.
+There is *no mention of how validation time is currently tracked*, yet it is a key efficiency metric for AI-assisted improvements. A proper *measurement system* must be implemented to ensure progress in *reducing validation time*.
 
 <mark>**Requirement: *Tracking validation time* is critical for evaluating AI effectiveness and must be established before automation is introduced**</mark>
 
@@ -338,7 +340,7 @@ There is *no mention of how validation time is currently tracked*, yet it is a k
 
 ## Decisions
 
-Before we dive into architectural proposals we need to align on fundamental decisions being made:
+Before we dive into architectural proposals, we need to align on fundamental decisions being made:
 
 ### [ADR 1:  AI/ML Development Principles](adrs/adr-1-principles.md)
 
@@ -367,7 +369,7 @@ Implementing this new compensation model will significantly improve efficiency, 
 AI/ML usage within our system will adhere to the following principles:
 
 - **AI/ML will only function as an assistant**, never as a fully automated decision-maker.
-- **Experts will retain full control over all grading and certification decisions**, with AI/ML acting in a supportive role.
+- **Experts will retain complete control over all grading and certification decisions**, with AI/ML acting in a supportive role.
 - **AI-generated recommendations will require human validation** before being acted upon.
 - **Transparency in AI suggestions must be maintained**, ensuring that experts understand how recommendations are derived.
 - **AI-assisted tools should focus on increasing efficiency** rather than replacing human expertise.
@@ -383,16 +385,16 @@ To maintain high standards of accuracy and reliability, the following quality co
 - **Baseline Performance Metrics**: Establish a benchmark for current expert grading accuracy and consistency to compare against future performance.
 - **Quality Audits**: Regular reviews of expert grading accuracy to identify inconsistencies, ensure adherence to defined evaluation criteria, and identify those needing additional training or recalibration.
 
-By establishing a rigorous quality control process, we ensure that all future system enhancements are backed by empirical data, improve expert grading accuracy, and uphold the credibility of our certification program.
+By establishing a rigorous quality control process, we ensure that empirical data back all future system enhancements, improve expert grading accuracy, and uphold the credibility of our certification program.
 
 ### [ADR 5: Measure Validation Time to Assess AI Effectiveness](adrs/adr-5-performance-control.md)
 
 To assess AI effectiveness in validation processes, the following measures will be implemented:
 
-- **Track Expert Validation Time**: We assume that expert validation time tracking is already in place. If not, it should be implemented to measure how long experts spend grading each submission.
+- **Track Expert Validation Time**: We assume expert validation time tracking is already in place. If not, it should be implemented to measure how long experts spend grading each submission.
 - **Establish Baseline Metrics**: Capture pre-automation validation times to compare against AI-assisted workflows.
 - **Monitor AI Impact on Efficiency**: Regularly evaluate whether AI reduces validation time while maintaining grading quality.
-- **Optimize Processes Based on Data**: Use time measurement insights to refine AI models and improve overall efficiency.
+- **Optimize Processes Based on Data**: Use time measurement insights to refine AI models and improve efficiency.
 
 By measuring validation time, we establish a concrete framework for assessing AI effectiveness, ensuring automation leads to real efficiency gains without compromising grading quality.
 
@@ -409,14 +411,14 @@ We have decided to target the following architectural characteristics:
 Based on our targeted architectural characteristics, the **Microkernel architecture** was chosen:
 
 - **Cost**: The Microkernel architecture enables modular AI components, reducing overall system complexity and minimizing operational costs.
-- **Evolvability**: The plug-in architecture supports easy integration of new AI models or the replacement of existing ones as AI technologies evolve.
+- **Evolvability**: The plug-in architecture supports easily integrating new AI models or replacing existing ones as AI technologies evolve.
 - **Simplicity**: The Microkernel approach maintains a clear separation between the core system and AI extensions, ensuring that complexity remains manageable.
 
-By adopting a **Microkernel architecture**, we ensure that the AI Assistant remains adaptable, scalable, and maintainable, aligning with long-term business and technical goals while minimizing risks associated with AI deployment.
+Adopting a **Microkernel architecture** ensures that the AI Assistant remains adaptable, scalable, and maintainable, aligning with long-term business and technical goals while minimizing risks associated with AI deployment.
 
 ## High-Level Architecture
 
-As stated in ADRs, in order to enable AI implementation within the system we need to add several new processes and functionalities to the system:
+As stated in ADRs, to enable AI implementation within the system, we need to add several new processes and functionalities to the system:
 
 - **Detect Grade Anomalies:** Identifies inconsistencies in grading by comparing new grades against historical data to detect deviations that require expert review.
 
@@ -511,7 +513,7 @@ Implementation details for those processes can be found in the architectural vie
 
 2. **AI-Assisted Grading Enhancements**
    - **Generate Suggestions**
-     - AI generates grading and feedback suggestions for both Aptitude and Case Study tests.
+     - AI generates grading and feedback suggestions for Aptitude and Case Study tests.
 
    - **Review / Adjust Suggestions**
      - Experts review AI-generated grading suggestions.
@@ -529,12 +531,12 @@ Implementation details for those processes can be found in the architectural vie
 
 > *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
 
-In this viewpoint we will only highlight changes made to [Current State architecture](current_state/context_viewpoint/README.md).\
-Detailed description of all changes to the system can be found by in a [separate document](future_state/context_viewpoint/README.md).
+From this viewpoint, we will only highlight changes made to [Current State architecture](current_state/context_viewpoint/README.md).\
+Detailed descriptions of all changes to the system can be found in a [separate document](future_state/context_viewpoint/README.md).
 
 #### Level 2 - Container diagram - Certification Platform
 
-> The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another
+> The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate.
 
 ![Diagram](future_state/context_viewpoint/level2_containers.png)
 
@@ -543,7 +545,7 @@ Detailed description of all changes to the system can be found by in a [separate
 1. Introduced **AI Assistant** with several functions:
    - Store historical records for all tests, candidate submissions, their grades and feedback, and the time experts spend grading.
    - Generate suggestions that experts can accept or reject when grading submissions.
-   - Collect suggestions status to calculate suggestions performance and adjust the AI Assistant accordingly.
+   - Collect suggestions' status to calculate suggestions' performance and adjust the AI Assistant accordingly.
    - Detect anomalies and notify the designated expert for review.
    - Collect anomalies and appeals status to calculate grading quality.
 
@@ -555,11 +557,11 @@ Detailed description of all changes to the system can be found by in a [separate
 
 We propose implementing the **AI Assistant** using a **Micro-Kernel Architecture**.
 
-The **Core Component** will act as the **central aggregator and integrator** for AI-based suggestion generators. It will include:
+The **Core Component** will be the **central aggregator and integrator** for AI-based suggestion generators. It will include:
 
 - A **User Interface** for **AI Engineers** to manage and refine AI solutions.
 - A **Suggestions Database** to store AI-generated grading recommendations.
-- An **API** to serve AI-generated suggestions to the **Expert UI** during the grading process.
+- An **API** to serve AI-generated suggestions to the **Expert UI** during grading.
 
 Each AI-powered grading solution will:
 
@@ -572,7 +574,7 @@ AI Analytics will:
 - Analyze graded submissions to detect anomalies
 - Calculate Validation Quality and Performance metrics
 
-This approach enables the use of multiple suggestion generators simultaneously and allows for seamless replacement if any solution proves ineffective.
+This approach enables multiple suggestion generators simultaneously and allows for seamless replacement if any solution proves ineffective.
 
 ![Diagram](future_state/context_viewpoint/level3_components_ai_assistant.png)
 
@@ -623,7 +625,7 @@ This approach enables the use of multiple suggestion generators simultaneously a
      - Accuracy metrics for AI-suggested grades
      - Turnaround time for expert grading and appeals
    - Quality statistics (grading consistency, rubric adherence) and performance metrics (average grading time, bottlenecks) are calculated.
-   - AI Analytics App serve all metrics to the Core App.
+   - AI Analytics App serves all metrics to the Core App.
 
 8. **Continuous AI Model Enhancement**:
    - AI Engineers analyze:
@@ -638,9 +640,9 @@ This approach enables the use of multiple suggestion generators simultaneously a
 
 ### Informational Viewpoint
 
-> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+> *Describes how the architecture stores, manipulates, manages, and distributes information.*
 
-One of the key advantages of this proposed solution is that the original data model can remain unchanged, provided it either matches or closely resembles the structure outlined in the current informational viewpoint.
+One of the key advantages of this proposed solution is that the original data model can remain unchanged, provided it matches or closely resembles the structure outlined in the current informational viewpoint.
 
 Below is a diagram illustrating the additional informational elements we plan to incorporate into the system:
 
@@ -661,7 +663,7 @@ A centralized Suggestions Table will store common suggestions, while each soluti
 Anomalies and Appeals tables will be introduced in the Expert Admin Space to track and manage grading quality issues efficiently.
 
 4. **Validation Analysis**
-A Validation Analysis Table will store weekly snapshots of quality and performance data for each test and expert. This dataset will enable various analytical assessments to monitor and improve grading accuracy and efficiency.
+A Validation Analysis Table will store weekly quality and performance data snapshots for each test and expert. This dataset will enable various analytical assessments to monitor and improve grading accuracy and efficiency.
 
 ### Development Viewpoint
 
@@ -673,7 +675,7 @@ While we will maintain non-production environments for functional testing and re
 
 To enhance flexibility and independence between solutions, we propose a **separate repository for each solution**, allowing multiple versions to coexist within that repository. Each version will follow **GitHub Flow**, maintaining a standing `release/versionX` branch alongside multiple feature branches. Additionally, multiple `release/version{X,Y,Z}` branches may exist simultaneously, reflecting multiple versions deployed in production at the same time.
 
-Once a version is live in production, a **continuous feedback loop** ensures that expert evaluations inform AI Engineers. Experts' interactions with AI-generated suggestions will feed back performance metrics, helping refine future iterations. Each solution will **calculate its own suggestion performance**, allowing for experimentation with different evaluation algorithms. Beyond this, AI Engineers will continuously monitor overall grading quality and validation speed to assess whether the AI Assistant is effectively fulfilling its role.
+Once a version is live in production, a **continuous feedback loop** ensures that expert evaluations inform AI Engineers. Experts' interactions with AI-generated suggestions will feed back performance metrics, helping refine future iterations. Each solution will **calculate its suggestion performance**, allowing for experimentation with different evaluation algorithms. Beyond this, AI Engineers will continuously monitor overall grading quality and validation speed to assess whether the AI Assistant is effectively fulfilling its role.
 
 ![Diagram](future_state/development_viewpoint/development_process.png)
 
@@ -689,7 +691,7 @@ Let's conduct a thought experiment to estimate potential cost savings when valid
   - 33% – Validating it against grading criteria
   - 33% – Writing feedback
 
-We assume the first 33% (understanding the solution) remains unchanged, but we believe we can significantly reduce the other two tasks, resulting in an overall **50% reduction in time**.
+We assume the first 33% (understanding the solution) remains unchanged, but we can significantly reduce the other two tasks, resulting in an overall **50% reduction in time**.
 
 #### Targeted Cost Reduction
 
@@ -730,13 +732,13 @@ Even run 10 solutions at the same time, the cost is still just **$16 per test**.
 
 #### Conclusion
 
-The proposed solution is **highly cost-effective** in terms of LLM usage. With AI assistance, we can significantly reduce expert validation time while keeping the LLM cost negligible.
+The proposed solution is **highly cost-effective** in terms of LLM usage. We can significantly reduce expert validation time with AI assistance while keeping the LLM cost negligible.
 
 ## Aptitude Test: Solution 1a - Text search
 
 ### Idea
 
-Short-answer responses are typically concise and follow predictable patterns, making them ideal for full-text search-based grading automation. The system compares a candidate's response to a database of historically graded answers to find the most similar ones. Based on these matches, it suggests a grade and relevant feedback. Experts can then review or adjust the suggestion, and their input continuously improves the system’s accuracy, efficiency, and consistency over time.
+Short-answer responses are typically concise and follow predictable patterns, making them ideal for full-text search-based grading automation. The system compares a candidate's response to a database of historically graded answers to find the most similar ones. Based on these matches, a grade and relevant feedback are suggested. Experts can then review or adjust the suggestion, and their input continuously improves the system’s accuracy, efficiency, and consistency over time.
 
 ### Context Viewpoint
 
@@ -771,13 +773,13 @@ This workflow automates grading while incorporating expert oversight, ensuring e
 
 ### Informational Viewpoint
 
-> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+> *Describes how the architecture stores, manipulates, manages, and distributes information.*
 
 ![Diagram](future_state/solution_1a/informational_viewpoint.png)
 
 #### Definitions
 
-1. **Aptitude test feedbacks (Solution 1a Database)**: Stores information about historical short answers (including their grades and feedbacks). The records are indexed for full-text search of short answer content.
+1. **Aptitude test feedback (Solution 1a Database)**: This database stores information about historical short answers (including their grades and feedback). The records are indexed for full-text search of short answer content.
    - **Aptitude test submission ID (PK, FK)** – Identifies short answer relation to an aptitude test submission.
    - **Question ID (PK, FK)** – Identifies which question of the aptitude test the short answer was submitted for.
    - **Question** – Stores the question the answer was submitted for.
@@ -819,7 +821,7 @@ This **continuous feedback loop** ensures that the AI grading system improves ov
 
 While **Solution 1a** efficiently automates grading using **full-text search**, it is limited by keyword-based matching, which may overlook nuanced differences in student responses. **Solution 1b** addresses this by leveraging **LLMs and vector search** to improve **grading accuracy, feedback relevance, and adaptability over time**.
 
-Since short answers often express similar ideas in varied ways, relying on exact-word matches can lead to inconsistent grading. By using an **LLM for preprocessing**, responses are **standardized and semantically enriched**, ensuring that meaning—not just wording—is captured. A **vector database** further improves retrieval by **matching conceptually similar responses**, even when phrased differently.
+Since short answers often express similar ideas in varied ways, relying on exact word matches can lead to inconsistent grading. By using an **LLM for preprocessing**, responses are **standardized and semantically enriched**, ensuring that meaning—not just wording—is captured. A **vector database** further improves retrieval by **matching conceptually similar responses**, even when phrased differently.
 
 Beyond improving search, **Solution 1b enhances feedback quality**. Instead of simply reusing past feedback, an **LLM synthesizes suggestions**, adapting them to the specific nuances of each answer. This ensures that candidates receive **more precise, context-aware feedback**, rather than generic comments.
 
@@ -857,7 +859,7 @@ This workflow combines **semantic vector search** and **LLM-based synthesis** to
 
 ### Informational Viewpoint
 
-> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+> *Describes how the architecture stores, manipulates, manages, and distributes information.*
 
 ![Diagram](future_state/solution_1b/informational_viewpoint.png)
 
@@ -912,11 +914,11 @@ Diagrams + ADRs
 
 ### Idea
 
-Adding or modifying a Case Study is an infrequent event. On average, a new Case Study is introduced every three months, and the grading criteria for existing Case Studies are updated every two to four months. This allows us to implement static prompts for each grading criterion, which can be reused to generate suggestions efficiently.
+Adding or modifying a Case Study is infrequent. On average, a new Case Study is introduced every three months, and the grading criteria for existing Cases are updated every two to four months. This allows us to implement static prompts for each grading criterion, which can be reused to generate suggestions efficiently.
 
 An AI Engineer will monitor the performance of these prompts and adjust them whenever the acceptance rate drops below 80%.
 
-Another key factor is the speed of the grading process. If the system scales to 1,000 candidates per week across five Case Studies, it would generate approximately 200 validated suggestions per week. As a result, adjustments based on expert feedback will naturally occur at a slower pace.
+Another key factor is the speed of the grading process. If the system scales to 1,000 candidates per week across five Case Studies, it will generate approximately 200 validated suggestions weekly. As a result, adjustments based on expert feedback will naturally occur slower.
 
 This slow rate of change means that a small team of engineers will be sufficient to maintain the system while ensuring high-quality AI-generated suggestions. Additionally, we anticipate that these engineers will leverage LLMs to refine and create new prompts. While this aspect is not reflected in the current design diagrams, it will be incorporated into the next version of the solution (3b).
 
@@ -930,7 +932,7 @@ This slow rate of change means that a small team of engineers will be sufficient
 
 This workflow describes an AI-assisted grading system for the Architecture Exam, integrating AI-generated suggestions with expert validation to enhance the grading process.
 
-1. The **AI Engineer** create grading criteria Prompts via the AI Admin UI (Web App).
+1. The **AI Engineer** creates grading criteria Prompts via the AI Admin UI (Web App).
 
 2. **Candidates** submit their architecture solutions, which are stored in the Architecture Exam Database.
 
@@ -956,7 +958,7 @@ This workflow describes an AI-assisted grading system for the Architecture Exam,
 
 ### Informational Viewpoint
 
-> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+> *Describes how the architecture stores, manipulates, manages, and distributes information.*
 
 ![Diagram](future_state/solution_3a/informational_viewpoint.png)
 
@@ -979,7 +981,7 @@ This workflow describes an AI-assisted grading system for the Architecture Exam,
 
 > *Describes how the system will operate to fulfill the required functionality.*
 
-The diagram illustrates the process of generating and enhancing the quality of AI-generated grading suggestions through an iterative approach. This process ensures that the AI-generated suggestions used in grading maintain high accuracy, relevance, and acceptance by human experts.
+The diagram illustrates generating and enhancing the quality of AI-generated grading suggestions through an iterative approach. This process ensures that the AI-generated suggestions used in grading maintain high accuracy, relevance, and acceptance by human experts.
 
 ![Diagram](future_state/solution_3a/operational_viewpoint.png)
 
@@ -988,14 +990,14 @@ The diagram illustrates the process of generating and enhancing the quality of A
 1. **Generating Initial Suggestions**
    - A grading criterion is introduced or updated based on the case study requirements.
    - The Prompt Engineer reviews the new or updated grading criterion.
-   - A new grading criterion prompt is created, defining how AI should assess candidate submissions.
+   - A new grading criterion prompt defines how AI should assess candidate submissions.
    - The newly created prompt is enabled for 100% of submissions, meaning all grading suggestions will be generated using this prompt.
-   - The prompt configuration is stored in the system, and the Suggestions Generator (Microservice) starts using it to produce grading suggestions.
+   - The prompt configuration is stored in the system, and the Suggestions Generator (Microservice) uses it to produce grading suggestions.
 
 2. **Evaluating Suggestion Quality**
    - AI-generated suggestions are stored in the Suggestions Database (DB), along with their acceptance status.
    - The system monitors suggestion performance by tracking how often human experts accept or reject the AI-generated suggestions.
-   - If 80% or more of the suggestions are accepted by experts, the prompt is considered effective, and no changes are required.
+   - If experts accept 80% or more of the suggestions, the prompt is considered adequate, and no changes are required.
    - If the acceptance rate is below 80%, the prompt needs optimization.
 
 3. **Enhancing Suggestion Quality**
@@ -1017,7 +1019,7 @@ This iterative improvement cycle ensures that AI-generated grading suggestions r
 
 The main idea is that **Solution 3a** is already functional, and our goal is to automate the manual tasks performed by the AI Engineer to maintain suggestion quality at the desired level.
 
-To achieve this, we will introduce a new component called the **Prompt Optimizer**. This component will track the performance of grading prompts and use an LLM to optimize them. The optimization process will involve analyzing rejected suggestions and comparing them with the correct answers provided by experts. Based on this data, the LLM will refine existing grading prompts to improve future suggestions automatically.
+We will introduce a new component called the **Prompt Optimizer**to achieve this. This component will track the performance of grading prompts and use an LLM to optimize them. The optimization process will involve analyzing rejected suggestions and comparing them with the correct answers provided by experts. Based on this data, the LLM will automatically refine existing grading prompts to improve future suggestions.
 
 ### Context Viewpoint
 
@@ -1070,7 +1072,7 @@ This diagram illustrates the **workflow for generating and optimizing AI-generat
    - The updated prompt is gradually enabled for X% of submissions to test its effectiveness.
    - The prompt configuration is updated, and the Suggestions Generator starts using the new version.
    - Once the updated prompt achieves **80% or more accepted suggestions**, it is fully enabled for 100% of submissions.
-   - *NOTE: Multiple versions of new grading prompt could be created in parallel and evaluated at the same time.*
+   - *NOTE: Multiple versions of new grading prompts could be created in parallel and evaluated simultaneously.*
 
 4. **Continuous Performance Monitoring and Improvement**
    - The system tracks the performance of AI-generated suggestions over time.
@@ -1091,11 +1093,11 @@ Diagrams + ADRs
 
 ### Idea
 
-The integration of AI into high-stakes certification grading introduces significant challenges in maintaining accuracy, consistency, and trust. Manual oversight becomes impractical at scale, yet even partial automation risks errors undermining certifications and careers. AI systems lack inherent alignment with human expertise and historical standards, risking inconsistencies from human or AI misalignment if it is applied carelessly.
+Integrating AI into high-stakes certification grading introduces significant challenges in maintaining accuracy, consistency, and trust. Manual oversight becomes impractical at scale, yet even partial automation risks errors undermining certifications and careers. AI systems lack inherent alignment with human expertise and historical standards, risking inconsistencies from human or AI misalignment if it is applied carelessly.
 
-Central to this challenge is the need for a structured quality assurance framework to validate AI’s role in the grading process. Firstly, candidates must have a formal channel to dispute grades, as even manual process can lead to falsely rejected certification. Secondly falsely approved certifications should also be discovered. Automated anomaly detection can proactively identify deviations: graded submissions can be cross-checked against historically similar cases, flagging discrepancies (e.g., conflicting scores for comparable answers) for expert re-evaluation.
+Central to this challenge is the need for a structured quality assurance framework to validate AI’s role in grading. Firstly, candidates must have a formal channel to dispute grades, as even a manual process can lead to falsely rejected certification. Secondly, falsely approved certifications should also be discovered. Automated anomaly detection can proactively identify deviations: graded submissions can be cross-checked against historically similar cases, flagging discrepancies (e.g., conflicting scores for comparable answers) for expert re-evaluation.
 
-Equally critical is continuous quality monitoring to measure AI’s impact. Metrics such as anomaly resolution rates, appeal outcomes, and grading time trends must be tracked to verify whether AI achieves its intended benefits — higher consistency, reduced review times. Embedding of these mechanisms enables the automation of the grading process via AI assistance.
+Equally critical is continuous quality monitoring to measure AI’s impact. Metrics such as anomaly resolution rates, appeal outcomes, and grading time trends must be tracked to verify whether AI achieves its intended benefits — higher consistency and reduced review times. Embedding these mechanisms enables the automation of the grading process via AI assistance.
 
 ### Context Viewpoint
 
@@ -1105,25 +1107,25 @@ Equally critical is continuous quality monitoring to measure AI’s impact. Metr
 
 #### Anomaly Detection Workflow
 
-This workflow describes and AI-assisted detection of anomalies in Expert-provided grades. The workflow describes the Aptitude test workflow, and with small adjustments can be applied to the Case study submission grades as well.
+This workflow describes an AI-assisted detection of anomalies in Expert-provided grades. The workflow defines the Aptitude test workflow, and minor adjustments can also be applied to the Case study submission grades.
 
 1. **Expert** reviews the Candidate's Submission and provides a grade and feedback.
 
 2. **Submission Capture Job** injests the submission and sends it to **Anomaly Detection** service.
 
-3. **Anomaly Detection** finds misalignment between the grades of the submission and other similar submissions and flags it for a review.
-   - **Submission Search** performs search of submissions with a similar text.
+3. **Anomaly Detection** finds misalignment between the submission grades and other similar submissions and flags it for review.
+   - **Submission Search** searches submissions with a similar text.
    - Most similar submissions (top 5) are compared by grade with the original submission.
-   - If the misalignment with similar submissions grades is significant, the submission is forwarded to be re-validated by a **Designated Expert**.
+   - If the misalignment with similar submission grades is significant, the submission is forwarded to be re-validated by a **Designated Expert**.
 
 3. **Designated Expert** re-validates the submission.
    - Grade and Description is updated.
-   - Anomaly Status (Corrected / Ignored) is sent to **Corrections Capture** service to be analyzed later.
+   - Anomaly Status (Corrected / Ignored) is sent to the **Corrections Capture** service to be analyzed later.
 
 5. **Corrections Capture** persists the anomaly resolution to **Performance Metrics** DB.
 
 6. **AI Engineers** access the **Performance Metrics** database analyze the collected data.
-   - Metrics related to AI-usage, validation time, AI accuracy, Experts Accuracy can be calculated based on the collected datasets.
+   - Metrics related to AI usage, validation time, AI accuracy, and expert accuracy can be calculated based on the collected datasets.
 
 #### Appeals Workflow
 
@@ -1135,9 +1137,9 @@ This workflow describes the Appeal process, where candidates who wish to dispute
 
 2. **Experts / Designated Experts** review appeals
    - **Experts / Designated Experts** are notified about the unprocessed appeals.
-   - **Experts / Designated Experts** reviews the submission and provides an updated grade and feedback.
-      - Appeal can be rejected, without grade changes
-      - Appeal can be approved, with correcting the grades and feedback
+   - **Experts / Designated Experts** review the submission and provide an updated grade and feedback.
+      - Appeal can be rejected without grade changes
+      - Appeal can be approved with correcting the grades and feedback
    - **Appeals App** notifies testing components and **AI Analytrics App** about the grade updates.
 
 
@@ -1192,7 +1194,7 @@ This workflow describes the Appeal process, where candidates who wish to dispute
 #### Appeal Workflow
 
 #### 1. **Appeal Submission**
-   - **Candidate** receives graded results and feedback, decides to Appeal.
+   - **Candidate** receives graded results and feedback and decides to appeal.
    - **Candidate** fills out an Appeal form via the **Candidate Testing UI**
    - Appeal form is stored for later review by **Appeals APP**
 
