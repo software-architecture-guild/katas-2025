@@ -12,13 +12,13 @@
 
 > [!TIP]
 > **Introduction**\
-> provides a welcome message and a brief overview of our way of working. It also introduces the *Business Case* and includes a link to the original requirements.
+> Provides a welcome message and a brief overview of our way of working. It also introduces the *Business Case* and includes a link to the original requirements.
 >
 > **Current System Overview**\
-> presents our interpretation of the system architecture, identifying key challenges and opportunities for improvement. A crucial part of this section is the *assumptions we made* due to gaps in available information.
+> Presents our interpretation of the system architecture, identifying key challenges and opportunities for improvement. A crucial part of this section is the *assumptions we made* due to gaps in available information.
 >
 > **Proposed Architecture**\
-> outlines our solutions to the identified challenges and opportunities. It documents the *fundamental decisions* necessary to successfully implement these changes. The section continues with a *High-Level Architecture* that integrates AI solutions into the existing system and detailed descriptions of the *AI solutions* themselves.
+> Outlines our solutions to the identified challenges and opportunities. It documents the *fundamental decisions* necessary to successfully implement these changes. The section continues with a *High-Level Architecture* that integrates AI solutions into the existing system and detailed descriptions of the *AI solutions* themselves.
 >
 > **Final Words** speak for themselves ;)
 
@@ -192,7 +192,7 @@ A detailed description of the system's logical structure can be found in a [sepa
 
 #### Level 2 - Container diagram - Certification Platform
 
-> The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate.
+> *The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate.*
 
 We propose a revised logical organization for the system, with slight modifications from the current structure. We aim to re-group components into the following categories to clarify future system changes better.
 
@@ -234,13 +234,14 @@ The diagram below represents our best estimation of what the data model should l
 We will not describe every object in the diagram, but we will focus on two key ones:
 
 - **Graded Aptitude test submission**: is a historical dataset which contains the following information:
+
   - Aptitude test questions as they were at the time of test validation
   - Multiple choice answers and grades
   - Short Answers, Grades, and Expert Feedback
   - **We assume that Grades and Feedback are stored per each Question/Answer**
   - Expert ID and Time it took to validate the test and provide feedback
-
 - **Graded Architecture submission**: is a historical dataset which contains the following information:
+
   - Case Study and Grading Criteria as they were at the time of test validation
   - Grades based on each Criteria and Expert Feedback
   - **We assume that Grade and Feedback are stored per each Criteria**
@@ -275,21 +276,13 @@ Given the lack of additional information, we must make the **following assumptio
 ## Assumptions
 
 - For the **3 hours** an Expert spends on **Aptitude Test validation**, we assume the time is evenly split: **50% for grading** and **50% for providing feedback**.
-
 - For the **8 hours** an Expert spends on **Case Study validation**, we assume the time is evenly distributed: **33% for understanding the submission, 33% for grading, and 33% for providing feedback**.
-
 - We assume the system **automatically tracks** the time an Expert spends on validating tests and **stores this information** in a designated location.
-
 - We assume there is **no established retention period**, and the database **stores graded answers and architecture submissions** of **120,000 candidates** who have already completed the certification process.
-
 - We assume that each created **Case Study** includes a comprehensive evaluation rubric containing a detailed set of assessment criteria.
-
 - We assume that for the Aptitude Test, the **Grade and Feedback** are recorded **for each Question/Answer**, whereas for the Case Study Test, they are recorded **for each Criterion**.
-
 - We assume the **full validation cost of $550** applies to **every candidate**, regardless of pass or fail rates.
-
 - We assume there are **no established quality control measures** to verify grading accuracy.
-
 - We assume there is **no formal appeals process** that allows candidates to challenge grading errors made by Experts.
 
 ## Challenges and Opportunities
@@ -421,13 +414,9 @@ Adopting a **Microkernel architecture** ensures that the AI Assistant remains ad
 As stated in ADRs, to enable AI implementation within the system, we need to add several new processes and functionalities to the system:
 
 - **Detect Grade Anomalies:** Identifies inconsistencies in grading by comparing new grades against historical data to detect deviations that require expert review.
-
 - **Candidate Appeal Process:** Allows candidates to formally challenge their grades, ensuring a structured review process to identify and correct potential grading errors.
-
 - **Suggestions Generation Process:** Uses AI or predefined rules to provide recommendations to experts, assisting in grading decisions, feedback generation, and test modifications.
-
 - **Quality Measurement Process:** Evaluates the accuracy and consistency of grading by tracking expert performance, candidate feedback, and statistical deviations.
-
 - **Effectiveness Measurement Process:** Assesses the impact of AI and process improvements by tracking validation time, expert workload reduction, and overall grading accuracy.
 
 Implementation details for those processes can be found in the architectural viewpoints below.
@@ -443,13 +432,14 @@ Implementation details for those processes can be found in the architectural vie
 **Changes**:
 
 1. **File an Appeal Process (New Step)**
+
    - Candidate accesses the website.
    - Candidate fills out the appeal form.
    - Candidate submits the appeal request.
    - System receives and stores the appeal request.
    - System sends a confirmation email with an estimated appeal review time.
-
 2. **Get the Appeal Result Process (New Step)**
+
    - Designated Expert is notified of the appeal.
    - Designated Expert reviews the submitted test.
    - Designated Expert re-evaluates the test based on appeal criteria.
@@ -477,14 +467,15 @@ Implementation details for those processes can be found in the architectural vie
 **Changes**:
 
 1. **Review Appeals (New Step)**
+
    - Designated Expert accesses the appeals review system.
    - System serves candidate appeals for review.
    - Designated Expert reviews appeal details.
    - Designated Expert corrects grades and provides feedback.
    - System updates candidate records with the revised grade and feedback.
    - System notifies the candidate about the appeal result.
-
 2. **Review Anomalies (New Step)**
+
    - System generates and stores grading anomalies.
    - System serves detected grading anomalies to the Designated Expert.
    - Designated Expert reviews anomalies in test grading.
@@ -500,30 +491,33 @@ Implementation details for those processes can be found in the architectural vie
 **Changes**:
 
 1. **Appeal Process (New Steps)**
+
    - **Fill Out Appeal Form**
+
      - Candidate accesses the Appeal UI.
      - Candidate fills out and submits the appeal form.
      - System stores the appeal request.
-
    - **Get Appeal Result**
+
      - System processes the appeal request.
      - Designated Expert manually reviews the appeal.
      - System updates the grade and feedback based on the review.
      - Candidate receives an email with the appeal result.
-
 2. **AI-Assisted Grading Enhancements**
-   - **Generate Suggestions**
-     - AI generates grading and feedback suggestions for Aptitude and Case Study tests.
 
+   - **Generate Suggestions**
+
+     - AI generates grading and feedback suggestions for Aptitude and Case Study tests.
    - **Review / Adjust Suggestions**
+
      - Experts review AI-generated grading suggestions.
      - Experts accept or modify suggestions before submission.
-
    - **Detect Grade Anomalies**
+
      - System identifies potential inconsistencies in grading.
      - Anomalies are flagged for expert review.
-
    - **Review Grade Anomalies**
+
      - Designated Experts review flagged grading anomalies.
      - Experts adjust grades if necessary before final submission.
 
@@ -531,29 +525,32 @@ Implementation details for those processes can be found in the architectural vie
 
 > *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
 
-From this viewpoint, we will only highlight changes made to [Current State architecture](current_state/context_viewpoint/README.md).\
+From this viewpoint, we will only highlight changes made to [Current State architecture](current_state/context_viewpoint/README.md).
 Detailed descriptions of all changes to the system can be found in a [separate document](future_state/context_viewpoint/README.md).
 
 #### Level 2 - Container diagram - Certification Platform
 
-> The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate.
+> *The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate.*
 
 ![Diagram](future_state/context_viewpoint/level2_containers.png)
 
 **Changes:**
 
 1. Introduced **AI Assistant** with several functions:
+
    - Store historical records for all tests, candidate submissions, their grades and feedback, and the time experts spend grading.
    - Generate suggestions that experts can accept or reject when grading submissions.
    - Collect suggestions' status to calculate suggestions' performance and adjust the AI Assistant accordingly.
    - Detect anomalies and notify the designated expert for review.
    - Collect anomalies and appeals status to calculate grading quality.
-
 2. Introduced a **new appeal process**:
+
    - Candidates can raise an appeal.
    - Designated experts review appeals and make necessary corrections.
 
 #### Level 3 - Components - AI Assistant
+
+> *The Component diagram shows how a container is made up of several "components," what each component is, their responsibilities, and the technology/implementation details.*
 
 We propose implementing the **AI Assistant** using a **Micro-Kernel Architecture**.
 
@@ -581,53 +578,54 @@ This approach enables multiple suggestion generators simultaneously and allows f
 **Workflow:**
 
 1. **Data Loading**:
+
    - The system loads candidate submissions, grading criteria, and historical grading data from:
      - Aptitude Test (Multiple-choice and short-answer responses)
      - Architecture Solution Exam (Case study submissions, grading rubrics)
    - Retrieves past expert grading decisions, feedback records, and grading time logs for AI model refinement.
-
 2. **Generating AI-Based Grading Suggestions**:
+
    - Each Aptitude Test Solution and Architecture Exam Solution processes:
      - Candidate responses (short answers, architecture submissions)
      - Predefined grading criteria and rubrics
      - Past grading patterns from experts
    - AI-driven models generate suggested grades and feedback.
    - Suggestions, confidence scores, and AI-extracted rationales are stored in AI Core.
-
 3. **Serving AI Suggestions to Experts**:
+
    - AI Core delivers grading suggestions to Expert Grading Space.
    - Experts see AI-generated grades, explanations, and confidence scores.
    - Experts can review, accept, or modify AI-generated grades before submission.
-
 4. **Expert Feedback on AI Suggestions**:
+
    - Experts approve or override AI-generated suggestions.
    - System logs expert feedback, including:
      - Accepted/rejected suggestions
      - Adjustments made to grades
      - Time spent reviewing AI-generated inputs
    - This feedback is stored in AI Core as suggestions status.
-
 5. **AI Performance Tracking & Continuous Improvement**:
+
    - AI Engineers track suggestion accuracy, expert modifications, and confidence vs. rejection rates.
    - AI models are fine-tuned based on real expert corrections.
-
 6. **Anomaly Detection & Expert Review**:
+
    - AI Analytics App analyzes historical grading trends and real-time grading activities.
    - Detects grading inconsistencies, outliers, and suspicious patterns.
    - Flags cases where:
      - AI suggestions deviate significantly from expert decisions.
      - Experts inconsistently apply grading rubrics.
    - Anomalies are sent to Expert Admin Space for manual review and intervention.
-
 7. **Quality & Time Performance Metrics Calculation**:
+
    - AI Analytics App stores:
      - Anomalies and appeal statuses
      - Accuracy metrics for AI-suggested grades
      - Turnaround time for expert grading and appeals
    - Quality statistics (grading consistency, rubric adherence) and performance metrics (average grading time, bottlenecks) are calculated.
    - AI Analytics App serves all metrics to the Core App.
-
 8. **Continuous AI Model Enhancement**:
+
    - AI Engineers analyze:
      - Grading quality trends
      - Time performance efficiency
@@ -663,7 +661,7 @@ A centralized Suggestions Table will store common suggestions, while each soluti
 Anomalies and Appeals tables will be introduced in the Expert Admin Space to track and manage grading quality issues efficiently.
 
 4. **Validation Analysis**
-A Validation Analysis Table will store weekly quality and performance data snapshots for each test and expert. This dataset will enable various analytical assessments to monitor and improve grading accuracy and efficiency.
+   A Validation Analysis Table will store weekly quality and performance data snapshots for each test and expert. This dataset will enable various analytical assessments to monitor and improve grading accuracy and efficiency.
 
 ### Development Viewpoint
 
@@ -716,7 +714,7 @@ To estimate the AI cost per test, we assume the most compute-heavy scenario by u
 
 #### Cost Calculation
 
-**GPT-4o Pricing**
+GPT-4o Pricing:
 
 - $5.00 per 1M input tokens
 - $15.00 per 1M output tokens
@@ -751,23 +749,23 @@ Short-answer responses are typically concise and follow predictable patterns, ma
 The workflow describes an AI-powered grading workflow for short-answer responses, integrating various services, databases, and user interactions. Here's a step-by-step breakdown:
 
 1. **Submission & Preprocessing**
-    - Short-answer responses from the **Aptitude Test** are stored in the **Architecture Exam Historical DB**.
-    - The **Answers Preprocessing Microservice** prepares these responses for indexing.
+   - Short-answer responses from the **Aptitude Test** are stored in the **Architecture Exam Historical DB**.
+   - The **Answers Preprocessing Microservice** prepares these responses for indexing.
 2. **Retrieving Similar Answers**
-    - The **Previous Answers and Feedback Search DB** indexes past graded answers.
-    - The **Suggestions Generator Microservice** searches for similar past responses and retrieves them for grading reference.
+   - The **Previous Answers and Feedback Search DB** indexes past graded answers.
+   - The **Suggestions Generator Microservice** searches for similar past responses and retrieves them for grading reference.
 3. **Generating Suggestions**
-    - The **Solution 1 API Microservice** processes retrieved answers and generates **grade & feedback suggestions** based on past similar answers.
-    - These suggestions are stored in the **Suggestions DB** and sent to the **Suggestions API Microservice**.
+   - The **Solution 1 API Microservice** processes retrieved answers and generates **grade & feedback suggestions** based on past similar answers.
+   - These suggestions are stored in the **Suggestions DB** and sent to the **Suggestions API Microservice**.
 4. **Expert Review & Refinement**
-    - Suggestions are sent to the **Expert Grading Space** for human validation.
-    - Experts review and adjust the suggestions, improving grading accuracy.
-    - The **Suggestions API** updates suggestion statuses based on expert feedback.
+   - Suggestions are sent to the **Expert Grading Space** for human validation.
+   - Experts review and adjust the suggestions, improving grading accuracy.
+   - The **Suggestions API** updates suggestion statuses based on expert feedback.
 5. **AI Oversight & Continuous Improvement**
-    - The **AI Admin UI Web App** allows **AI Engineers** to monitor **suggestion performance** and request **regeneration of suggestions** if needed.
-    - Regenerated suggestions go back through the **Solution 1 UI** and **Solution 1 API** for processing.
+   - The **AI Admin UI Web App** allows **AI Engineers** to monitor **suggestion performance** and request **regeneration of suggestions** if needed.
+   - Regenerated suggestions go back through the **Solution 1 UI** and **Solution 1 API** for processing.
 6. **Feedback Loop for Optimization**
-    - Validated grading decisions continuously improve the **search ranking and grading model**, enhancing the accuracy of future suggestions.
+   - Validated grading decisions continuously improve the **search ranking and grading model**, enhancing the accuracy of future suggestions.
 
 This workflow automates grading while incorporating expert oversight, ensuring efficiency, accuracy, and continuous improvement.
 
@@ -914,7 +912,7 @@ Diagrams + ADRs
 
 ### Idea
 
-Adding or modifying a Case Study is infrequent. On average, a new Case Study is introduced every three months, and the grading criteria for existing Cases are updated every two to four months. This allows us to implement static prompts for each grading criterion, which can be reused to generate suggestions efficiently.
+Adding or modifying a Case Study is infrequent. We assume that on average, a new Case Study is introduced every three months, and the grading criteria for existing Cases are updated every two to four months. This allows us to implement static prompts for each grading criterion, which can be reused to generate suggestions efficiently.
 
 An AI Engineer will monitor the performance of these prompts and adjust them whenever the acceptance rate drops below 80%.
 
@@ -933,7 +931,6 @@ This slow rate of change means that a small team of engineers will be sufficient
 This workflow describes an AI-assisted grading system for the Architecture Exam, integrating AI-generated suggestions with expert validation to enhance the grading process.
 
 1. The **AI Engineer** creates grading criteria Prompts via the AI Admin UI (Web App).
-
 2. **Candidates** submit their architecture solutions, which are stored in the Architecture Exam Database.
 
 3. The **Suggestions Generator (Microservice)** retrieves the architecture submission from the Architecture Exam Historical Database.
@@ -1019,7 +1016,7 @@ This iterative improvement cycle ensures that AI-generated grading suggestions r
 
 The main idea is that **Solution 3a** is already functional, and our goal is to automate the manual tasks performed by the AI Engineer to maintain suggestion quality at the desired level.
 
-We will introduce a new component called the **Prompt Optimizer**to achieve this. This component will track the performance of grading prompts and use an LLM to optimize them. The optimization process will involve analyzing rejected suggestions and comparing them with the correct answers provided by experts. Based on this data, the LLM will automatically refine existing grading prompts to improve future suggestions.
+We will introduce a new component called the **Prompt Optimizer** to achieve this. This component will track the performance of grading prompts and use an LLM to optimize them. The optimization process will involve analyzing rejected suggestions and comparing them with the correct answers provided by experts. Based on this data, the LLM will automatically refine existing grading prompts to improve future suggestions.
 
 ### Context Viewpoint
 
@@ -1110,21 +1107,19 @@ Equally critical is continuous quality monitoring to measure AI’s impact. Metr
 This workflow describes an AI-assisted detection of anomalies in Expert-provided grades. The workflow defines the Aptitude test workflow, and minor adjustments can also be applied to the Case study submission grades.
 
 1. **Expert** reviews the Candidate's Submission and provides a grade and feedback.
-
-2. **Submission Capture Job** injests the submission and sends it to **Anomaly Detection** service.
-
+2. **Submission Capture Job** load the submission and sends it to **Anomaly Detection** service.
 3. **Anomaly Detection** finds misalignment between the submission grades and other similar submissions and flags it for review.
+
    - **Submission Search** searches submissions with a similar text.
    - Most similar submissions (top 5) are compared by grade with the original submission.
    - If the misalignment with similar submission grades is significant, the submission is forwarded to be re-validated by a **Designated Expert**.
+4. **Designated Expert** re-validates the submission.
 
-3. **Designated Expert** re-validates the submission.
    - Grade and Description is updated.
    - Anomaly Status (Corrected / Ignored) is sent to the **Corrections Capture** service to be analyzed later.
-
 5. **Corrections Capture** persists the anomaly resolution to **Performance Metrics** DB.
-
 6. **AI Engineers** access the **Performance Metrics** database analyze the collected data.
+
    - Metrics related to AI usage, validation time, AI accuracy, and expert accuracy can be calculated based on the collected datasets.
 
 #### Appeals Workflow
@@ -1134,15 +1129,13 @@ This workflow describes the Appeal process, where candidates who wish to dispute
 1. **Candidate** Submits the Appeal Form
    - Candidate receives test results and disputes the grade via the **Candidate UI**.
    - **Candidate UI** stores the Appeal for later review.
-
 2. **Experts / Designated Experts** review appeals
+
    - **Experts / Designated Experts** are notified about the unprocessed appeals.
    - **Experts / Designated Experts** review the submission and provide an updated grade and feedback.
-      - Appeal can be rejected without grade changes
-      - Appeal can be approved with correcting the grades and feedback
-   - **Appeals App** notifies testing components and **AI Analytrics App** about the grade updates.
-
-
+     - Appeal can be rejected without grade changes
+     - Appeal can be approved with correcting the grades and feedback
+   - **Appeals App** notifies testing components and **AI Analytics App** about the grade updates.
 3. **Capture Corrections** persists the appeal outcome and persists the information to the **Performance Metrics DB**.
 
 4. **AI Engineers** Analyze appeal data in the **Performance Metrics DB** to:
@@ -1158,8 +1151,6 @@ This workflow describes the Appeal process, where candidates who wish to dispute
 **Anomaly Detection**
 ![Diagram](future_state/solution_5/operational_viewpoint_anomaly_detection.png)
 
-
-
 #### Anomaly Detection Workflow
 
 1. **Anomaly Search**
@@ -1174,19 +1165,19 @@ This workflow describes the Appeal process, where candidates who wish to dispute
    - **Anomaly Detection** flags anomalies using predefined criteria (e.g., >15% deviation from historical averages).
    - **False Approval/Rejection Detection**:
      - Identifies **both** inflated scores (false approvals) and unduly low scores (false rejections).
-
 3. **Anomaly Review**
+
    - **Expert / Designated Expert** is notified about the anomalies in **Anomalies App**.
    - **Expert / Designated Expert** reviews submission details, grades and historical comparisons.
    - **Expert / Designated Expert**  **corrects** (update grade/feedback) or **ignores** (no action) the anomaly.
 
 4. **Anomaly Status Analysis**
+
    - **Corrections Capture** microservice records the final status (*Corrected*/*Ignored*) and persists it to the **Performance Metrics DB** for auditing and analysis.
    - **AI Engineers** analyze data to:
       1. Adjust similarity thresholds.
       2. Retrain AI models to reduce future anomalies.
       3. Validate grading consistency improvements.
-
 
 **Appeal Process**
 ![Diagram](future_state/solution_5/operational_viewpoint_appeal_process.png)
@@ -1194,9 +1185,10 @@ This workflow describes the Appeal process, where candidates who wish to dispute
 #### Appeal Workflow
 
 #### 1. **Appeal Submission**
-   - **Candidate** receives graded results and feedback and decides to appeal.
-   - **Candidate** fills out an Appeal form via the **Candidate Testing UI**
-   - Appeal form is stored for later review by **Appeals APP**
+
+- **Candidate** receives graded results and feedback and decides to appeal.
+- **Candidate** fills out an Appeal form via the **Candidate Testing UI**
+- Appeal form is stored for later review by **Appeals APP**
 
 #### 2. **Appeal Review**
    - **Appeals App** notifies **Expert / Designated Expert** about new Appeals.
