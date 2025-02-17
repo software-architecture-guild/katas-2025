@@ -732,17 +732,69 @@ Even run 10 solutions at the same time, the cost is still just **$16 per test**.
 
 The proposed solution is **highly cost-effective** in terms of LLM usage. With AI assistance, we can significantly reduce expert validation time while keeping the LLM cost negligible.
 
-## Aptitude Test: Solution 1
+## Aptitude Test: Solution 1a - Text search
 
-### Architecture
+### Idea
 
-#### Operational Viewpoint
+### Context Viewpoint
+
+> *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
+
+![Diagram](future_state/solution_1a/context_viewpoint.png)
+
+#### Workflow
+
+### Informational Viewpoint
+
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+
+![Diagram](future_state/solution_1a/informational_viewpoint.png)
+
+#### Definitions
+
+### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
+
+![Diagram](future_state/solution_1a/operational_viewpoint_0.png)
+
+![Diagram](future_state/solution_1a/operational_viewpoint.png)
+
+#### Workflow
 
 Diagrams + ADRs
 
 ### Implementation Milestones
+
+## Aptitude Test: Solution 1b - Semantic search
+
+### Idea
+
+### Context Viewpoint
+
+> *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
+
+![Diagram](future_state/solution_1b/context_viewpoint.png)
+
+#### Workflow
+
+### Informational Viewpoint
+
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+
+![Diagram](future_state/solution_1b/informational_viewpoint.png)
+
+#### Definitions
+
+### Operational Viewpoint
+
+> *Describes how the system will operate to fulfill the required functionality.*
+
+![Diagram](future_state/solution_1b/operational_viewpoint.png)
+
+#### Workflow
+
+Diagrams + ADRs
 
 ## Aptitude Test: Solution 2
 
