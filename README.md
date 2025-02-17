@@ -931,16 +931,63 @@ This workflow describes the Appeal process, where candidates who wish to dispute
 **Anomaly Detection**
 ![Diagram](future_state/solution_5/operational_viewpoint_anomaly_detection.png)
 
-**Appeal Process**
-![Diagram](future_state/solution_5/operational_viewpoint_appeal_process.png)
+
 
 #### Anomaly Detection Workflow
 
-TODO
+1. **Anomaly Search**  
+   - **Data Preparation**:  
+     - **Submission Capture Job** sends graded submissions to Anomaly Detection Job, that forwards the submission to **Submissions Search**.
+     - **Submissions Search** converts submission text into embedding. 
+     - **Anomaly Detection Microservice** queries the **Vector DB** to retrieve the **up to 5 most similar submissions**.
+     - **Similar submissions with grades are returned.
+
+2. **Anomaly Filtering**  
+   - **Anomaly Detection** compares the submission’s grade with historical grades of retrieved similar submissions.  
+   - **Anomaly Detection** flags anomalies using predefined criteria (e.g., >15% deviation from historical averages).  
+   - **False Approval/Rejection Detection**:  
+     - Identifies **both** inflated scores (false approvals) and unduly low scores (false rejections).
+
+3. **Anomaly Review**
+   - **Expert / Designated Expert** is notified about the anomalies in **Anomalies App**.
+   - **Expert / Designated Expert** reviews submission details, grades and historical comparisons.
+   - **Expert / Designated Expert**  **corrects** (update grade/feedback) or **ignores** (no action) the anomaly.  
+
+4. **Anomaly Status Analysis**
+   - **Corrections Capture** microservice records the final status (*Corrected*/*Ignored*) and persists it to the **Performance Metrics DB** for auditing and analysis.
+   - **AI Engineers** analyze data to:  
+      1. Adjust similarity thresholds.  
+      2. Retrain AI models to reduce future anomalies.  
+      3. Validate grading consistency improvements.  
+
+
+**Appeal Process**
+![Diagram](future_state/solution_5/operational_viewpoint_appeal_process.png)
 
 #### Appeal Workflow
 
-TODO
+#### 1. **Appeal Submission**
+   - **Candidate** receives graded results and feedback, decides to Appeal.
+   - **Candidate** fills out an Appeal form via the **Candidate Testing UI**
+   - Appeal form is stored for later review by **Appeals APP**
 
+#### 2. **Appeal Review**  
+   - **Appeals App** notifies **Expert / Designated Expert** about new Appeals.
+   - **Expert / Designated Expert** reviews the submission, grade, feedback and candidate’s justification.  
+   - **Expert / Designated Expert** makes a decision: 
+       - **Approved (Full/Partial)**: Updates grade/feedback, potentially allowing the candidate to move to the next step in certification process.
+       - **Rejected**: No changes; original grade retained.
+   - **Correction Capture** service persists reviewed appeal details to   **Performance Metrics DB**.
+
+#### 4. **Certification Process Adjustments**  
+   - **Approved Appeals** may change the grade so that the candidate can pass to the next step:
+     - **Aptitude Test** grade is updated, **Candidate** is able to take Case Study Exam.
+     - **Case Study Exam** grade is updated, **Candidate** receives certificate for passing the Certification.
+   - **Rejected Appeals**:  
+     - No changes to the flow, **Candidate** is notified about the verdict with updated feedback.
+
+#### 5. **Appeal Cases Analysis**  
+   - **Metrics Extraction**:  
+     - **AI Engineers** analyze **Performance Metrics DB** to track various metrics, including: time spent, expert accuracy, appeal approval rate.
 
 # Final words
