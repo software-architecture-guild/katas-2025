@@ -124,15 +124,15 @@ Since we already have an established system, we believe the best way to describe
 
 We have identified several personas who interact with the system and actively participate in the business process:
 
-- **Candidate**
+- **Candidate**\
   A software architect seeking certification through Certifiable, Inc. Candidates must pass an aptitude test and an architecture submission. They rely on timely grading, accurate feedback, and certification validation to advance their careers.
-- **Expert**
+- **Expert**\
   An employed expert software architect responsible for grading certification exams and providing detailed feedback to candidates. They are freelance contractors paid per hour and play a crucial role in ensuring the integrity of the certification process.
-- **Designated Expert**
+- **Designated Expert**\
   A senior expert software architect with additional responsibilities beyond grading. They can modify certification tests, create or update case studies, and ensure that certification standards evolve with industry practices.
-- **Administrator**
+- **Administrator**\
   A Certifiable, Inc. staff member responsible for managing expert software architects, maintaining system access, and ensuring smooth certification operations. They oversee expert profiles and system credentials and handle operational issues that may arise during the certification process.
-- **External HR**
+- **External HR**\
   Hiring managers and recruiters from various companies rely on Certifiable, Inc.'s certifications to verify the qualifications of software architects. They use the certification database to validate credentials and make informed hiring decisions.
 
 #### Candidate Journey Map
@@ -649,17 +649,15 @@ Below is a diagram illustrating the additional informational elements we plan to
 #### Additions
 
 1. **Push Data from Operational to Analytical Storage System**
-  The Aptitude Test, Aptitude Test Submission, Graded Aptitude Test Submission, Case Study, Architecture Submission, and Graded Architecture Submission tables will be synchronized with their corresponding operational tables.\
-  Advantages of this approach:
+   The Aptitude Test, Aptitude Test Submission, Graded Aptitude Test Submission, Case Study, Architecture Submission, and Graded Architecture Submission tables will be synchronized with their corresponding operational tables.\
+   Advantages of this approach:
+
    - It enables future flexibility by allowing different data models for operational and AI systems.
    - It allows data to be removed from operational systems, improving their performance.
-
 2. **Suggestions Model Structure**
-A centralized Suggestions Table will store common suggestions, while each solution will maintain its own set of dedicated tables for specific operations. This structure ensures flexibility while preserving connections between related datasets.
-
+   A centralized Suggestions Table will store common suggestions, while each solution will maintain its own set of dedicated tables for specific operations. This structure ensures flexibility while preserving connections between related datasets.
 3. **Anomalies and Appeals Tracking**
-Anomalies and Appeals tables will be introduced in the Expert Admin Space to track and manage grading quality issues efficiently.
-
+   Anomalies and Appeals tables will be introduced in the Expert Admin Space to track and manage grading quality issues efficiently.
 4. **Validation Analysis**
    A Validation Analysis Table will store weekly quality and performance data snapshots for each test and expert. This dataset will enable various analytical assessments to monitor and improve grading accuracy and efficiency.
 
@@ -795,21 +793,22 @@ The diagram presents a structured **workflow for AI-assisted grading of short-an
 #### Workflow
 
 1. **Suggestions Generation**
-  - The **AI Suggestions Generator Microservice** captures the submitted answer.
-  - The answer is **preprocessed** (cleaned up for better indexing).
-  - The system **retrieves similar past answers** from historical data.
-  - Based on the assessment history, the AI **suggests a grade and feedback**.
 
+   - The **AI Suggestions Generator Microservice** captures the submitted answer.
+   - The answer is **preprocessed** (cleaned up for better indexing).
+   - The system **retrieves similar past answers** from historical data.
+   - Based on the assessment history, the AI **suggests a grade and feedback**.
 2. **Expert Grading Based on Suggestions**
-  - A **human expert** reviews the submitted answer along with AI-generated suggestions.
-  - The expert **grades the answer**, and accepts, updates or provide their own feedback, finalizing the answer score.
-  - The **graded aptitude test** is recorded.
-  - The **suggestion’s accuracy** is assessed, feeding back into the system for improvement.
 
+   - A **human expert** reviews the submitted answer along with AI-generated suggestions.
+   - The expert **grades the answer**, and accepts, updates or provide their own feedback, finalizing the answer score.
+   - The **graded aptitude test** is recorded.
+   - The **suggestion’s accuracy** is assessed, feeding back into the system for improvement.
 3. **Registering New Grade and Feedback**
-  - The assigned **grade and feedback are captured**.
-  - The answer is preprocessed for indexing.
-  - The **indexed feedback** is stored in the system, enhancing future AI grading accuracy.
+
+   - The assigned **grade and feedback are captured**.
+   - The answer is preprocessed for indexing.
+   - The **indexed feedback** is stored in the system, enhancing future AI grading accuracy.
 
 This **continuous feedback loop** ensures that the AI grading system improves over time, refining its ability to suggest accurate grades and relevant feedback.
 
@@ -836,22 +835,23 @@ By continuously refining grading suggestions based on expert validation, this ap
 The diagram illustrates an **AI-assisted grading workflow** using **vector search** and **LLMs** to enhance the grading process for short-answer responses.
 
 1. **Answer Preprocessing**
-  - The candidate’s submitted answer is first **preprocessed** by the **Answers Preprocessing Microservice**, which prepares the text (using LLM if needed) and converts the answer into a **vectorized format** (embedding) suitable for comparison in the vector database. This step ensures that answers are represented semantically, rather than just as text.
 
+   - The candidate’s submitted answer is first **preprocessed** by the **Answers Preprocessing Microservice**, which prepares the text (using LLM if needed) and converts the answer into a **vectorized format** (embedding) suitable for comparison in the vector database. This step ensures that answers are represented semantically, rather than just as text.
 2. **Similar Answer Retrieval**
-- The **preprocessed answer** is then used to search for **similar answers** stored in the **Previous Answers and Feedback Vector DB**. The system retrieves **1-3 similar answers** from previous test submissions along with their corresponding grades and feedback. This semantic search allows the system to find responses that are conceptually similar, even if wordings differ.
 
+   - The **preprocessed answer** is then used to search for **similar answers** stored in the **Previous Answers and Feedback Vector DB**. The system retrieves **1-3 similar answers** from previous test submissions along with their corresponding grades and feedback. This semantic search allows the system to find responses that are conceptually similar, even if wordings differ.
 3. **Feedback and Grade Generation**
-  - The **Suggestions Generator Microservice** analyzes the retrieved similar answers and their feedback to **generate grade and feedback suggestions** for the current answer. These suggestions are tailored based on the closest matches from the historical data.
 
+   - The **Suggestions Generator Microservice** analyzes the retrieved similar answers and their feedback to **generate grade and feedback suggestions** for the current answer. These suggestions are tailored based on the closest matches from the historical data.
 4. **LLM-Based Synthesis**
-  - The **preprocessed answer** is passed to an **external LLM (Large Language Model)**, which combines the **similar answers** and **feedback** into a **final synthesized answer and feedback**. This process leverages the model’s ability to generate a coherent and relevant response, ensuring the feedback is contextually appropriate and insightful.
 
+   - The **preprocessed answer** is passed to an **external LLM (Large Language Model)**, which combines the **similar answers** and **feedback** into a **final synthesized answer and feedback**. This process leverages the model’s ability to generate a coherent and relevant response, ensuring the feedback is contextually appropriate and insightful.
 5. **Expert Grading and Review**
-  - The generated grade suggestion and feedback are then sent to the **Expert Grading Space** for review. Experts (or designated experts) can **approve or adjust** the suggestions provided by the system, improving grading accuracy and ensuring that the feedback meets the required standards.
 
+   - The generated grade suggestion and feedback are then sent to the **Expert Grading Space** for review. Experts (or designated experts) can **approve or adjust** the suggestions provided by the system, improving grading accuracy and ensuring that the feedback meets the required standards.
 6. **Continuous Improvement**
-  - The system tracks the **performance of suggestions**, feeding back into the process to improve future suggestions. The **AI Engineer** monitors **suggestion accuracy** and adjusts **grading criteria prompts** as necessary, ensuring the system continues to learn and refine its outputs over time.
+
+   - The system tracks the **performance of suggestions**, feeding back into the process to improve future suggestions. The **AI Engineer** monitors **suggestion accuracy** and adjusts **grading criteria prompts** as necessary, ensuring the system continues to learn and refine its outputs over time.
 
 This workflow combines **semantic vector search** and **LLM-based synthesis** to automate and optimize grading, while maintaining expert oversight to ensure quality and accuracy. The result is a more **efficient, consistent, and context-aware grading process**.
 
@@ -870,6 +870,7 @@ This workflow combines **semantic vector search** and **LLM-based synthesis** to
    - **Question** – Stores the question the answer was submitted for.
    - **Short answer** – Stores the answer text submitted by a candidate, based on which search index is build.
    - **Grade**, **Feedback** – Track expert decisions for the answer.
+
 ### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
@@ -879,24 +880,25 @@ This workflow combines **semantic vector search** and **LLM-based synthesis** to
 #### Workflow
 
 1. **Suggestions Generation**
-  - **Capture the answer**: The candidate's answer is captured by the **AI Suggestions Generator** component.
-  - **Preprocess the answer**: The answer is passed to the **Answers Preprocessing Microservice**, where it is converted into a **vectorized format** (embedding) suitable for comparison in the search process.
-  - **Lookup similar answers**: The system then searches for **similar answers** from previously graded responses. This search is based on the semantic similarity of the vectorized answer.
-  - **Generate suggestions**: The **AI Suggestions Generator** uses the similar answers' feedback to generate a **suggested grade and feedback** based on historical assessments. These suggestions are intended to guide the expert grader.
 
+   - **Capture the answer**: The candidate's answer is captured by the **AI Suggestions Generator** component.
+   - **Preprocess the answer**: The answer is passed to the **Answers Preprocessing Microservice**, where it is converted into a **vectorized format** (embedding) suitable for comparison in the search process.
+   - **Lookup similar answers**: The system then searches for **similar answers** from previously graded responses. This search is based on the semantic similarity of the vectorized answer.
+   - **Generate suggestions**: The **AI Suggestions Generator** uses the similar answers' feedback to generate a **suggested grade and feedback** based on historical assessments. These suggestions are intended to guide the expert grader.
 2. **Expert Grading Based on Suggestions**
-  - **Review the answer and suggestions**: The **Expert / Designated Expert** reviews the candidate's answer along with the generated suggestions (grade and feedback).
-  - **Grade the answer**: The expert assigns a grade to the answer based on their review of both the answer and the suggested feedback.
-  - **Graded Aptitude test**: The graded answer is recorded, capturing the expert's evaluation.
 
+   - **Review the answer and suggestions**: The **Expert / Designated Expert** reviews the candidate's answer along with the generated suggestions (grade and feedback).
+   - **Grade the answer**: The expert assigns a grade to the answer based on their review of both the answer and the suggested feedback.
+   - **Graded Aptitude test**: The graded answer is recorded, capturing the expert's evaluation.
 3. **Registering New Grade and Feedback**
-  - **Preprocess the answer**: After grading, the answer is again preprocessed to standardize the feedback and ensure consistency.
-  - **Capture the grade and feedback**: The expert inputs the final **grade** and **feedback**.
-  - **Vectorize the preprocessed answer**: The final preprocessed answer is then vectorized for **indexing** in the system.
-  - **Indexed feedback**: The feedback is indexed in the system, making it available for future suggestions and improving the quality of feedback generation for subsequent responses.
 
+   - **Preprocess the answer**: After grading, the answer is again preprocessed to standardize the feedback and ensure consistency.
+   - **Capture the grade and feedback**: The expert inputs the final **grade** and **feedback**.
+   - **Vectorize the preprocessed answer**: The final preprocessed answer is then vectorized for **indexing** in the system.
+   - **Indexed feedback**: The feedback is indexed in the system, making it available for future suggestions and improving the quality of feedback generation for subsequent responses.
 4. **Continuous Improvement**
-  - **Suggestion accuracy monitoring**: The accuracy of the generated suggestions is monitored and evaluated, feeding back into the system for continuous improvement in grading and feedback suggestions.
+
+- **Suggestion accuracy monitoring**: The accuracy of the generated suggestions is monitored and evaluated, feeding back into the system for continuous improvement in grading and feedback suggestions.
 
 This workflow integrates AI and human expertise, ensuring the grading process is efficient while maintaining high-quality, personalized feedback for each student. The combination of **vectorized search** for semantic similarity and **LLM-based feedback synthesis** helps enhance grading consistency and precision.
 
@@ -932,20 +934,20 @@ This workflow describes an AI-assisted grading system for the Architecture Exam,
 
 1. The **AI Engineer** creates grading criteria Prompts via the AI Admin UI (Web App).
 2. **Candidates** submit their architecture solutions, which are stored in the Architecture Exam Database.
-
 3. The **Suggestions Generator (Microservice)** retrieves the architecture submission from the Architecture Exam Historical Database.
+
    - It sends the submission, along with grading criteria prompts and prompt configurations (retrieved from the Solution 3 Database), to the LLM (Large Language Model).
    - The LLM processes the input and returns grading suggestions.
-
 4. The **Suggestions Generator** stores the generated grading suggestions in the Suggestions Database.
+
    - The Solution 3 API (Microservice) retrieves grading criteria prompts and prompt configurations from the Solution 3 Database.
    - The Suggestions API (Microservice) provides access to stored suggestions.
-
 5. The **Expert Grading Space** retrieves grading suggestions from the Suggestions API.
+
    - Experts review, validate, and modify AI-generated suggestions before finalizing grading.
    - The Suggestions API updates the grading status in the Suggestions Database.
-
 6. The **AI Engineer** monitors AI-generated suggestions via the AI Admin UI (Web App).
+
    - The AI Admin UI (embed Solution 3 MFE UI) enables updates to:
      - View AI-generated grading suggestions.
      - Review feedback on AI-generated prompts.
@@ -962,11 +964,12 @@ This workflow describes an AI-assisted grading system for the Architecture Exam,
 #### Definitions
 
 1. **Prompts Configuration (Solution 3 Database)**: Stores information about grading prompts used for AI-generated suggestions.
+
    - **Prompt ID (PK)** – Unique identifier for each prompt.
    - **Status** – Indicates if the prompt is active, deprecated, or under review.
    - **Selection Rate** – Tracks how often this prompt is selected for generating suggestions.
-
 2. **Grading Criteria Prompts (Solution 3 Database)**: Defines grading criteria for case studies, linked to prompts.
+
    - **ID (PK)** – Unique identifier for each grading criterion.
    - **Case Study ID (FK)** – Links the grading criteria to a specific case study.
    - **Name** – Name of the grading criterion.
@@ -985,25 +988,26 @@ The diagram illustrates generating and enhancing the quality of AI-generated gra
 #### Workflow
 
 1. **Generating Initial Suggestions**
+
    - A grading criterion is introduced or updated based on the case study requirements.
    - The Prompt Engineer reviews the new or updated grading criterion.
    - A new grading criterion prompt defines how AI should assess candidate submissions.
    - The newly created prompt is enabled for 100% of submissions, meaning all grading suggestions will be generated using this prompt.
    - The prompt configuration is stored in the system, and the Suggestions Generator (Microservice) uses it to produce grading suggestions.
-
 2. **Evaluating Suggestion Quality**
+
    - AI-generated suggestions are stored in the Suggestions Database (DB), along with their acceptance status.
    - The system monitors suggestion performance by tracking how often human experts accept or reject the AI-generated suggestions.
    - If experts accept 80% or more of the suggestions, the prompt is considered adequate, and no changes are required.
    - If the acceptance rate is below 80%, the prompt needs optimization.
-
 3. **Enhancing Suggestion Quality**
+
    - If the prompt’s performance is below 80% acceptance, a new version of the grading criterion prompt is created.
    - Instead of deploying the new prompt to all submissions immediately, it is gradually enabled for X% of submissions to assess its effectiveness.
    - The new prompt version (vN) is stored and configured within the system.
    - The Suggestions Generator now produces AI-generated grading suggestions based on the updated prompt.
-
 4. **Continuous Performance Monitoring and Improvement**
+
    - The system tracks the performance of the new prompt version by analyzing the acceptance rate of AI-generated suggestions.
    - If 80% or more of the suggestions are accepted, the new version is fully enabled for 100% of submissions, replacing the previous version.
    - If the new prompt still underperforms, it goes through further iterations until it meets the quality threshold.
@@ -1029,11 +1033,12 @@ This updated diagram introduces new elements to automate and optimize the gradin
 #### Additions
 
 1. **Prompt Optimizer (New Component: Microservice)**
+
    - This new component is responsible for tracking prompt performance and optimizing grading criteria prompts when necessary.
    - It collects case studies, grading criteria, graded submissions, used prompts, and received suggestions.
    - It sends **optimized prompts** to improve grading consistency and accuracy.
-
 2. **Optimization Prompts Flow**
+
    - The **Prompt Optimizer** monitors Prompts performance and retrieves declined suggestions through  Solution 3 API.
    - The **Prompt Optimizer** for declined suggestions, reads grading criteria, case studies and graded submissions from Architecture Exam Historical Database.
    - The **Prompt Optimizer** interacts with the **LLM (External Component)** to refine grading prompts.
@@ -1052,26 +1057,27 @@ This diagram illustrates the **workflow for generating and optimizing AI-generat
 #### Workflow
 
 1. **Creating a New Grading Criterion Prompt**
+
    - A new or updated grading criterion is identified from the Case Study Database.
    - The Prompt Engineer reviews the grading criterion and creates a new grading prompt.
    - The new prompt is enabled for 100% of submissions and stored in the system.
    - The Suggestions Generator begins using the prompt to generate AI-powered grading suggestions.
    - The generated suggestions are stored in the Suggestions Database, and graded submissions are recorded for future evaluation.
-
 2. **Evaluating Suggestion Quality**
+
    - AI-generated suggestions are monitored through prompt performance tracking.
    - The Prompt Generator analyzes how often experts accept or reject AI-generated suggestions.
    - If **80% or more of the suggestions are accepted**, the prompt is considered effective.
    - If the acceptance rate falls below 80%, the prompt needs optimization.
-
 3. **Enhancing the Quality of AI-Generated Suggestions**
+
    - If a prompt underperforms, a new version of the grading criterion prompt is created.
    - The updated prompt is gradually enabled for X% of submissions to test its effectiveness.
    - The prompt configuration is updated, and the Suggestions Generator starts using the new version.
    - Once the updated prompt achieves **80% or more accepted suggestions**, it is fully enabled for 100% of submissions.
    - *NOTE: Multiple versions of new grading prompts could be created in parallel and evaluated simultaneously.*
-
 4. **Continuous Performance Monitoring and Improvement**
+
    - The system tracks the performance of AI-generated suggestions over time.
    - When necessary, new versions of grading prompts are introduced, ensuring consistent quality.
    - The process is iterative, meaning prompts are continuously refined and improved to maintain high-quality grading standards.
@@ -1127,6 +1133,7 @@ This workflow describes an AI-assisted detection of anomalies in Expert-provided
 This workflow describes the Appeal process, where candidates who wish to dispute the grading results can justify their request for a revalidation.
 
 1. **Candidate** Submits the Appeal Form
+
    - Candidate receives test results and disputes the grade via the **Candidate UI**.
    - **Candidate UI** stores the Appeal for later review.
 2. **Experts / Designated Experts** review appeals
@@ -1137,8 +1144,8 @@ This workflow describes the Appeal process, where candidates who wish to dispute
      - Appeal can be approved with correcting the grades and feedback
    - **Appeals App** notifies testing components and **AI Analytics App** about the grade updates.
 3. **Capture Corrections** persists the appeal outcome and persists the information to the **Performance Metrics DB**.
-
 4. **AI Engineers** Analyze appeal data in the **Performance Metrics DB** to:
+
    - Track appeal volume and resolution rates.
    - Identify recurring grading errors.
    - Measure average resolution time.
@@ -1154,13 +1161,14 @@ This workflow describes the Appeal process, where candidates who wish to dispute
 #### Anomaly Detection Workflow
 
 1. **Anomaly Search**
+
    - **Data Preparation**:
      - **Submission Capture Job** sends graded submissions to Anomaly Detection Job, that forwards the submission to **Submissions Search**.
      - **Submissions Search** converts submission text into embedding.
      - **Anomaly Detection Microservice** queries the **Vector DB** to retrieve the **up to 5 most similar submissions**.
      - **Similar submissions with grades are returned.
-
 2. **Anomaly Filtering**
+
    - **Anomaly Detection** compares the submission’s grade with historical grades of retrieved similar submissions.
    - **Anomaly Detection** flags anomalies using predefined criteria (e.g., >15% deviation from historical averages).
    - **False Approval/Rejection Detection**:
@@ -1170,14 +1178,13 @@ This workflow describes the Appeal process, where candidates who wish to dispute
    - **Expert / Designated Expert** is notified about the anomalies in **Anomalies App**.
    - **Expert / Designated Expert** reviews submission details, grades and historical comparisons.
    - **Expert / Designated Expert**  **corrects** (update grade/feedback) or **ignores** (no action) the anomaly.
-
 4. **Anomaly Status Analysis**
 
    - **Corrections Capture** microservice records the final status (*Corrected*/*Ignored*) and persists it to the **Performance Metrics DB** for auditing and analysis.
    - **AI Engineers** analyze data to:
-      1. Adjust similarity thresholds.
-      2. Retrain AI models to reduce future anomalies.
-      3. Validate grading consistency improvements.
+     1. Adjust similarity thresholds.
+     2. Retrain AI models to reduce future anomalies.
+     3. Validate grading consistency improvements.
 
 **Appeal Process**
 ![Diagram](future_state/solution_5/operational_viewpoint_appeal_process.png)
@@ -1191,22 +1198,25 @@ This workflow describes the Appeal process, where candidates who wish to dispute
 - Appeal form is stored for later review by **Appeals APP**
 
 #### 2. **Appeal Review**
-   - **Appeals App** notifies **Expert / Designated Expert** about new Appeals.
-   - **Expert / Designated Expert** reviews the submission, grade, feedback and candidate’s justification.
-   - **Expert / Designated Expert** makes a decision:
-       - **Approved (Full/Partial)**: Updates grade/feedback, potentially allowing the candidate to move to the next step in certification process.
-       - **Rejected**: No changes; original grade retained.
-   - **Correction Capture** service persists reviewed appeal details to   **Performance Metrics DB**.
+
+- **Appeals App** notifies **Expert / Designated Expert** about new Appeals.
+- **Expert / Designated Expert** reviews the submission, grade, feedback and candidate’s justification.
+- **Expert / Designated Expert** makes a decision:
+  - **Approved (Full/Partial)**: Updates grade/feedback, potentially allowing the candidate to move to the next step in certification process.
+  - **Rejected**: No changes; original grade retained.
+- **Correction Capture** service persists reviewed appeal details to   **Performance Metrics DB**.
 
 #### 4. **Certification Process Adjustments**
-   - **Approved Appeals** may change the grade so that the candidate can pass to the next step:
-     - **Aptitude Test** grade is updated, **Candidate** is able to take Case Study Exam.
-     - **Case Study Exam** grade is updated, **Candidate** receives certificate for passing the Certification.
-   - **Rejected Appeals**:
-     - No changes to the flow, **Candidate** is notified about the verdict with updated feedback.
+
+- **Approved Appeals** may change the grade so that the candidate can pass to the next step:
+  - **Aptitude Test** grade is updated, **Candidate** is able to take Case Study Exam.
+  - **Case Study Exam** grade is updated, **Candidate** receives certificate for passing the Certification.
+- **Rejected Appeals**:
+  - No changes to the flow, **Candidate** is notified about the verdict with updated feedback.
 
 #### 5. **Appeal Cases Analysis**
-   - **Metrics Extraction**:
-     - **AI Engineers** analyze **Performance Metrics DB** to track various metrics, including: time spent, expert accuracy, appeal approval rate.
+
+- **Metrics Extraction**:
+  - **AI Engineers** analyze **Performance Metrics DB** to track various metrics, including: time spent, expert accuracy, appeal approval rate.
 
 # Final words
