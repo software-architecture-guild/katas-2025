@@ -2,7 +2,7 @@
 
 > Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).
 
-In this viewpoint we will only highlight changes made to [Current State architecture](../../current_state/context_viewpoint/README.md).
+From this viewpoint, we will only highlight changes made to [Current State architecture](../../current_state/context_viewpoint/README.md).
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -16,7 +16,7 @@ In this viewpoint we will only highlight changes made to [Current State architec
 
 # Level 2 - Container diagram - Certification Platform
 
-> The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another
+> The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another.
 
 ![Diagram](level2_containers.png)
 
@@ -26,7 +26,7 @@ In this viewpoint we will only highlight changes made to [Current State architec
 
    - Store historical records for all tests, candidate submissions, their grades and feedback, and the time experts spend grading.
    - Generate suggestions that experts can accept or reject when grading submissions.
-   - Collect suggestions status to calculate suggestions performance and adjust the AI Assistant accordingly.
+   - Collect suggestions' status to calculate suggestions' performance and adjust the AI Assistant accordingly.
    - Detect anomalies and notify the designated expert for review.
    - Collect anomalies and appeals status to calculate grading quality.
 2. Introduced a **new appeal process**:
@@ -36,17 +36,17 @@ In this viewpoint we will only highlight changes made to [Current State architec
 
 # Level 3 - Components
 
-> The Component diagram shows how a container is made up of a number of "components", what each of those components are, their responsibilities and the technology/implementation details.
+> The Component diagram shows how a container is made up of several "components," what each component is, their responsibilities, and the technology/implementation details.
 
 ## Level 3 - Components - AI Assistant
 
 We propose implementing the **AI Assistant** using a **Micro-Kernel Architecture**.
 
-The **Core Component** will act as the **central aggregator and integrator** for AI-based solutions. It will include:
+The **Core Component** will be the **central aggregator and integrator** for AI-based solutions. It will include:
 
 - A **User Interface** for **AI Engineers** to manage and refine AI solutions.
 - A **Suggestions Database** to store AI-generated grading recommendations.
-- An **API** to serve AI-generated suggestions to the **Expert UI** during the grading process.
+- An **API** to serve AI-generated suggestions to the **Expert UI** during grading.
 
 Each AI-powered grading solution will:
 
@@ -59,7 +59,7 @@ AI Analytics will:
 - Analyze graded submissions to detect anomalies
 - Calculate Validation Quality and Performance metrics
 
-This approach enables the use of multiple suggestion generators simultaneously and allows for seamless replacement if any solution proves ineffective.
+This approach enables multiple suggestion generators simultaneously and allows for seamless replacement if any solution proves ineffective.
 
 ![Diagram](level3_components_ai_assistant.png)
 
@@ -110,7 +110,7 @@ This approach enables the use of multiple suggestion generators simultaneously a
      - Accuracy metrics for AI-suggested grades
      - Turnaround time for expert grading and appeals
    - Quality statistics (grading consistency, rubric adherence) and performance metrics (average grading time, bottlenecks) are calculated.
-   - AI Analytics App serve all metrics to the Core App.
+   - The AI Analytics App serves all the core app metrics.
 
 8. **Continuous AI Model Enhancement**:
    - AI Engineers analyze:
@@ -147,13 +147,13 @@ This approach enables the use of multiple suggestion generators simultaneously a
 
 2. **Anomalies Detection**:
    - **Anomalies App (Component: Microservice)** added.
-   - **Issues Database (Component: DB)** introduced for storing anomalies and their statuses.
+   - **Issues Database (Component: DB)** was introduced to store anomalies and their statuses.
    - Tracks **anomalies status**.
    - **Notifies designated experts** for review.
 
 3. **Appeals Handling**:
    - **Appeals App (Component: Microservice)** added.
-   - **Issues Database (Component: DB)** introduced for storing appeals and their statuses.
+   - **Issues Database (Component: DB)** was introduced to store appeals and their statuses.
    - Tracks **appeals status**.
    - **Notifies designated experts** for review.
 

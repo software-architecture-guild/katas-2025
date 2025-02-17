@@ -20,15 +20,15 @@
 As we can see, the system is interacting only with people:
 
 - **Candidate**
-  A software architect seeking certification through Certifiable, Inc. Candidates must pass two tests: an aptitude test and an architecture submission. They rely on timely grading, accurate feedback, and certification validation to advance their careers.
+  A software architect seeking certification through Certifiable, Inc. Candidates must pass an aptitude test and an architecture submission. They rely on timely grading, accurate feedback, and certification validation to advance their careers.
 - **Expert**
   An employed expert software architect responsible for grading certification exams and providing detailed feedback to candidates. They are freelance contractors paid per hour and play a crucial role in ensuring the integrity of the certification process.
 - **Designated Expert**
-  A senior expert software architect with additional responsibilities beyond grading. They have the authority to modify certification tests, create or update case studies, and ensure that certification standards evolve with industry practices.
+  A senior expert software architect with additional responsibilities beyond grading. They can modify certification tests, create or update case studies, and ensure that certification standards evolve with industry practices.
 - **Administrator**
-  A Certifiable, Inc. staff member responsible for managing expert software architects, maintaining system access, and ensuring smooth certification operations. They oversee expert profiles, system credentials, and help facilitate AI-driven enhancements.
+  A Certifiable, Inc. staff member responsible for managing expert software architects, maintaining system access, and ensuring smooth certification operations. They oversee expert profiles and system credentials and help facilitate AI-driven enhancements.
 - **External HR**
-  Hiring managers and recruiters from various companies who rely on Certifiable, Inc.'s certifications to verify the qualifications of software architects. They use the certification database to validate credentials and make informed hiring decisions.
+  Hiring managers and recruiters from various companies rely on Certifiable, Inc.'s certifications to verify the qualifications of software architects. They use the certification database to validate credentials and make informed hiring decisions.
 
 ![Diagram](level1_system_context.png)
 
@@ -41,7 +41,7 @@ We propose a revised logical organization for the system, with slight modificati
 - **Candidate Space**
   Responsible for interaction with Candidates. Includes Candidate Testing UI, Candidate Registration, Candidate Status, and Notification service. Here, Candidates can sign up, take tests, and receive notifications when test validation results are available.
 - **Expert and Admin Space**
-  Responsible for handling interactions with Experts, Designated Experts, and Administrators. Here, Experts and Designated Experts can collaborate to create and modify existing Tests and Case Studies, as well as grade submitted tests and architecture solutions. Administrators and Experts can also manage Expert user profiles here.
+  Responsible for handling interactions with Experts, Designated Experts, and Administrators. Here, Experts and Designated Experts can collaborate to create and modify existing Tests, Case Studies, and grade submitted tests and architecture solutions. Administrators and Experts can also manage Expert user profiles here.
 - **Aptitude Test**
   Service responsible for organizing the Aptitude Test process. It delivers the test to Candidates and accepts their answers. It automatically grades multiple-choice questions and presents short answers for manual grading. It also accepts grades and feedback submitted by Experts.
 - **Architecture Solution Exam**
@@ -53,15 +53,15 @@ We propose a revised logical organization for the system, with slight modificati
 
 # Level 3 - Components
 
-> The Component diagram shows how a container is made up of a number of "components", what each of those components are, their responsibilities and the technology/implementation details.
+> The Component diagram shows how a container comprises several "components," what each component is, their responsibilities, and the technology/implementation details.
 
 ## Level 3 - Components - Candidate Space
 
 ![Diagram](level3_components_candidate.png)
 
-The diagram illustrates the **Candidate Space** and its interaction with various services involved in the certification process for software architects. It showcases how candidates interact with the system through a web application and how their progress is managed.
+The diagram illustrates the **Candidate Space** and its interaction with various services involved in the software architect certification process. It showcases how candidates interact with the system through a web application and how their progress is managed.
 
-The **Candidate Testing UI (Component: Web App)** serves as the central interface where candidates provide their information, submit aptitude test answers, and upload architecture solutions.
+The **Candidate Testing UI (Component: Web App)** is the central interface where candidates provide information, submit aptitude test answers, and upload architecture solutions.
 
 ### Workflow
 
@@ -75,11 +75,11 @@ Step 2: Aptitude Test Interaction
 - The **Candidate Testing UI** provides aptitude test resources to the candidate.
 - Candidates submit their **aptitude test answers**, which are sent to the **Aptitude Test (Container: Service)**.
 - The **Candidate Status (Microservice)** tracks candidate progress throughout the test-taking process.
-- Once grading is complete, the **Aptitude Test** service returns the aptitude test grade to the **Notification Service**, which then informs the candidate.
+- Once grading is complete, the **Aptitude Test** service returns the aptitude test grade to the **Notification Service**, informing the candidate.
 
 Step 3: Case Study Assignment
 
-- If the candidate passes the aptitude test, they receive a **case study** from the **Candidate Testing UI**.
+- Candidates who pass the aptitude test receive a **case study** from the **Candidate Testing UI**.
 - The **Candidate Status (Microservice)** updates the candidate’s progress and sends the case study to the **Architecture Solution Exam (Container: Service)**.
 
 Step 4: Architecture Solution Submission
@@ -99,7 +99,7 @@ The system ensures a seamless process for candidates from registration to certif
 
 ![Diagram](level3_components_expert_and_admin.png)
 
-The diagram illustrates the **Expert and Admin Space**, which supports the certification process by allowing experts and administrators to manage exams, grading, and certification logs. The architecture is divided into multiple sections, including expert administration, grading, and overall maintenance. The system ensures an efficient process for maintaining certification standards, analyzing test performance, and allowing expert-driven updates to exam content.
+The diagram illustrates the **Expert and Admin Space**, which supports the certification process by allowing experts and administrators to manage exams, grading, and certification logs. The architecture has multiple sections, including expert administration, grading, and maintenance. The system ensures an efficient process for maintaining certification standards, analyzing test performance, and allowing expert-driven updates to exam content.
 
 ### Workflow
 
@@ -125,7 +125,7 @@ Step 3: Expert Grading Process
 - Short answers are sent to the **Expert Grading UI (Component: Web App)** for evaluation by software architects.
 - The **Architecture Solution Exam (Container: Service)** processes case study submissions and forwards them for expert review.
 - Experts manually grade short-answer responses and architecture solutions, providing detailed feedback.
-- Experts submit the time spent validating a test along with the validated test itself.
+- Experts submit the time spent validating a test and the validated test itself.
 
 Step 4: Certification Review & Reporting
 
@@ -136,7 +136,7 @@ Step 4: Certification Review & Reporting
 
 ![Diagram](level3_components_aptitude_test.png)
 
-This diagram represents the **Aptitude Test** process, which is the **first stage** of the certification process for software architects. It illustrates the workflow for test retrieval, answers submission, grading, and notification.
+This diagram represents the **Aptitude Test** process, which is the **first stage** of the certification process for software architects. It illustrates the workflow for test retrieval, answer submission, grading, and notification.
 
 ### Workflow
 
@@ -164,7 +164,7 @@ Step 3: Capturing Short-Answer Responses for Manual Grading
 
 Step 4: Manual Grading by Expert Software Architects
 
-- The **Aptitude Manual Grader (Microservice)** is used by expert software architects to manually grade short-answer responses.
+- Expert software architects use the **Aptitude Manual Grader (Microservice)** to manually grade short-answer responses.
 - The experts review the answers and assign appropriate scores.
 - Once graded, the scores are updated in the **Aptitude Test Grades (DB)**.
 
@@ -172,7 +172,7 @@ Step 5: Candidate Notification & Result Delivery
 
 - The **Aptitude Test Notifier (Microservice)** processes the final test results.
 - Candidates receive notifications regarding their performance.
-- If the candidate meets the passing criteria, they proceed to the **Architecture Solution Exam** (Stage 2 of the certification process).
+- If candidates meet the passing criteria, they proceed to the **Architecture Solution Exam** (Stage 2 of the certification process).
 
 ## Level 3 - Components - Architecture Solution Exam
 
@@ -197,11 +197,11 @@ Step 3: Manual Grading
 
 - The **Architecture Manual Grader (Microservice)** retrieves ungraded submissions.
 - Expert software architects manually review and grade the submission.
-- The graded submission, along with feedback, is stored in the **Architecture Solution Grade and Feedback (DB)**.
+- The graded submission and feedback are stored in the **Architecture Solution Grade and Feedback (DB)**.
 
 Step 4: Candidate Notification & Certification
 
-- The **graded architecture solution** is sent back to the candidate through the **Candidate Platform**.
+- The **graded architecture solution** is returned to the candidate through the **Candidate Platform**.
 - The **Certified Architects Public Space (Container: Service)** receives the final **certification verification notification**, making the results accessible for public verification.
 
 ## Level 3 - Components - Certification Space
@@ -228,4 +228,4 @@ Step 3: Certification Access and Verification
 
 - The **Certification Viewer UI (Component: Web App)** allows candidates and HR representatives to retrieve and verify certification details.
 - Certification data is fetched from the **Certification Database** to ensure authenticity and transparency.
-- HR representatives can validate a candidate’s certification credentials via the public system.
+- HR representatives can validate candidates' certification credentials via the public system.
