@@ -864,6 +864,24 @@ This approach bridges the gap between human intuition and AI automation, ensurin
 > *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
 
 ![Diagram](future_state/solution_2/context_viewpoint.jpg)
+1.	Submission & Preprocessing
+• Candidates submit their short-answer responses via the Solution 2 UI (Micro FE Component).
+	•	The responses are stored in the Architecture Exam Historical DB.
+	•	The Answers Preprocessing Microservice clusters similar responses for efficient retrieval.
+2. AI-Powered Suggestions Generation
+	•	The Solution 2 API Microservice retrieves past responses and expert feedback.
+	•	The Suggestions Generator Microservice injects grading prompts into an LLM (Large Language Model).
+	•	The LLM generates grading suggestions based on context, stored in the Suggestions DB.
+3.	Expert Review & Refinement
+•	AI-generated grading suggestions are forwarded to the Expert Grading Space (Service Component).
+•	Experts review, refine, or override the AI’s grading and feedback.
+•	The Suggestions API Microservice updates the suggestions’ statuses based on expert validation.
+4.	AI Oversight & Continuous Learning
+•	AI Engineers use the AI Admin UI (Web App Component) to monitor AI performance and adjust grading criteria.
+•	Experts and AI engineers can request regeneration of AI-generated suggestions to improve accuracy.
+5.	Feedback Loop for Optimization
+•	Expert-validated grading decisions are indexed in the Architecture Exam Historical DB.
+•	AI-generated suggestions are evaluated for accuracy, helping refine future grading logic.
 
 
 ### Operational Viewpoint
@@ -901,6 +919,9 @@ The workflow describes an LLM-powered grading system that combines historical an
 
 ### Informational Viewpoint
 > *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+
+![Diagram](future_state/solution_2/informational_viewpoint.jpg)
+
 #### Definitions
 
 ## Architecture Exam: Solution 3a - Direct Prompting
