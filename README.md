@@ -42,7 +42,8 @@
   - [Architecture Exam: Solution 3b - Direct Prompting](#architecture-exam-solution-3b---direct-prompting)
   - [Architecture Exam: Solution 4](#architecture-exam-solution-4)
   - [Appeal Process, Anomaly Detection and Analytics](#appeal-process-anomaly-detection-and-analytics)
-- [Final words](#final-words)
+- [Final Words](#final-words)
+  - [Further Improvement Possibilities](#further-improvement-possibilities)
 
 # Introduction
 
@@ -883,7 +884,7 @@ This diagram describes the workflow if indexing short answer feedbacks and grade
 
 ![Diagram](future_state/solution_1b/operational_viewpoint_index.png)
 
-This diagram illustates the workflow of generating grading and feedback suggestions based on grades and feedbacks of semantically similar short answers.
+This diagram illustrates the workflow of generating grading and feedback suggestions based on grades and feedbacks of semantically similar short answers.
 
 ![Diagram](future_state/solution_1b/operational_viewpoint_suggest.png)
 
@@ -1227,4 +1228,30 @@ This workflow describes the Appeal process, where candidates who wish to dispute
 - **Metrics Extraction**:
   - **AI Engineers** analyze **Performance Metrics DB** to track various metrics, including: time spent, expert accuracy, appeal approval rate.
 
-# Final words
+# Final Words
+
+The Software Architecture Guild embarked on this architectural kata with a commitment to scalability, efficiency, and quality. Throughout this process, we analyzed the existing **SoftArchCert** system, identified its challenges and opportunities, and proposed a robust, AI-assisted architecture that enhances grading accuracy, maintains certification integrity, and optimizes operational costs.
+
+Our proposed architecture is not just an enhancement—it is a strategic transformation. By introducing AI-assisted grading, automated anomaly detection, and a structured appeals process, we ensure that certification remains fair, transparent, and scalable. The microkernel architecture provides the flexibility needed to evolve AI solutions while maintaining expert oversight. The proposed compensation model shift aligns incentives with efficiency, making AI adoption a win-win for both Certifiable, Inc. and its expert graders.
+
+However, AI is not a silver bullet. Its integration requires careful validation, human oversight, and a continuous feedback loop to maintain grading accuracy and trust. With well-defined quality control measures, performance tracking, and iterative improvement, this architecture sets the foundation for sustained innovation in certification management.
+
+The future of software architecture certification is **AI-augmented, not AI-replaced**. With the right balance of automation and human expertise, Certifiable, Inc. can meet the demands of a rapidly growing market while upholding its reputation as a trusted leader in the industry.
+
+## Further Improvement Possibilities
+
+While the proposed architecture lays a solid foundation, several enhancements could further optimize and scale the system:
+
+1. **Expert Performance Assessment & Promotion Mechanism**  
+   The system already collects valuable data on expert performance. This data can be used to assess and promote high-performing experts while identifying underperformers for potential training or re-evaluation. Introducing this mechanism would improve grading consistency and incentivize experts to maintain high-quality evaluations.
+
+2. **LLM Interface with Caching and Cost Optimization**  
+   We deliberately did not implement caching for LLM interactions, as the economic benefits seemed unnecessary in the current setup. However, if LLM cost optimization becomes a priority, a shared LLM interface could be introduced. This would allow multiple solutions to reuse responses, leverage deduplication techniques, and apply other cost-saving mechanisms when necessary.
+
+3. **Intelligent Work Distribution Between AI Solutions**  
+   Giving experts more than three suggestions for review is unlikely to improve efficiency. If we want to test multiple AI solutions or versions in production, an intelligent **work distributor/orchestrator** should be added. This component, integrated into the Core AI Assistant, would dynamically assign specific solutions to submissions, ensuring balanced testing while preventing expert overload.
+
+4. **Event-Driven Architecture Recommendation**  
+   We do not have confirmation whether the existing system is event-driven. However, transitioning to an **event-driven model**—at least for communication with the AI Assistant—would significantly improve system scalability, maintainability, and responsiveness.
+
+By implementing these improvements, the system can become even more scalable, cost-effective, and adaptive to evolving business needs.
