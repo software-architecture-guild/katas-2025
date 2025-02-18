@@ -509,7 +509,6 @@ Implementation details for those processes can be found in the architectural vie
 2. **AI-Assisted Grading Enhancements**
 
    - **Generate Suggestions**
-
      - AI generates grading and feedback suggestions for Aptitude and Case Study tests.
    - **Review / Adjust Suggestions**
 
@@ -913,13 +912,85 @@ This diagram illustrates the workflow of generating grading and feedback suggest
 
 This workflow integrates AI and human expertise, ensuring the grading process is efficient while maintaining high-quality, personalized feedback for each student. The combination of **vectorized search** for semantic similarity and **LLM-based feedback synthesis** helps enhance grading consistency and precision.
 
+
 ## Aptitude Test: Solution 2
 
-### Architecture
+### Idea
+Solution 2 enhances AI-core grading by direct leveraging a Large Language Model (LLM) to generate grading suggestions
+and feedback for short-answer responses. Unlike Solution 1a, which primarily relies on text search to find similar past
+answers, Solution 2 makes AI not only generate meaningful feedback, but *do the grading itself*.
 
-Diagrams + ADRs
+This approach bridges the gap between human intuition and AI automation, ensuring that the system not only matches
+similar answers but also understands variations and provides contextually relevant grading insights. Experts review
+the AI-generated suggestions, that helps to improve the system over time.
 
-### Implementation Milestones
+### Context Viewpoint
+
+> *Describes the relationships, dependencies, and interactions between the system and its environment
+> (the people, systems, and external entities with which it interacts).*
+
+![Diagram](future_state/solution_2/context_viewpoint.jpg)
+1. Submission & Preprocessing
+   * Candidates submit their short-answer responses via UI
+   * The responses are stored in the Architecture Exam Historical DB
+   * The Answers Preprocessing Microservice clusters similar responses and chooses a representative set of answers
+   examples on a certain question 
+2. AI-Powered Suggestions Generation
+   * The Suggestions Generator retrieves set of answers examples and experts' feedback, injects grading prompts and
+   sends them into an LLM
+   * The LLM generates grading suggestions based on context
+3. Expert Review & Refinement
+   * AI-generated grading suggestions are forwarded to the Expert Grading Space
+   * Experts review, refine, or override the AI’s grading and feedback
+   * Suggestions API Microservice updates the suggestions’ statuses based on expert validation (if suggestion is
+   accepted or not)
+4. AI Oversight & Continuous Learning
+   * AI Engineers use the AI Admin UI to monitor AI-core performance and adjust prompt templates and configs for better
+   performance
+   * Experts and AI engineers can request regeneration of AI-generated suggestions to improve accuracy
+5. Feedback Loop for Optimization 
+   * AI-generated suggestions are evaluated for accuracy, helping refine future grading logic: improve models,
+   preprocessing of data and better grading criteria for tasks
+
+
+### Operational Viewpoint
+
+> *Describes how the system will operate to fulfill the required functionality.*
+
+![Diagram](future_state/solution_2/operational_viewpoint.jpg)
+#### Workflow
+The workflow describes an LLM-powered grading system that combines historical answer data, AI-driven suggestions,
+and expert validation to optimize short-answer assessment.
+
+1. The Answers Preprocessing Microservice clusters and organizes historical responses to provide variety of examples to GenAI
+
+2. Suggestions Generator captures submitted answers and – instead of searching for exact past matches 
+(as in Solution 1a) – an LLM processes the answer, analyzing it in context (question, the other answers and their gradings)
+
+3. The LLM generates grading suggestions and relevant feedback based on examples of human grading
+
+4. Human experts review, refine, or override AI-generated grades and feedback
+
+5. AI-core calculates acceptance statistics and in case of irrelevant suggestions tries to choose different
+set of experts grading and improve AI accuracy
+
+### Informational Viewpoint
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+
+![Diagram](future_state/solution_2/informational_viewpoint.jpg)
+
+#### Definitions
+
+ **Aptitude Test Feedbacks (Prompt Craft database)** stores actual examples for grading queries augmentation:
+
+- **Aptitude test submission ID (PK)** – links the feedback to a specific aptitude test submission
+- **Question ID (PK)** – a unique identifier for each question
+- **Answer embedding (Index)** – a numerical representation (embedding) of the candidate’s answer,
+allowing for similarity comparison and clustering
+- **Question** – the actual text of the question being answered
+- **Grade** – the score or assessment assigned to the candidate’s response
+- **Feedback** – comments, suggestions, or explanations provided regarding the candidate’s answer
+- **Cluster ID** – an identifier grouping similar answers together based on their embeddings
 
 ## Architecture Exam: Solution 3a - Direct Prompting
 
