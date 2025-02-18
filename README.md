@@ -1,4 +1,6 @@
-# The Software Architecture Guild Architectural Kata by O'Reilly, February 2025 <!-- omit in toc -->
+![Logo](logo.drawio.png)
+
+# The Architectural Kata by O'Reilly, February 2025 <!-- omit in toc -->
 
 ## Team members <!-- omit in toc -->
 
