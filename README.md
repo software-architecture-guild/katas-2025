@@ -920,6 +920,17 @@ set of experts grading and improve AI accuracy
 
 #### Definitions
 
+ **Aptitude Test Feedbacks (Prompt Craft database)** stores actual examples for grading queries augmentation:
+
+- **Aptitude test submission ID (PK)** – links the feedback to a specific aptitude test submission
+- **Question ID (PK)** – a unique identifier for each question
+- **Answer embedding (Index)** – a numerical representation (embedding) of the candidate’s answer,
+allowing for similarity comparison and clustering
+- **Question** – the actual text of the question being answered
+- **Grade** – the score or assessment assigned to the candidate’s response
+- **Feedback** – comments, suggestions, or explanations provided regarding the candidate’s answer
+- **Cluster ID** – an identifier grouping similar answers together based on their embeddings
+
 ## Architecture Exam: Solution 3a - Direct Prompting
 
 ### Idea
