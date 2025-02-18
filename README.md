@@ -746,24 +746,26 @@ Short-answer responses are typically concise and follow predictable patterns, ma
 
 The workflow describes an AI-powered grading workflow for short-answer responses, integrating various services, databases, and user interactions. Here's a step-by-step breakdown:
 
-1. **Submission & Preprocessing**
-   - Short-answer responses from the **Aptitude Test** are stored in the **Architecture Exam Historical DB**.
-   - The **Answers Preprocessing Microservice** prepares these responses for indexing.
-2. **Retrieving Similar Answers**
-   - The **Previous Answers and Feedback Search DB** indexes past graded answers.
-   - The **Suggestions Generator Microservice** searches for similar past responses and retrieves them for grading reference.
-3. **Generating Suggestions**
-   - The **Solution 1 API Microservice** processes retrieved answers and generates **grade & feedback suggestions** based on past similar answers.
-   - These suggestions are stored in the **Suggestions DB** and sent to the **Suggestions API Microservice**.
-4. **Expert Review & Refinement**
-   - Suggestions are sent to the **Expert Grading Space** for human validation.
+1. **Answer Indexing**
+
+   - Short-answer responses from the Aptitude Test with feedback and grades are stored in the **Aptitude Test Historical DB**.
+   - The **Answers Indexing** Microservice prepares these responses for indexing.
+   - The **Previous Answers and Feedback Search DB** indexes past graded answers in full-text search index.
+2. **Generating Suggestions**
+
+   - The **Suggestions Generator** microservice captures submitted ungraded short answers from ****Aptitude Test Historical** DB, searches for similar past responses and retrieves them for grading reference.
+   - These suggestions are stored in the **Suggestions** DB
+3. **Expert Review & Refinement**
+
+   - Suggestions are requested by the **Expert Grading Space** for human validation. **Solution 1 API** microservice fetches the suggestions from **Suggestions** db.
    - Experts review and adjust the suggestions, improving grading accuracy.
    - The **Suggestions API** updates suggestion statuses based on expert feedback.
-5. **AI Oversight & Continuous Improvement**
-   - The **AI Admin UI Web App** allows **AI Engineers** to monitor **suggestion performance** and request **regeneration of suggestions** if needed.
-   - Regenerated suggestions go back through the **Solution 1 UI** and **Solution 1 API** for processing.
-6. **Feedback Loop for Optimization**
-   - Validated grading decisions continuously improve the **search ranking and grading model**, enhancing the accuracy of future suggestions.
+4. **Continuous Improvement**
+
+   - The **AI Admin UI Web App** allows **ML Engineers** to monitor **suggestion performance** and request **regeneration of suggestions** if needed.
+5. **Feedback Loop for Optimization**
+
+   - Validated grading decisions continuously improve the search ranking and grading model, enhancing the accuracy of future suggestions.
 
 This workflow automates grading while incorporating expert oversight, ensuring efficiency, accuracy, and continuous improvement.
 
@@ -776,6 +778,7 @@ This workflow automates grading while incorporating expert oversight, ensuring e
 #### Definitions
 
 1. **Aptitude test feedback (Solution 1a Database)**: This database stores information about historical short answers (including their grades and feedback). The records are indexed for full-text search of short answer content.
+
    - **Aptitude test submission ID (PK, FK)** – Identifies short answer relation to an aptitude test submission.
    - **Question ID (PK, FK)** – Identifies which question of the aptitude test the short answer was submitted for.
    - **Question** – Stores the question the answer was submitted for.
@@ -794,21 +797,21 @@ The diagram presents a structured **workflow for AI-assisted grading of short-an
 
 1. **Suggestions Generation**
 
-   - The **AI Suggestions Generator Microservice** captures the submitted answer.
-   - The answer is **preprocessed** (cleaned up for better indexing).
-   - The system **retrieves similar past answers** from historical data.
-   - Based on the assessment history, the AI **suggests a grade and feedback**.
+   - The **AI Suggestions Generator** Microservice captures the submitted answer.
+   - The answer is preprocessed (cleaned up for better indexing).
+   - The system retrieves similar past answers from historical data.
+   - Based on the assessment history, the system suggests a grade and feedback.
 2. **Expert Grading Based on Suggestions**
 
-   - A **human expert** reviews the submitted answer along with AI-generated suggestions.
-   - The expert **grades the answer**, and accepts, updates or provide their own feedback, finalizing the answer score.
-   - The **graded aptitude test** is recorded.
-   - The **suggestion’s accuracy** is assessed, feeding back into the system for improvement.
+   - An expert architect reviews the submitted answer along with AI-generated suggestions.
+   - The expert grades the answer, and accepts, updates or provide their own feedback.
+   - The graded aptitude test is recorded.
+   - The suggestion’s accuracy is assessed, feeding back into the system for improvement.
 3. **Registering New Grade and Feedback**
 
-   - The assigned **grade and feedback are captured**.
+   - The assigned grade and feedback are captured.
    - The answer is preprocessed for indexing.
-   - The **indexed feedback** is stored in the system, enhancing future AI grading accuracy.
+   - The indexed feedback is stored in the system, enhancing future AI grading accuracy.
 
 This **continuous feedback loop** ensures that the AI grading system improves over time, refining its ability to suggest accurate grades and relevant feedback.
 
@@ -816,13 +819,13 @@ This **continuous feedback loop** ensures that the AI grading system improves ov
 
 ### Idea
 
-While **Solution 1a** efficiently automates grading using **full-text search**, it is limited by keyword-based matching, which may overlook nuanced differences in student responses. **Solution 1b** addresses this by leveraging **LLMs and vector search** to improve **grading accuracy, feedback relevance, and adaptability over time**.
+While [Solution 1a](#aptitude-test-solution-1a---text-search) efficiently automates grading using full-text search, it is limited by keyword-based matching, which may overlook nuanced differences in student responses. **Solution 1b** addresses this by leveraging LLMs and vector search to improve grading accuracy, feedback relevance, and adaptability over time.
 
-Since short answers often express similar ideas in varied ways, relying on exact word matches can lead to inconsistent grading. By using an **LLM for preprocessing**, responses are **standardized and semantically enriched**, ensuring that meaning—not just wording—is captured. A **vector database** further improves retrieval by **matching conceptually similar responses**, even when phrased differently.
+Since short answers often express similar ideas in varied ways, relying on exact word matches can lead to inconsistent grading. By using an LLM for preprocessing, responses are standardized and semantically enriched, ensuring that meaning—not just wording—is captured. A vector database further improves retrieval by matching conceptually similar responses, even when phrased differently.
 
-Beyond improving search, **Solution 1b enhances feedback quality**. Instead of simply reusing past feedback, an **LLM synthesizes suggestions**, adapting them to the specific nuances of each answer. This ensures that candidates receive **more precise, context-aware feedback**, rather than generic comments.
+Beyond improving search, Solution 1b enhances feedback quality. Instead of simply reusing past feedback, an LLM synthesizes suggestions, adapting them to the specific nuances of each answer. This ensures that candidates receive more precise, context-aware feedback, rather than generic comments.
 
-By continuously refining grading suggestions based on expert validation, this approach **creates a learning system**—where both retrieval accuracy and feedback generation improve over time. As a result, grading becomes **more consistent, efficient, and precise** and **feedback** becomes more relevant for each submission.
+By continuously refining grading suggestions based on expert validation, this approach creates a learning system—where both retrieval accuracy and feedback generation improve over time. As a result, grading becomes more consistent, efficient, and precise and feedback becomes more relevant for each submission.
 
 ### Context Viewpoint
 
@@ -834,26 +837,26 @@ By continuously refining grading suggestions based on expert validation, this ap
 
 The diagram illustrates an **AI-assisted grading workflow** using **vector search** and **LLMs** to enhance the grading process for short-answer responses.
 
-1. **Answer Preprocessing**
+1. **Answer Indexing**
 
-   - The candidate’s submitted answer is first **preprocessed** by the **Answers Preprocessing Microservice**, which prepares the text (using LLM if needed) and converts the answer into a **vectorized format** (embedding) suitable for comparison in the vector database. This step ensures that answers are represented semantically, rather than just as text.
-2. **Similar Answer Retrieval**
+   - All short answer feedbacks (historical and recently graded) are stored in vector database indexed by embedding of the candidate's preprocessed short answer.
+   - Before vectorization, the short answer is preprocessed to improve search quality.
+   - The candidate’s submitted answer is preprocessed by the **Answers Preprocessing** microservice, which prepares the text (using LLM if needed) and converts the answer into a vectorized format (embedding) suitable for comparison in the vector database. This step ensures that answers are represented semantically, rather than just as text.
+2. **Feedback and Grade Generation**
 
-   - The **preprocessed answer** is then used to search for **similar answers** stored in the **Previous Answers and Feedback Vector DB**. The system retrieves **1-3 similar answers** from previous test submissions along with their corresponding grades and feedback. This semantic search allows the system to find responses that are conceptually similar, even if wordings differ.
-3. **Feedback and Grade Generation**
+   - Ungraded short answers are captured by the **Suggestions Generator** microservice.
+   - Firstly the captured answers are preprocessed via **Preprocessing** microservice. The preprocessed answer is then vectorized and used to search for similar answers stored in the **Previous Answers and Feedback Vector DB**.
+   - The system retrieves a few similar answers from previous test submissions along with their corresponding grades and feedback. This semantic search allows the system to find responses that are conceptually similar, even if wordings differ.
+   - The **Suggestions Generator** Microservice analyzes the retrieved similar answers and their feedback to generate grade and feedback suggestions for the current answer. These suggestions are tailored based on the closest matches from the historical data.
+   - The similar short answers with grades and feedback are passed to an LLM, which combines them into a final grade and synthesized feedback. This process leverages the model’s ability to generate a coherent and relevant response, ensuring the feedback is contextually appropriate and insightful.
+3. **Expert Grading and Review**
 
-   - The **Suggestions Generator Microservice** analyzes the retrieved similar answers and their feedback to **generate grade and feedback suggestions** for the current answer. These suggestions are tailored based on the closest matches from the historical data.
-4. **LLM-Based Synthesis**
+   - The generated grade suggestion and feedback are then sent to the **Expert Grading Space** for review. Experts (or designated experts) can approve or adjust the suggestions provided by the system, improving grading accuracy and ensuring that the feedback meets the required standards.
+4. **Continuous Improvement**
 
-   - The **preprocessed answer** is passed to an **external LLM (Large Language Model)**, which combines the **similar answers** and **feedback** into a **final synthesized answer and feedback**. This process leverages the model’s ability to generate a coherent and relevant response, ensuring the feedback is contextually appropriate and insightful.
-5. **Expert Grading and Review**
+   - The system tracks the performance of suggestions, feeding back into the process to improve future suggestions. The ML Engineer monitors suggestion accuracy, ensuring the system continues to learn and refine its outputs over time.
 
-   - The generated grade suggestion and feedback are then sent to the **Expert Grading Space** for review. Experts (or designated experts) can **approve or adjust** the suggestions provided by the system, improving grading accuracy and ensuring that the feedback meets the required standards.
-6. **Continuous Improvement**
-
-   - The system tracks the **performance of suggestions**, feeding back into the process to improve future suggestions. The **AI Engineer** monitors **suggestion accuracy** and adjusts **grading criteria prompts** as necessary, ensuring the system continues to learn and refine its outputs over time.
-
-This workflow combines **semantic vector search** and **LLM-based synthesis** to automate and optimize grading, while maintaining expert oversight to ensure quality and accuracy. The result is a more **efficient, consistent, and context-aware grading process**.
+This workflow combines semantic vector search and LLM-based synthesis to automate and optimize grading, while maintaining expert oversight to ensure quality and accuracy. The result is a more efficient, consistent, and context-aware grading process.
 
 ### Informational Viewpoint
 
@@ -864,6 +867,7 @@ This workflow combines **semantic vector search** and **LLM-based synthesis** to
 #### Definitions
 
 1. **Aptitude test feedbacks (Solution 1b Database)**: Stores information about historical short answers (including their grades and feedbacks). The records are indexed for full-text search of short answer content.
+
    - **Aptitude test submission ID (PK, FK)** – Identifies short answer relation to an aptitude test submission.
    - **Question ID (PK, FK)** – Identifies which question of the aptitude test the short answer was submitted for.
    - **Answer embedding** – Vector representation of the short answer allowing to easily find semantically similar short answers.
@@ -875,30 +879,34 @@ This workflow combines **semantic vector search** and **LLM-based synthesis** to
 
 > *Describes how the system will operate to fulfill the required functionality.*
 
-![Diagram](future_state/solution_1b/operational_viewpoint.png)
+This diagram describes the workflow if indexing short answer feedbacks and grades based on the short answer text.
+
+![Diagram](future_state/solution_1b/operational_viewpoint_index.png)
+
+This diagram illustates the workflow of generating grading and feedback suggestions based on grades and feedbacks of semantically similar short answers.
+
+![Diagram](future_state/solution_1b/operational_viewpoint_suggest.png)
 
 #### Workflow
 
-1. **Suggestions Generation**
+1. **Indexing Grades and Feedback**
+
+   - **Capture the grade and feedback**: The the final **grade** and **feedback** provided by expert are ingested from **Aptitude Test Historical** database.
+   - **Preprocess the answer**: After grading, the short answer is preprocessed to improve the vectorization results. LLM can be used at this step to summarize too long answers, classify the answer, etc.
+   - **Vectorize the preprocessed answer**: The final preprocessed answer is then vectorized for indexing in the system.
+   - **Indexed grades and feedback**: The feedback is stored in the vector database, making it available for future suggestions and improving the quality of feedback generation for subsequent responses.
+2. **Suggestions Generation**
 
    - **Capture the answer**: The candidate's answer is captured by the **AI Suggestions Generator** component.
-   - **Preprocess the answer**: The answer is passed to the **Answers Preprocessing Microservice**, where it is converted into a **vectorized format** (embedding) suitable for comparison in the search process.
+   - **Preprocess the answer**: The answer is passed to the **Preprocessing** Microservice to prepare for vectorization,
+   - **Vectorize the preprocessed answer**, the preprocessed answer is converted into a **vectorized format** (embedding) suitable for comparison in the search process.
    - **Lookup similar answers**: The system then searches for **similar answers** from previously graded responses. This search is based on the semantic similarity of the vectorized answer.
-   - **Generate suggestions**: The **AI Suggestions Generator** uses the similar answers' feedback to generate a **suggested grade and feedback** based on historical assessments. These suggestions are intended to guide the expert grader.
-2. **Expert Grading Based on Suggestions**
+   - **Generate suggestions**: The **AI Suggestions Generator** uses the similar answers' feedback and grades to generate a suggested grade and feedback based on historical assessments. These suggestions are intended to guide the expert grader.
+3. **Expert Grading Based on Suggestions**
 
    - **Review the answer and suggestions**: The **Expert / Designated Expert** reviews the candidate's answer along with the generated suggestions (grade and feedback).
-   - **Grade the answer**: The expert assigns a grade to the answer based on their review of both the answer and the suggested feedback.
+   - **Grade the answer**: The expert assigns a grade to the answer based on their review of both the answer and the suggested grade and feedback.
    - **Graded Aptitude test**: The graded answer is recorded, capturing the expert's evaluation.
-3. **Registering New Grade and Feedback**
-
-   - **Preprocess the answer**: After grading, the answer is again preprocessed to standardize the feedback and ensure consistency.
-   - **Capture the grade and feedback**: The expert inputs the final **grade** and **feedback**.
-   - **Vectorize the preprocessed answer**: The final preprocessed answer is then vectorized for **indexing** in the system.
-   - **Indexed feedback**: The feedback is indexed in the system, making it available for future suggestions and improving the quality of feedback generation for subsequent responses.
-4. **Continuous Improvement**
-
-- **Suggestion accuracy monitoring**: The accuracy of the generated suggestions is monitored and evaluated, feeding back into the system for continuous improvement in grading and feedback suggestions.
 
 This workflow integrates AI and human expertise, ensuring the grading process is efficient while maintaining high-quality, personalized feedback for each student. The combination of **vectorized search** for semantic similarity and **LLM-based feedback synthesis** helps enhance grading consistency and precision.
 
