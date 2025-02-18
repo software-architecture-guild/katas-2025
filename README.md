@@ -1192,114 +1192,137 @@ Equally critical is continuous quality monitoring to measure AI’s impact. Metr
 
 #### Anomaly Detection Workflow
 
-This workflow describes an AI-assisted detection of anomalies in Expert-provided grades. The workflow defines the Aptitude test workflow, and minor adjustments can also be applied to the Case study submission grades.
+This workflow describes an AI-assisted detection of anomalies in Expert-provided grades for the Aptitude Test.
 
-1. **Expert** reviews the Candidate's Submission and provides a grade and feedback.
-2. **Submission Capture Job** load the submission and sends it to **Anomaly Detection** service.
-3. **Anomaly Detection** finds misalignment between the submission grades and other similar submissions and flags it for review.
+It heavily relies on the possibility of searching similar historical submissions to detect discrepancies between new and previous submissions Feasibility of such approach has been shown in **Solution 1a - Text Search**.
 
-   - **Submission Search** searches submissions with a similar text.
-   - Most similar submissions (top 5) are compared by grade with the original submission.
-   - If the misalignment with similar submission grades is significant, the submission is forwarded to be re-validated by a **Designated Expert**.
-4. **Designated Expert** re-validates the submission.
+With the help of **Solution 4 - Transform Submission into Short Answers** it's possible to extend the extend the applicability of the detection process to the Case Study Exam as well.
 
-   - Grade and Description is updated.
-   - Anomaly Status (Corrected / Ignored) is sent to the **Corrections Capture** service to be analyzed later.
-5. **Corrections Capture** persists the anomaly resolution to **Performance Metrics** DB.
-6. **AI Engineers** access the **Performance Metrics** database analyze the collected data.
+Since the Data needed for Search, as well as queries performed are exactly the same as in Solutions 1 and 4 - it's possible to re-use those solutions resources for the Anomaly Detection. However, in the diagrams provided, search services are depicted as standalone services.
 
-   - Metrics related to AI usage, validation time, AI accuracy, and expert accuracy can be calculated based on the collected datasets.
+Provided workflow overview only covers the interactions with or within the AI Analytics app.
 
-#### Appeals Workflow
+1. **Operational DB** stores raw, various types events for a limited time window before they are processed by **Analytics Job**.
 
-This workflow describes the Appeal process, where candidates who wish to dispute the grading results can justify their request for a revalidation.
+2. **Submissions Capture** microservice persists submissions in **Operational DB** for later use.
 
-1. **Candidate** Submits the Appeal Form
+3. **LIKE Aptitude Test: Solution 1 Submissions Search** and **LIKE Architecture Exam: Solution 4 Submissions Search** services
+  - Preprocess provided submission for text search
+  - Perfrom text search in internal Vector DB of previously graded submissions
+  - Return similar submissions with their grades and feedback.
 
-   - Candidate receives test results and disputes the grade via the **Candidate UI**.
-   - **Candidate UI** stores the Appeal for later review.
-2. **Experts / Designated Experts** review appeals
+4. **Anomaly Detection** microservice 
+   - Searches for similar submissions using **Submissions Search** services
+   - Detects significant discrepancies between average grades of similar historical graded submissions and the current one
+   - Flags such submissions as anomalies and forwards them to **Expert Admin Space** for later review
 
-   - **Experts / Designated Experts** are notified about the unprocessed appeals.
-   - **Experts / Designated Experts** review the submission and provide an updated grade and feedback.
-     - Appeal can be rejected without grade changes
-     - Appeal can be approved with correcting the grades and feedback
-   - **Appeals App** notifies testing components and **AI Analytics App** about the grade updates.
-3. **Capture Corrections** persists the appeal outcome and persists the information to the **Performance Metrics DB**.
-4. **AI Engineers** Analyze appeal data in the **Performance Metrics DB** to:
+5. **Designated Expert** re-validates the anomalies.
+   - Submissions Grade and Feedback is Corrected
+   - Anomaly Status (Confirmed / Ignored) is sent to the **Corrections Capture** service to be analyzed later.
 
-   - Track appeal volume and resolution rates.
-   - Identify recurring grading errors.
-   - Measure average resolution time.
-   - Make decisions to address identified errors.
+6. **Corrections Capture** persists the anomaly resolution to **Operational DB** for later processing.
+
+As an outcome, internal **Operational DB** contains information about submissions and their corrections made through **Anomaly Detection**.
+
+#### Appeal Process Workflow
+
+This workflow describes the process of reviewing submissions, whose grades were disputed by the Candidates.
+
+1. **Designated Expert** re-validates the appeals.
+   - Submissions Grade and Feedback is Corrected
+   - Appeal Status (Approved / Rejected) is sent to the **Corrections Capture** service to be analyzed later.
+
+2. **Corrections Capture** persists the anomaly resolution to **Operational DB** for later processing.
+
+As an outcome, internal **Operational DB** contains information about submissions and their corrections made through **Appeal Process**.
+
+#### Analytics Workflow
+
+This workflow describes the process of Building the dataset that is used to monitor accuracy and performance of **Experts** along with performance of AI solutions assisting in the process of grading and review.
+
+1. **Corrections Capture** persists AI suggestions to **Operational DB** for later processing.
+
+2. **Analytics Job** aggregates raw events and transforms them into final metrics dataset, that is then stored in **Validation Analysis** analytical DB.
+
+3. **Validation Analysis** analytical DB stores historical computed performance metrics.
+
+4. **AI Engineers** are able to access historical dataset and make informed decisions regarding Experts and AI Solutions performance.
 
 ### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
 
 **Anomaly Detection**
+
 ![Diagram](future_state/solution_5/operational_viewpoint_anomaly_detection.png)
 
 #### Anomaly Detection Workflow
 
-1. **Anomaly Search**
+This workflow describes an AI-assisted detection of anomalies in Expert-provided grades for the Aptitude Test.
 
-   - **Data Preparation**:
-     - **Submission Capture Job** sends graded submissions to Anomaly Detection Job, that forwards the submission to **Submissions Search**.
-     - **Submissions Search** converts submission text into embedding.
-     - **Anomaly Detection Microservice** queries the **Vector DB** to retrieve the **up to 5 most similar submissions**.
-     - **Similar submissions with grades are returned.
-2. **Anomaly Filtering**
+1. **Grade Submissions**
+  - **Expert** provides grade and feedback for Candidate's submission
 
-   - **Anomaly Detection** compares the submission’s grade with historical grades of retrieved similar submissions.
-   - **Anomaly Detection** flags anomalies using predefined criteria (e.g., >15% deviation from historical averages).
-   - **False Approval/Rejection Detection**:
-     - Identifies **both** inflated scores (false approvals) and unduly low scores (false rejections).
-3. **Anomaly Review**
+2. **Find Similar Submissions**
+   - **Submissions Search** service vectorizes the submission
+   - **Submissions Search** service searches for similar submissions using vector similarity
+   - **Submissions Search** service returns similar submissions with grades and feedback
 
-   - **Expert / Designated Expert** is notified about the anomalies in **Anomalies App**.
-   - **Expert / Designated Expert** reviews submission details, grades and historical comparisons.
-   - **Expert / Designated Expert**  **corrects** (update grade/feedback) or **ignores** (no action) the anomaly.
-4. **Anomaly Status Analysis**
+3. **Anomaly Detection** 
+   - **Anomaly Detection** microservice compares the submission’s grade with historical grades of retrieved similar submissions.
+   - **Anomaly Detection** finds anomalies using predefined criteria (e.g., >15% deviation from historical averages. It identifies **both** inflated scores (false approvals) and unduly low scores (false rejections).
+   - **Anomaly Detection** forwards the anomalies for a re-validation.
 
+4. **Anomaly Review**
+   - **Designated Expert** is notified about the anomalies in **Anomalies App**.
+   - **Designated Expert** reviews submission details, grades and historical comparisons.
+   - **Designated Expert** **corrects** (update grade/feedback) or **ignores** (no action) the anomaly.
+
+4. **Anomaly Status Update**
    - **Corrections Capture** microservice records the final status (*Corrected*/*Ignored*) and persists it to the **Performance Metrics DB** for auditing and analysis.
-   - **AI Engineers** analyze data to:
-     1. Adjust similarity thresholds.
-     2. Retrain AI models to reduce future anomalies.
-     3. Validate grading consistency improvements.
 
 **Appeal Process**
+
 ![Diagram](future_state/solution_5/operational_viewpoint_appeal_process.png)
 
-#### Appeal Workflow
+#### Appeal Process Workflow
 
-#### 1. **Appeal Submission**
+1. **File an Appeal**
+   - **Candidate** receives graded results and feedback and decides to appeal.
+   - **Candidate** fills out an Appeal form via the **Candidate Testing UI**
+   - Appeal form is stored for later review by **Appeals App**
 
-- **Candidate** receives graded results and feedback and decides to appeal.
-- **Candidate** fills out an Appeal form via the **Candidate Testing UI**
-- Appeal form is stored for later review by **Appeals APP**
+2. **Appeal Review**
+   - **Appeals App** notifies **Designated Expert ** about new Appeals.
+   - **Designated Expert** reviews the submission, grade, feedback and candidate’s justification.
+   - **Designated Expert** makes a decision:
+     - **Approved (Full/Partial)**: Updates grade/feedback, potentially allowing the candidate to move to the next step in certification process.
+     - **Rejected**: No changes; original grade retained.
+   - **Correction Capture** service persists reviewed appeal details to   **Operational DB**.
 
-#### 2. **Appeal Review**
+3. **Notify Candidate about Appeal Result**
+   - **Candidate** status is updated.
+   - **Candidate** is notified about the appeal result via email.
 
-- **Appeals App** notifies **Expert / Designated Expert** about new Appeals.
-- **Expert / Designated Expert** reviews the submission, grade, feedback and candidate’s justification.
-- **Expert / Designated Expert** makes a decision:
-  - **Approved (Full/Partial)**: Updates grade/feedback, potentially allowing the candidate to move to the next step in certification process.
-  - **Rejected**: No changes; original grade retained.
-- **Correction Capture** service persists reviewed appeal details to   **Performance Metrics DB**.
+4. **Certification Process Adjustments**
+   - **Approved Appeals** may change the grade so that the candidate can pass to the next step:
+     - **Aptitude Test** grade is updated, **Candidate** is able to take Case Study Exam.
+     - **Case Study Exam** grade is updated, **Candidate** receives certificate for passing the Certification.
+   - **Rejected Appeals**:
+     - No changes to the flow, **Candidate** is notified about the verdict with updated feedback.
 
-#### 4. **Certification Process Adjustments**
+**Analytics**
 
-- **Approved Appeals** may change the grade so that the candidate can pass to the next step:
-  - **Aptitude Test** grade is updated, **Candidate** is able to take Case Study Exam.
-  - **Case Study Exam** grade is updated, **Candidate** receives certificate for passing the Certification.
-- **Rejected Appeals**:
-  - No changes to the flow, **Candidate** is notified about the verdict with updated feedback.
+![Diagram](future_state/solution_5/operational_viewpoint_analytics.png)
 
-#### 5. **Appeal Cases Analysis**
+#### Analytis Workflow
 
-- **Metrics Extraction**:
-  - **AI Engineers** analyze **Performance Metrics DB** to track various metrics, including: time spent, expert accuracy, appeal approval rate.
+1. **Capture Data**
+   - Information about submissions, appeal and anomalies, suggestions is presisted by corresponding **Capture** services to **Operational DB** staging area. This area sores raw events for a limited time period.
+2. **Calculate Metrics**
+   - **Operational Job** aggregates raw data from **Operational DB**, computes performance metrics, updates **Validation Analysis** DB with new data.
+3. **Analyze data**
+   - **AI Engineers** analyze the metrics to make informed decisions regarding the performance of Experts and AI Solutions.
 
 # Final Words
 
