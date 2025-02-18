@@ -1207,9 +1207,9 @@ Provided workflow overview only covers the interactions with or within the AI An
 2. **Submissions Capture** microservice persists submissions in **Operational DB** for later use.
 
 3. **LIKE Aptitude Test: Solution 1 Submissions Search** and **LIKE Architecture Exam: Solution 4 Submissions Search** services
-  - Preprocess provided submission for text search
-  - Perfrom text search in internal Vector DB of previously graded submissions
-  - Return similar submissions with their grades and feedback.
+   - Preprocess provided submission for text search
+   - Perfrom text search in internal Vector DB of previously graded submissions
+   - Return similar submissions with their grades and feedback.
 
 4. **Anomaly Detection** microservice 
    - Searches for similar submissions using **Submissions Search** services
