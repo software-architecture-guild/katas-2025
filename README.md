@@ -855,33 +855,31 @@ By continuously refining grading suggestions based on expert validation, this ap
 ## Aptitude Test: Solution 2
 
 ### Idea
-Solution 2 enhances AI-assisted grading by leveraging a Large Language Model (LLM) to generate grading suggestions and feedback for short-answer responses. Unlike Solution 1a, which primarily relies on text search to find similar past answers, Solution 2 employs advanced AI techniques to analyze responses in context, generate meaningful feedback, and improve grading consistency.
+Solution 2 enhances AI-core grading by direct leveraging a Large Language Model (LLM) to generate grading suggestions and feedback for short-answer responses. Unlike Solution 1a, which primarily relies on text search to find similar past answers, Solution 2 makes AI not only generate meaningful feedback, but *do the grading itself*.
 
-This approach bridges the gap between human intuition and AI automation, ensuring that the system not only matches similar answers but also understands variations and provides contextually relevant grading insights. Experts review the AI-generated suggestions, refining and improving the model over time.
+This approach bridges the gap between human intuition and AI automation, ensuring that the system not only matches similar answers but also understands variations and provides contextually relevant grading insights. Experts review the AI-generated suggestions, that helps to improve the system over time.
 
 ### Context Viewpoint
 
 > *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
 
 ![Diagram](future_state/solution_2/context_viewpoint.jpg)
-1.	Submission & Preprocessing
-• Candidates submit their short-answer responses via the Solution 2 UI (Micro FE Component).
-	•	The responses are stored in the Architecture Exam Historical DB.
-	•	The Answers Preprocessing Microservice clusters similar responses for efficient retrieval.
+1. Submission & Preprocessing
+   * Candidates submit their short-answer responses via UI
+   * The responses are stored in the Architecture Exam Historical DB
+   * The Answers Preprocessing Microservice clusters similar responses and chooses a representative set of answers examples on a certain question 
 2. AI-Powered Suggestions Generation
-	•	The Solution 2 API Microservice retrieves past responses and expert feedback.
-	•	The Suggestions Generator Microservice injects grading prompts into an LLM (Large Language Model).
-	•	The LLM generates grading suggestions based on context, stored in the Suggestions DB.
-3.	Expert Review & Refinement
-•	AI-generated grading suggestions are forwarded to the Expert Grading Space (Service Component).
-•	Experts review, refine, or override the AI’s grading and feedback.
-•	The Suggestions API Microservice updates the suggestions’ statuses based on expert validation.
-4.	AI Oversight & Continuous Learning
-•	AI Engineers use the AI Admin UI (Web App Component) to monitor AI performance and adjust grading criteria.
-•	Experts and AI engineers can request regeneration of AI-generated suggestions to improve accuracy.
-5.	Feedback Loop for Optimization
-•	Expert-validated grading decisions are indexed in the Architecture Exam Historical DB.
-•	AI-generated suggestions are evaluated for accuracy, helping refine future grading logic.
+   * The Suggestions Generator retrieves set of answers examples and experts' feedback, injects grading prompts and sends them into an LLM
+   * The LLM generates grading suggestions based on context
+3. Expert Review & Refinement
+   * AI-generated grading suggestions are forwarded to the Expert Grading Space
+   * Experts review, refine, or override the AI’s grading and feedback
+   * Suggestions API Microservice updates the suggestions’ statuses based on expert validation (if suggestion is accepted or not)
+4. AI Oversight & Continuous Learning
+   * AI Engineers use the AI Admin UI to monitor AI-core performance and adjust prompt templates and configs for better performance
+   * Experts and AI engineers can request regeneration of AI-generated suggestions to improve accuracy
+5. Feedback Loop for Optimization 
+   * AI-generated suggestions are evaluated for accuracy, helping refine future grading logic: improve models, preprocessing of data and better grading criteria for tasks
 
 
 ### Operational Viewpoint
