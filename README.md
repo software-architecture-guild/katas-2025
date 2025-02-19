@@ -916,13 +916,19 @@ This workflow integrates AI and human expertise, ensuring the grading process is
 
 ### Idea
 
-Solution 2 enhances AI-core grading by direct leveraging a Large Language Model (LLM) to generate grading suggestions
-and feedback for short-answer responses. Unlike Solution 1a, which primarily relies on text search to find similar past
-answers, Solution 2 makes AI not only generate meaningful feedback, but *do the grading itself*.
+We assume that short-answer questions primarily test factual knowledge rather than deep analysis or architectural design skills. 
+Given this scope, the LLM’s static knowledge base and reasoning ability are expected to be sufficient
+for determining correctness—whether an answer is correct, partially correct, or incorrect—while also providing explanatory feedback.
 
-This approach bridges the gap between human intuition and AI automation, ensuring that the system not only matches
-similar answers but also understands variations and provides contextually relevant grading insights. Experts review
-the AI-generated suggestions, that helps to improve the system over time.
+So, we ask the model to both grade responses and generate feedback for candidates’ answers. 
+To enhance its accuracy, we provide a representative set of different answers from other candidates, along with expert evaluations. 
+By including these historical answers, grades, and feedback in the prompt,
+the model can better align its assessments with expert grading patterns while still allowing for flexibility in evaluating new cases.
+
+Unlike Solution 1, which primarily retrieves past answers from a database, Solution 2 can handle “cold start” scenarios,
+meaning it can evaluate responses to new questions without requiring prior examples.
+This enables broader applicability while still benefiting from historical grading data. 
+However, Experts continue to review AI-generated suggestions in order to improve grading accuracy over time.
 
 ### Context Viewpoint
 
