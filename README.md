@@ -2,6 +2,8 @@
 
 # The Architectural Kata by O'Reilly, February 2025 <!-- omit in toc -->
 
+## [Executive Summary](Executive-Summary.md)
+
 ## Team members <!-- omit in toc -->
 
 - [Ilya Hardzeenka](https://www.linkedin.com/in/ilya-hardzeenka/)
@@ -39,7 +41,7 @@
   - [High-Level Architecture](#high-level-architecture-1)
   - [Aptitude Test: Solution 1a - Text search](#aptitude-test-solution-1a---text-search)
   - [Aptitude Test: Solution 1b - Semantic search](#aptitude-test-solution-1b---semantic-search)
-  - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
+  - [Aptitude Test: Solution 2 - In-Context Learning](#aptitude-test-solution-2---in-context-learning)
   - [Architecture Exam: Solution 3a - Direct Prompting](#architecture-exam-solution-3a---direct-prompting)
   - [Architecture Exam: Solution 3b - Automatic Prompt Optimization](#architecture-exam-solution-3b---automatic-prompt-optimization)
   - [Architecture Exam: Solution 4 - Transform Submission into Short Answers](#architecture-exam-solution-4---transform-submission-into-short-answers)
