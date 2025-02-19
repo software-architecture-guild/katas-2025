@@ -1264,6 +1264,29 @@ This solution follows the overall architecture, but introduces key enhancements:
 
 These enhancements improve the grading process by enabling automated extraction, structuring, and evaluation of short answers, leading to a more consistent, scalable, and efficient approach to assessing architecture submissions.
 
+### Informational Viewpoint
+
+> *Describes how the architecture stores, manipulates, manages, and distributes information.*
+
+![Diagram](future_state/solution_4/informational_viewpoint.jpg)
+
+This solution introduces two key informational enhancements:
+
+1. **Enhanced AI Suggestions with Extracted Short Answers**  
+   - Unlike other solutions, this system does not only generate a **grade and feedback** for each submission but also includes **extras** in the AI-generated suggestion.
+   - These **extras** contain **extracted short answers** pulled directly from the candidate’s submission.
+   - By providing structured short answers along with the suggested grade and feedback, experts receive **better context**, improving the efficiency and accuracy of manual validation.
+
+2. **Version Tracking for Solution Analytics and Performance Monitoring**  
+   - Each AI-generated suggestion will be **tagged with the version of the solution** that produced it.
+   - This version tracking ensures that analytics can **correlate suggestion performance** with specific extraction methodology release.
+   - If a version performs poorly, this data allows for:  
+     - **Identifying underperforming versions** based on grading outcomes and expert modifications.
+     - **Pinpointing the need for re-extraction** of short answers in the historical database for improved accuracy.
+   - This mechanism ensures that **continuous optimization** is based on data-driven insights rather than assumptions.
+
+By implementing these enhancements, the solution provides **greater transparency, improved traceability, and actionable insights** for refining AI-generated grading suggestions over time.
+
 ### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
