@@ -42,7 +42,7 @@
   - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
   - [Architecture Exam: Solution 3a - Direct Prompting](#architecture-exam-solution-3a---direct-prompting)
   - [Architecture Exam: Solution 3b - Automatic Prompt Optimization](#architecture-exam-solution-3b---automatic-prompt-optimization)
-  - [Architecture Exam: Solution 4 - Transform Submission into Short Answers](#architecture-exam-solution-4---transform-submission-into-short-answers)
+  - [Architecture Exam: Solution 4 - LLM-Powered Structured Parsing](#architecture-exam-solution-4---llm-powered-structured-parsing)
   - [Appeal Process, Anomaly Detection and Analytics](#appeal-process-anomaly-detection-and-analytics)
 - [Final Words](#final-words)
   - [Further Improvement Possibilities](#further-improvement-possibilities)
@@ -1219,11 +1219,17 @@ This diagram illustrates a workflow for automatically creating optimized grading
    - Execute in LLM to generate 1–3 new prompt versions.
    - Store new prompt versions (v2–4) for evaluation.
 
-## Architecture Exam: Solution 4 - Transform Submission into Short Answers
+## Architecture Exam: Solution 4 - LLM-Powered Structured Parsing
 
 ### Idea
 
-The grading process for architecture submissions can be significantly improved by leveraging AI to extract relevant short answers for evaluation criteria, compare them with historical submissions, and generate automated grading and feedback suggestions. This solution integrates LLM-based answer extraction with a similarity search, matching newly submitted responses against previously graded ones. To maximize the value of historical data, all grading criteria are backfilled into past submissions, generating short-answer responses that lack expert evaluation but are linked to the overall solution grade and feedback. AI-generated suggestions help streamline Expert grading, enhancing efficiency, consistency, and accuracy over time.
+The idea is to enhance the grading process for architecture submissions by extracting relevant information from the submitted document and presenting it to the expert in a **structured format**. Instead of requiring experts to analyze long, unstructured texts, we propose converting grading criteria into a **set of targeted questions**. These questions will be used as prompts for a **Large Language Model (LLM)** to extract only the most relevant parts of the submission, presenting them as a structured set of **question-answer pairs**.
+
+The solution will leverage **LLM-Powered Structured Parsing**, which transforms unstructured architecture submissions into a structured dictionary of questions and extracted answers. This approach **mirrors the grading of Aptitude Test short answers**, shifting the grading process from evaluating entire criteria to assessing specific aspects of the submission, each represented as a **question-answer pair**. Experts will no longer grade an entire criterion at once but will instead validate extracted answers in a more **focused and efficient manner**.
+
+This solution offers a significant advantage in **reusing existing AI-driven techniques** developed for Aptitude Test grading. By structuring architecture submissions in the same way, we can build a **knowledge base** from previously graded submissions. When a new submission arrives, the extracted answers can be compared to past evaluations, allowing the system to **suggest grades and feedback based on similar cases**. This knowledge base will continuously grow, improving **grading efficiency and accuracy** over time.
+
+Solution also introduces a challenge in maintaining an **up-to-date knowledge base**. If a grading criterion or case study changes, existing structured records may become outdated. However, since we already have an **automated process** for converting documents into a structured Q&A format, the system can automatically **reprocess outdated records**
 
 ### Context Viewpoint
 
@@ -1285,6 +1291,7 @@ This workflow describes the **AI-assisted grading process** for architecture sub
      - **The closest historical response** along with its **grade and expert feedback**.
 
 **Outcome**
+
 - The AI-generated grading suggestions are **passed to the next stage**, where they can be reviewed and validated by Experts.
 
 #### Historical Restatements Workflow
@@ -1312,6 +1319,7 @@ This workflow describes the **AI-assisted restatement process**, which is trigge
    - If not, the workflow is repeated for the next historical submission.
 
 **Outcome**  
+
 - The system **backfills extracted short answers** for updated grading criteria in historical submissions.
 - These extracted answers are assigned a **lower weight** in AI-generated suggestions.
   - They are used when **no expert-graded similar response** is found for a given evaluation criterion and the unreviewed extracted answer meets similarity verification requirements.
