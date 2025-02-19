@@ -2,6 +2,8 @@
 
 # The Architectural Kata by O'Reilly, February 2025 <!-- omit in toc -->
 
+## [Executive Summary](Executive-Summary.md)
+
 ## Team members <!-- omit in toc -->
 
 - [Ilya Hardzeenka](https://www.linkedin.com/in/ilya-hardzeenka/)
