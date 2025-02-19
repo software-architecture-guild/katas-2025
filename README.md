@@ -1347,9 +1347,9 @@ Equally critical is continuous quality monitoring to measure AI’s impact. Metr
 
 This workflow describes an AI-assisted detection of anomalies in Expert-provided grades for the Aptitude Test.
 
-It heavily relies on the possibility of searching similar historical submissions to detect discrepancies between new and previous submissions Feasibility of such approach has been shown in **Solution 1a - Text Search**.
+It heavily relies on the possibility of searching similar historical submissions to detect discrepancies between new and previous submissions Feasibility of such approach has been shown in [Aptitude Test: Solution 1a - Text search](#aptitude-test-solution-1a---text-search), [Aptitude Test: Solution 1b - Semantic search](#aptitude-test-solution-1b---semantic-search).
 
-With the help of **Solution 4 - Transform Submission into Short Answers** it's possible to extend the extend the applicability of the detection process to the Case Study Exam as well.
+With the help of [Architecture Exam: Solution 4 - LLM-Powered Structured Parsing](#architecture-exam-solution-4---llm-powered-structured-parsing) it's possible to extend the applicability of the detection process to the Case Study Exam as well.
 
 Since the Data needed for Search, as well as queries performed are exactly the same as in Solutions 1 and 4 - it's possible to re-use those solutions resources for the Anomaly Detection. However, in the diagrams provided, search services are depicted as standalone services.
 
