@@ -912,7 +912,7 @@ This diagram illustrates the workflow of generating grading and feedback suggest
 
 This workflow integrates AI and human expertise, ensuring the grading process is efficient while maintaining high-quality, personalized feedback for each student. The combination of **vectorized search** for semantic similarity and **LLM-based feedback synthesis** helps enhance grading consistency and precision.
 
-## Aptitude Test: Solution 2
+## Aptitude Test: Solution 2 - In-Context Learning
 
 ### Idea
 
@@ -934,13 +934,13 @@ the AI-generated suggestions, that helps to improve the system over time.
 ### Core Components & Flow:
 
 1. **Submission & Preprocessing**
-   - Short-Answer responses are stored in the **Aptitude Test Historical Database**
-   - The **Answers Preprocessing Microservice** converts responses to embeddings and clusters similar answers to **identify representative examples**
+   - Aptitude test short answers, grades and feedback are stored in the **Aptitude Test Historical Database**
+   - The **Answers Preprocessing Microservice** converts the answers to embeddings and clusters similar ones to **identify representative examples**
 
 2. **AI-Powered Suggestions Generation**
-   - The **Suggestions Generator** retrieves clustered examples and expert feedback, integrating them into a **grading prompt**
+   - The **Suggestions Generator** retrieves clustered examples and their expert grade + feedback, integrating them into a **grading prompt**
    - The LLM processes the response, analyzing it in **context** with **past answers and expert evaluations**
-   - The model generates both a grade and structured feedback
+   - The model provides both a grade and structured feedback as a response
 
 3. **Expert Review & Validation**
    - AI-generated grading suggestions are forwarded to the **Expert Grading Space**
