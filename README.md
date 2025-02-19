@@ -42,7 +42,7 @@
   - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
   - [Architecture Exam: Solution 3a - Direct Prompting](#architecture-exam-solution-3a---direct-prompting)
   - [Architecture Exam: Solution 3b - Direct Prompting](#architecture-exam-solution-3b---direct-prompting)
-  - [Architecture Exam: Solution 4 - Transform Submission into Short Answers](#architecture-exam-solution-4)
+  - [Architecture Exam: Solution 4 - Transform Submission into Short Answers](#architecture-exam-solution-4---transform-submission-into-short-answers)
   - [Appeal Process, Anomaly Detection and Analytics](#appeal-process-anomaly-detection-and-analytics)
 - [Final Words](#final-words)
   - [Further Improvement Possibilities](#further-improvement-possibilities)
