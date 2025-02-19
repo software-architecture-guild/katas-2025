@@ -1264,6 +1264,29 @@ This solution follows the overall architecture, but introduces key enhancements:
 
 These enhancements improve the grading process by enabling automated extraction, structuring, and evaluation of short answers, leading to a more consistent, scalable, and efficient approach to assessing architecture submissions.
 
+### Informational Viewpoint
+
+> *Describes how the architecture stores, manipulates, manages, and distributes information.*
+
+![Diagram](future_state/solution_4/informational_viewpoint.jpg)
+
+This solution introduces two key informational enhancements:
+
+1. **Enhanced AI Suggestions with Extracted Short Answers**  
+   - Unlike other solutions, this system does not only generate a **grade and feedback** for each submission but also includes **extras** in the AI-generated suggestion.
+   - These **extras** contain **extracted short answers** pulled directly from the candidate’s submission.
+   - By providing structured short answers along with the suggested grade and feedback, experts receive **better context**, improving the efficiency and accuracy of manual validation.
+
+2. **Version Tracking for Solution Analytics and Performance Monitoring**  
+   - Each AI-generated suggestion will be **tagged with the version of the solution** that produced it.
+   - This version tracking ensures that analytics can **correlate suggestion performance** with specific extraction methodology release.
+   - If a version performs poorly, this data allows for:  
+     - **Identifying underperforming versions** based on grading outcomes and expert modifications.
+     - **Pinpointing the need for re-extraction** of short answers in the historical database for improved accuracy.
+   - This mechanism ensures that **continuous optimization** is based on data-driven insights rather than assumptions.
+
+By implementing these enhancements, the solution provides **greater transparency, improved traceability, and actionable insights** for refining AI-generated grading suggestions over time.
+
 ### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
@@ -1302,12 +1325,25 @@ This workflow describes the **AI-assisted grading process** for architecture sub
 
 - The AI-generated grading suggestions are **passed to the next stage**, where they can be reviewed and validated by Experts.
 
-#### Historical Restatements Workflow
+#### Extracted Short Answers Database Maintenance Workflow
 
 ![Diagram](future_state/solution_4/operational_viewpoint_restatement.jpg)
 
-This workflow describes the **AI-assisted restatement process**, which is triggered when a **case study is updated with new grading criteria**. The process ensures that past submissions are evaluated using the updated criteria by extracting short answers from historical solutions.
+The **Extracted Short Answers Database Maintenance** process consists of two key parts: 
 
+1. **Regular Maintenance** – An automated process that ensures all expert-graded submissions have their short answers stored in the historical database, making them available for further suggestions generation.
+2. **Historical Restatements** – AI-assisted restatement process, which is triggered when a case study is updated with new grading criteria.
+
+These processes together ensure a **consistent, scalable, and reliable** dataset for AI-generated grading suggestions, maintaining both accuracy and adaptability as grading criteria evolve.
+
+**Regular Maintenance**
+1. **Graded Submission Processing**
+   - The **Architecture Exam Historical Database** retrieves all **graded architecture solutions**.
+   - The system ensures that each submission has corresponding **short answers** linked to their **expert-grade and feedback**.
+   - The extracted short answers from the **Answers Extractor Microservice** are stored in the **Extracted Short Answers Historical Database**.
+   - These answers are linked to their respective **grading criteria**, **expert-validated grade**, and **feedback**.
+
+**Historical Restatements**
 1. **Submission Processing**
    - The **Architecture Exam Historical Database** retrieves past **graded architecture solutions** associated with the updated case study.
    - The corresponding **new grading criteria** are identified.
@@ -1331,7 +1367,7 @@ This workflow describes the **AI-assisted restatement process**, which is trigge
 - The system **backfills extracted short answers** for updated grading criteria in historical submissions.
 - These extracted answers are assigned a **lower weight** in AI-generated suggestions.
   - They are used when **no expert-graded similar response** is found for a given evaluation criterion and the unreviewed extracted answer meets similarity verification requirements.
-  - These unreviewed extracted answers are**displayed differently** in the UI to distinguish them from validated responses.
+  - These unreviewed extracted answers are **displayed differently** in the UI to distinguish them from validated responses.
   - Their **grading and feedback** are be derived from the **overall solution grade and feedback** to which they are linked.
 - The process ensures that **new grading criteria** are applied consistently across both **new and historical submissions**.
 
