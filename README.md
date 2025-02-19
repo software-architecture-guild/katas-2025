@@ -962,7 +962,9 @@ However, Experts continue to review AI-generated suggestions in order to improve
    - AI-generated suggestions are continuously evaluated for accuracy
    - The system learns from expert decisions, refining grading logic, data preprocessing, and evaluation models
 
----
+The Clusterization algorithm of **Answers Preprocessing Microservice** is assumed to be a combination of Transformer Encoder and any framework/service
+that supports distance calculation (ex. ElasticSearch or kmeans). However, it's optimal design is expected to be chosen by AI Engineers as a result of detailed requirements analysis and PoC.
+
 ### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
@@ -990,7 +992,7 @@ However, Experts continue to review AI-generated suggestions in order to improve
    - The system evaluates AI performance
    - If a large percentage of suggestions are rejected, the new context data is introduced
 
----
+This approach also assumes AI Engineer involvement in case the accuracy of Suggestions can not be improved with different context examples.
 
 ### Informational Viewpoint
 >
