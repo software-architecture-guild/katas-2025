@@ -38,7 +38,7 @@
   - [Decisions](#decisions)
   - [High-Level Architecture](#high-level-architecture-1)
   - [Aptitude Test: Solution 1a - Text search](#aptitude-test-solution-1a---text-search)
-  - [Aptitude Test: Solution 1b - Semantic search](#aptitude-test-solution-1b---semantic-search)
+  - [Aptitude Test: Solution 1b - Retrieval-augmented generation](#aptitude-test-solution-1b---retrieval-augmented-generation)
   - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
   - [Architecture Exam: Solution 3a - Direct Prompting](#architecture-exam-solution-3a---direct-prompting)
   - [Architecture Exam: Solution 3b - Automatic Prompt Optimization](#architecture-exam-solution-3b---automatic-prompt-optimization)
@@ -817,7 +817,7 @@ The diagram presents a structured **workflow for AI-assisted grading of short-an
 
 This **continuous feedback loop** ensures that the AI grading system improves over time, refining its ability to suggest accurate grades and relevant feedback.
 
-## Aptitude Test: Solution 1b - Semantic search
+## Aptitude Test: Solution 1b - Retrieval-augmented generation
 
 ### Idea
 
