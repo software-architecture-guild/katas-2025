@@ -10,6 +10,7 @@ Bernat
 BSUIR
 CCPA
 CEDP
+Clusterization
 Cognos
 colinwilson
 Datastage
@@ -37,6 +38,7 @@ Kazman
 Kersten
 Kiplinger
 Klimenko
+kmeans
 Kruchten
 Ksenia
 Larman

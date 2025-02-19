@@ -39,7 +39,7 @@
   - [High-Level Architecture](#high-level-architecture-1)
   - [Aptitude Test: Solution 1a - Text search](#aptitude-test-solution-1a---text-search)
   - [Aptitude Test: Solution 1b - Retrieval-augmented generation](#aptitude-test-solution-1b---retrieval-augmented-generation)
-  - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
+  - [Aptitude Test: Solution 2 - In-Context Learning](#aptitude-test-solution-2---in-context-learning)
   - [Architecture Exam: Solution 3a - Direct Prompting](#architecture-exam-solution-3a---direct-prompting)
   - [Architecture Exam: Solution 3b - Automatic Prompt Optimization](#architecture-exam-solution-3b---automatic-prompt-optimization)
   - [Architecture Exam: Solution 4 - LLM-Powered Structured Parsing](#architecture-exam-solution-4---llm-powered-structured-parsing)
@@ -916,17 +916,17 @@ This workflow integrates AI and human expertise, ensuring the grading process is
 
 ### Idea
 
-We assume that short-answer questions primarily test factual knowledge rather than deep analysis or architectural design skills. 
+We assume that short-answer questions primarily test factual knowledge rather than deep analysis or architectural design skills.
 Given this scope, the LLM’s static knowledge base and reasoning ability are expected to be sufficient
 for determining correctness — whether an answer is correct, partially correct, or incorrect — while also providing explanatory feedback.
 
-So, we ask the model to both grade and generate feedback for candidates’ answers. 
-To enhance its accuracy, we provide a representative set of different answers from other candidates, along with expert evaluations. 
+So, we ask the model to both grade and generate feedback for candidates’ answers.
+To enhance its accuracy, we provide a representative set of different answers from other candidates, along with expert evaluations.
 By including these historical answers, grades, and feedback in the prompt,
 the model can better align its assessments with expert grading patterns while still allowing for flexibility in evaluating new cases.
 
 Solution 2 can better handle “cold start” scenarios, meaning it can evaluate responses to new questions without requiring prior examples.
-This enables broader applicability while still benefiting from historical grading data. 
+This enables broader applicability while still benefiting from historical grading data.
 However, Experts continue to review AI-generated suggestions in order to improve grading accuracy over time.
 
 ### Context Viewpoint
@@ -936,12 +936,12 @@ However, Experts continue to review AI-generated suggestions in order to improve
 
 ![Diagram](future_state/solution_2/context_viewpoint.jpg)
 
-### Core Components & Flow:
+### Core Components & Flow
 
 1. **Submission & Preprocessing**
    - Aptitude test short answers, grades and feedback are stored in the **Aptitude Test Historical Database**
    - The **Answers Preprocessing Microservice** converts the answers to embeddings and clusters similar ones to **identify representative examples**
-   - The **Prompt Context Database** keeps short answers, their gradings and feedback that are used as learning set to the actual questions 
+   - The **Prompt Context Database** keeps short answers, their grades and feedback that are used as learning set to the actual questions
 
 2. **AI-Powered Suggestions Generation**
    - The **Suggestions Generator** retrieves clustered examples, expert grades and feedback, integrating them into a **grading prompt**
@@ -949,7 +949,7 @@ However, Experts continue to review AI-generated suggestions in order to improve
    - The model provides both a grade and structured feedback as a response
 
 3. **Expert Review & Validation**
-   - AI-generated grading suggestions are forwarded to the **Expert Grading Space**
+   - AI-generated grades suggestions are forwarded to the **Expert Grading Space**
    - Experts review, refine, or override the AI-generated grades and feedback
    - The **Suggestions API Microservice** updates suggestion statuses based on expert validation
 
@@ -959,7 +959,7 @@ However, Experts continue to review AI-generated suggestions in order to improve
 
 5. **Feedback Loop & Optimization**
    - AI-generated suggestions are continuously evaluated for accuracy
-   - The system initiates **Prompt Context** datasets update, if the prompt performance is low for a short-answer question 
+   - The system initiates **Prompt Context** datasets update, if the prompt performance is low for a short-answer question
 
 The **Clusterization algorithm** of the **Answers Preprocessing Microservice** is expected to combine
 a Transformer Encoder with a framework or service that supports distance calculation (e.g., ElasticSearch or K-Means).
@@ -998,24 +998,24 @@ allowing for similarity comparison and clustering
 
 ![Diagram](future_state/solution_2/operational_viewpoint.jpg)
 
-### Grading Workflow:
+#### Workflow
 
 1. **Answer Clustering & Preprocessing**
    - The Answers Preprocessing Microservice clusters historical responses to provide **contextual examples** for grading
-   
+
 2. **AI-Powered Grading**
    - The Suggestions Generator captures a submitted candidate's answer and injects a structured grading prompt into an **LLM**
    - The LLM analyzes the answer in the context of:
      - The question
      - Past graded responses on this question
-     - Feedback provided by experts to the gradings
+     - Feedback provided by experts to the grade
    - The LLM generates a grade and detailed feedback, using its reasoning capability, static knowledge and long context understanding
-   
-4. **Expert Review & Validation**
-   - Human experts evaluate the AI-generated grade and feedback
+
+3. **Expert Review & Validation**
+   - Human experts evaluate the AI-generated grades and feedback
    - The system tracks acceptance rates to improve AI-generated suggestions
 
-5. **Continuous Learning & Optimization**
+4. **Continuous Learning & Optimization**
    - The system evaluates AI performance
    - If a large percentage of suggestions are rejected, the new context data is introduced
 
@@ -1281,7 +1281,7 @@ This solution introduces two key informational enhancements:
    - Each AI-generated suggestion will be **tagged with the version of the solution** that produced it.
    - This version tracking ensures that analytics can **correlate suggestion performance** with specific extraction methodology release.
    - If a version performs poorly, this data allows for:  
-     - **Identifying underperforming versions** based on grading outcomes and expert modifications.
+     - **Identifying under-performing versions** based on grading outcomes and expert modifications.
      - **Pinpointing the need for re-extraction** of short answers in the historical database for improved accuracy.
    - This mechanism ensures that **continuous optimization** is based on data-driven insights rather than assumptions.
 
@@ -1329,7 +1329,7 @@ This workflow describes the **AI-assisted grading process** for architecture sub
 
 ![Diagram](future_state/solution_4/operational_viewpoint_restatement.jpg)
 
-The **Extracted Short Answers Database Maintenance** process consists of two key parts: 
+The **Extracted Short Answers Database Maintenance** process consists of two key parts:
 
 1. **Regular Maintenance** – An automated process that ensures all expert-graded submissions have their short answers stored in the historical database, making them available for further suggestions generation.
 2. **Historical Restatements** – AI-assisted restatement process, which is triggered when a case study is updated with new grading criteria.
@@ -1337,6 +1337,7 @@ The **Extracted Short Answers Database Maintenance** process consists of two key
 These processes together ensure a **consistent, scalable, and reliable** dataset for AI-generated grading suggestions, maintaining both accuracy and adaptability as grading criteria evolve.
 
 **Regular Maintenance**
+
 1. **Graded Submission Processing**
    - The **Architecture Exam Historical Database** retrieves all **graded architecture solutions**.
    - The system ensures that each submission has corresponding **short answers** linked to their **expert-grade and feedback**.
@@ -1344,6 +1345,7 @@ These processes together ensure a **consistent, scalable, and reliable** dataset
    - These answers are linked to their respective **grading criteria**, **expert-validated grade**, and **feedback**.
 
 **Historical Restatements**
+
 1. **Submission Processing**
    - The **Architecture Exam Historical Database** retrieves past **graded architecture solutions** associated with the updated case study.
    - The corresponding **new grading criteria** are identified.
@@ -1391,7 +1393,7 @@ Equally critical is continuous quality monitoring to measure AI’s impact. Metr
 
 This workflow describes an AI-assisted detection of anomalies in Expert-provided grades for the Aptitude Test.
 
-It heavily relies on the possibility of searching similar historical submissions to detect discrepancies between new and previous submissions Feasibility of such approach has been shown in [Aptitude Test: Solution 1a - Text search](#aptitude-test-solution-1a---text-search), [Aptitude Test: Solution 1b - Semantic search](#aptitude-test-solution-1b---semantic-search).
+It heavily relies on the possibility of searching similar historical submissions to detect discrepancies between new and previous submissions Feasibility of such approach has been shown in [Aptitude Test: Solution 1a - Text search](#aptitude-test-solution-1a---text-search), [Aptitude Test: Solution 1b - Semantic search](#aptitude-test-solution-1b---retrieval-augmented-generation).
 
 With the help of [Architecture Exam: Solution 4 - LLM-Powered Structured Parsing](#architecture-exam-solution-4---llm-powered-structured-parsing) it's possible to extend the applicability of the detection process to the Case Study Exam as well.
 
