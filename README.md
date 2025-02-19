@@ -1340,7 +1340,7 @@ These processes together ensure a **consistent, scalable, and reliable** dataset
 1. **Graded Submission Processing**
    - The **Architecture Exam Historical Database** retrieves all **graded architecture solutions**.
    - The system ensures that each submission has corresponding **short answers** linked to their **expert-grade and feedback**.
-   - The extracted short answers from the **Answers Extractor Microservice** are stored in the **Extracted Short Answers Historical Database**.
+   - The extracted short answers are stored in the **Extracted Short Answers Historical Database**.
    - These answers are linked to their respective **grading criteria**, **expert-validated grade**, and **feedback**.
 
 **Historical Restatements**
@@ -1358,7 +1358,7 @@ These processes together ensure a **consistent, scalable, and reliable** dataset
    - The extracted short answers are stored in the **Extracted Short Answers Historical Database**.
    - These responses are linked to the corresponding **historical submission** along with its **overall grade and feedback**.
 
-4. **Iteration for All Historical Submissions**  
+4. **Iteration for All Historical Submissions**
    - The system verifies whether **all historical submissions** for the case study have been processed.
    - If not, the workflow is repeated for the next historical submission.
 
