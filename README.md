@@ -931,50 +931,60 @@ the AI-generated suggestions, that helps to improve the system over time.
 
 ![Diagram](future_state/solution_2/context_viewpoint.jpg)
 
-1. Submission & Preprocessing
-   - Candidates submit their short-answer responses via UI
-   - The responses are stored in the Architecture Exam Historical DB
-   - The Answers Preprocessing Microservice clusters similar responses and chooses a representative set of answers
-   examples on a certain question
-2. AI-Powered Suggestions Generation
-   - The Suggestions Generator retrieves set of answers examples and experts' feedback, injects grading prompts and
-   sends them into an LLM
-   - The LLM generates grading suggestions based on context
-3. Expert Review & Refinement
-   - AI-generated grading suggestions are forwarded to the Expert Grading Space
-   - Experts review, refine, or override the AI’s grading and feedback
-   - Suggestions API Microservice updates the suggestions’ statuses based on expert validation (if suggestion is
-   accepted or not)
-4. AI Oversight & Continuous Learning
-   - AI Engineers use the AI Admin UI to monitor AI-core performance and adjust prompt templates and configs for better
-   performance
-   - Experts and AI engineers can request regeneration of AI-generated suggestions to improve accuracy
-5. Feedback Loop for Optimization
-   - AI-generated suggestions are evaluated for accuracy, helping refine future grading logic: improve models,
-   preprocessing of data and better grading criteria for tasks
+### Core Components & Flow:
 
+1. **Submission & Preprocessing**
+   - Short-Answer responses are stored in the **Aptitude Test Historical Database**
+   - The **Answers Preprocessing Microservice** converts responses to embeddings and clusters similar answers to **identify representative examples**
+
+2. **AI-Powered Suggestions Generation**
+   - The **Suggestions Generator** retrieves clustered examples and expert feedback, integrating them into a **grading prompt**
+   - The LLM processes the response, analyzing it in **context** with **past answers and expert evaluations**
+   - The model generates both a grade and structured feedback
+
+3. **Expert Review & Validation**
+   - AI-generated grading suggestions are forwarded to the **Expert Grading Space**
+   - Experts review, refine, or override the AI-generated grades and feedback
+   - The **Suggestions API Microservice** updates suggestion statuses based on expert validation
+
+4. **AI Oversight & Continuous Improvement**
+   - AI Engineers use the **AI Admin UI** to monitor AI performance and optimize prompt templates, configs, etc.
+   - Experts and AI Engineers regenerate suggestions when necessary to improve accuracy
+   - The system adjusts grading criteria dynamically, refining AI performance
+
+5. **Feedback Loop & Optimization**
+   - AI-generated suggestions are continuously evaluated for accuracy
+   - The system learns from expert decisions, refining grading logic, data preprocessing, and evaluation models
+
+---
 ### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
 
 ![Diagram](future_state/solution_2/operational_viewpoint.jpg)
 
-#### Workflow
+### Grading Workflow:
 
-The workflow describes an LLM-powered grading system that combines historical answer data, AI-driven suggestions,
-and expert validation to optimize short-answer assessment.
+1. **Answer Clustering & Preprocessing**
+   - The Answers Preprocessing Microservice clusters historical responses to provide **contextual examples** for grading
+   
+2. **AI-Powered Grading**
+   - The Suggestions Generator captures a submitted answer and injects a structured grading prompt into an **LLM**
+   - The LLM analyzes the answer in the context of:
+     - The question
+     - Past graded responses
+     - Feedback provided by experts
+   - The LLM generates a grade and detailed feedback, using its reasoning capability, static knowledge and long context understanding
+   
+4. **Expert Review & Validation**
+   - Human experts evaluate the AI-generated grade and feedback
+   - The system tracks acceptance rates to improve AI-generated suggestions
 
-1. The Answers Preprocessing Microservice clusters and organizes historical responses to provide variety of examples to GenAI
+5. **Continuous Learning & Optimization**
+   - The system evaluates AI performance
+   - If a large percentage of suggestions are rejected, the new context data is introduced
 
-2. Suggestions Generator captures submitted answers and – instead of searching for exact past matches
-(as in Solution 1a) – an LLM processes the answer, analyzing it in context (question, the other answers and their grades)
-
-3. The LLM generates grading suggestions and relevant feedback based on examples of human grading
-
-4. Human experts review, refine, or override AI-generated grades and feedback
-
-5. AI-core calculates acceptance statistics and in case of irrelevant suggestions tries to choose different
-set of experts grading and improve AI accuracy
+---
 
 ### Informational Viewpoint
 >
