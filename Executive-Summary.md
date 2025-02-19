@@ -17,12 +17,12 @@ To address these challenges, **AI-assisted grading** is introduced as an **exper
 
 1. **Automated Short-Answer Grading**
    * **Solution 1a - Text Search**: Finds similar past answers and suggests grades/feedback based on historical data. Uses keyword-based historical answer matching.
-   * **Solution 1b - Semantic Search**: Uses vector-based search to assess responses based on meaning rather than exact wording. Leverages LLM-powered vector search to match conceptually similar responses.
-   * **Solution 2 - In Context Learning:** The system maintains a structured database containing both high-quality and suboptimal suggestions. This database is a contextual foundation for guiding the Large Language Model (LLM) in grading. When assessing responses, the LLM references this educational context to generate informed evaluations, suggesting appropriate grades and providing constructive feedback.
+   * **Solution 1b - Retrieval-Augmented Generation**: Uses vector-based search to assess responses based on meaning rather than exact wording. Leverages LLM-powered vector search to match conceptually similar responses and generate personalized feedback.
+   * **Solution 2 - In Context Learning:** The system maintains a structured database containing both high and low graded answers and feedback. This database is a contextual foundation for guiding the Large Language Model (LLM) in grading. When assessing responses, the LLM references this educational context to generate informed evaluations, suggesting appropriate grades and providing constructive feedback.
 2. **AI-Assisted Architecture Exam Grading**
-   * **Solution 3a - Direct Prompting:** Uses pre-defined AI grading prompts to generate scoring suggestions.
+   * **Solution 3a - Direct Prompting:** Uses pre-defined AI grading prompts to generate grade and feedback suggestions.
    * **Solution 3b - Automatic Prompt Optimization:** Implements LLM-driven prompt adjustments to refine AI-generated grading prompts continuously based on Expert feedback.
-   * **Solution 4 - LLM-Powered Structured Parsing:** This approach utilizes an LLM to convert Architecture Exam submissions into a format similar to short-answer responses from the Aptitude Test. It then applies the grading algorithms from Solution 1 (Text & Semantic Search) and Solution 2 (AI-Generated Test Adjustments) to generate grading suggestions based on historical data.
+   * **Solution 4 - LLM-Powered Structured Parsing:** This approach utilizes an LLM to convert Architecture Exam submissions into a format similar to short-answer responses from the Aptitude Test. It then applies the grading algorithms from Solution 1 and Solution 2 to generate grading suggestions based on historical data.
 3. **Anomaly Detection & Appeals Process**
    * **Automated Detection of Grading Errors**: AI flags inconsistencies based on past expert-graded submissions.
    * **Formal Candidate Appeal System**: Enables structured re-evaluations for grading disputes.
