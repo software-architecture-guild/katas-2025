@@ -41,7 +41,7 @@
   - [Aptitude Test: Solution 1b - Semantic search](#aptitude-test-solution-1b---semantic-search)
   - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
   - [Architecture Exam: Solution 3a - Direct Prompting](#architecture-exam-solution-3a---direct-prompting)
-  - [Architecture Exam: Solution 3b - Direct Prompting](#architecture-exam-solution-3b---direct-prompting)
+  - [Architecture Exam: Solution 3b - Automatic Prompt Optimization](#architecture-exam-solution-3b---automatic-prompt-optimization)
   - [Architecture Exam: Solution 4 - Transform Submission into Short Answers](#architecture-exam-solution-4---transform-submission-into-short-answers)
   - [Appeal Process, Anomaly Detection and Analytics](#appeal-process-anomaly-detection-and-analytics)
 - [Final Words](#final-words)
@@ -912,10 +912,10 @@ This diagram illustrates the workflow of generating grading and feedback suggest
 
 This workflow integrates AI and human expertise, ensuring the grading process is efficient while maintaining high-quality, personalized feedback for each student. The combination of **vectorized search** for semantic similarity and **LLM-based feedback synthesis** helps enhance grading consistency and precision.
 
-
 ## Aptitude Test: Solution 2
 
 ### Idea
+
 Solution 2 enhances AI-core grading by direct leveraging a Large Language Model (LLM) to generate grading suggestions
 and feedback for short-answer responses. Unlike Solution 1a, which primarily relies on text search to find similar past
 answers, Solution 2 makes AI not only generate meaningful feedback, but *do the grading itself*.
@@ -930,42 +930,44 @@ the AI-generated suggestions, that helps to improve the system over time.
 > (the people, systems, and external entities with which it interacts).*
 
 ![Diagram](future_state/solution_2/context_viewpoint.jpg)
+
 1. Submission & Preprocessing
-   * Candidates submit their short-answer responses via UI
-   * The responses are stored in the Architecture Exam Historical DB
-   * The Answers Preprocessing Microservice clusters similar responses and chooses a representative set of answers
-   examples on a certain question 
+   - Candidates submit their short-answer responses via UI
+   - The responses are stored in the Architecture Exam Historical DB
+   - The Answers Preprocessing Microservice clusters similar responses and chooses a representative set of answers
+   examples on a certain question
 2. AI-Powered Suggestions Generation
-   * The Suggestions Generator retrieves set of answers examples and experts' feedback, injects grading prompts and
+   - The Suggestions Generator retrieves set of answers examples and experts' feedback, injects grading prompts and
    sends them into an LLM
-   * The LLM generates grading suggestions based on context
+   - The LLM generates grading suggestions based on context
 3. Expert Review & Refinement
-   * AI-generated grading suggestions are forwarded to the Expert Grading Space
-   * Experts review, refine, or override the AI’s grading and feedback
-   * Suggestions API Microservice updates the suggestions’ statuses based on expert validation (if suggestion is
+   - AI-generated grading suggestions are forwarded to the Expert Grading Space
+   - Experts review, refine, or override the AI’s grading and feedback
+   - Suggestions API Microservice updates the suggestions’ statuses based on expert validation (if suggestion is
    accepted or not)
 4. AI Oversight & Continuous Learning
-   * AI Engineers use the AI Admin UI to monitor AI-core performance and adjust prompt templates and configs for better
+   - AI Engineers use the AI Admin UI to monitor AI-core performance and adjust prompt templates and configs for better
    performance
-   * Experts and AI engineers can request regeneration of AI-generated suggestions to improve accuracy
-5. Feedback Loop for Optimization 
-   * AI-generated suggestions are evaluated for accuracy, helping refine future grading logic: improve models,
+   - Experts and AI engineers can request regeneration of AI-generated suggestions to improve accuracy
+5. Feedback Loop for Optimization
+   - AI-generated suggestions are evaluated for accuracy, helping refine future grading logic: improve models,
    preprocessing of data and better grading criteria for tasks
-
 
 ### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
 
 ![Diagram](future_state/solution_2/operational_viewpoint.jpg)
+
 #### Workflow
+
 The workflow describes an LLM-powered grading system that combines historical answer data, AI-driven suggestions,
 and expert validation to optimize short-answer assessment.
 
 1. The Answers Preprocessing Microservice clusters and organizes historical responses to provide variety of examples to GenAI
 
-2. Suggestions Generator captures submitted answers and – instead of searching for exact past matches 
-(as in Solution 1a) – an LLM processes the answer, analyzing it in context (question, the other answers and their gradings)
+2. Suggestions Generator captures submitted answers and – instead of searching for exact past matches
+(as in Solution 1a) – an LLM processes the answer, analyzing it in context (question, the other answers and their grades)
 
 3. The LLM generates grading suggestions and relevant feedback based on examples of human grading
 
@@ -975,6 +977,7 @@ and expert validation to optimize short-answer assessment.
 set of experts grading and improve AI accuracy
 
 ### Informational Viewpoint
+>
 > *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
 
 ![Diagram](future_state/solution_2/informational_viewpoint.jpg)
@@ -1096,13 +1099,23 @@ The diagram illustrates generating and enhancing the quality of AI-generated gra
 
 This iterative improvement cycle ensures that AI-generated grading suggestions remain high-quality, reliable, and aligned with expert expectations, leading to efficient and accurate candidate evaluations.
 
-## Architecture Exam: Solution 3b - Direct Prompting
+## Architecture Exam: Solution 3b - Automatic Prompt Optimization
 
 ### Idea
 
 The main idea is that **Solution 3a** is already functional, and our goal is to automate the manual tasks performed by the AI Engineer to maintain suggestion quality at the desired level.
 
-We will introduce a new component called the **Prompt Optimizer** to achieve this. This component will track the performance of grading prompts and use an LLM to optimize them. The optimization process will involve analyzing rejected suggestions and comparing them with the correct answers provided by experts. Based on this data, the LLM will automatically refine existing grading prompts to improve future suggestions.
+We are introducing a new component called the **Prompt Optimizer**, designed to implement the **Automatic Prompt Optimization** pattern. This component continuously monitors the performance of grading prompts and utilizes a Large Language Model (LLM) to iteratively refine them.
+
+The optimization process follows a structured feedback loop:
+
+1. **Performance Tracking** – The system collects expert feedback on AI-generated grading suggestions, categorizing them as accepted or rejected.
+2. **Pattern Analysis** – Rejected suggestions are analyzed alongside the corresponding expert-provided corrections to identify weaknesses in the current prompt structure.
+3. **Adaptive Refinement** – The LLM generates improved prompt variations that aim to reduce rejected suggestions while preserving accepted outputs.
+4. **Controlled Deployment** – New prompt versions are gradually introduced, allowing for A/B testing against previous versions to ensure effectiveness.
+5. **Continuous Improvement** – The system dynamically adjusts prompt parameters over time based on real-world grading outcomes, creating an evolving, self-optimizing feedback mechanism.
+
+This approach ensures that grading prompts remain effective and adaptive, leading to more accurate and efficient evaluation processes.
 
 ### Context Viewpoint
 
@@ -1131,6 +1144,8 @@ This updated diagram introduces new elements to automate and optimize the gradin
 ### Operational Viewpoint
 
 > *Describes how the system will operate to fulfill the required functionality.*
+
+#### Automatic Prompt Optimization Process
 
 This diagram illustrates the **workflow for generating and optimizing AI-generated grading suggestions** to ensure high accuracy and expert alignment. The process continuously refines grading prompts based on performance data and expert feedback.
 
@@ -1165,6 +1180,26 @@ This diagram illustrates the **workflow for generating and optimizing AI-generat
    - The process is iterative, meaning prompts are continuously refined and improved to maintain high-quality grading standards.
 
 This **iterative improvement cycle** ensures that AI-generated grading suggestions remain **accurate, reliable, and aligned with expert expectations**, leading to efficient and high-quality candidate evaluations.
+
+#### New Prompt Creation Process
+
+This diagram illustrates a workflow for automatically creating optimized grading criterion prompts using a feedback provided by Experts.
+
+![Diagram](future_state/solution_3b/operational_viewpoint_l2.png)
+
+#### Workflow
+
+1. **Prepare Training Data**
+   - Retrieve **graded submission feedback** from Architecture Exam Historical DB.
+   - Combine **rejected AI suggestions** with expert-corrected feedback.
+   - Cluster rejected suggestions and select the top 5 clusters.
+   - Store the top 5 rejected suggestions with corrected feedback.
+
+2. **Create a New Version of the Grading Criterion Prompt**
+   - Generate text-based critiques using **LLM**.
+   - Compile an optimization prompt with **critiques**.
+   - Execute in LLM to generate 1–3 new prompt versions.
+   - Store new prompt versions (v2–4) for evaluation.
 
 ## Architecture Exam: Solution 4 - Transform Submission into Short Answers
 
@@ -1300,10 +1335,10 @@ Provided workflow overview only covers the interactions with or within the AI An
 
 3. **LIKE Aptitude Test: Solution 1 Submissions Search** and **LIKE Architecture Exam: Solution 4 Submissions Search** services
    - Preprocess provided submission for text search
-   - Perfrom text search in internal Vector DB of previously graded submissions
+   - Perform text search in internal Vector DB of previously graded submissions
    - Return similar submissions with their grades and feedback.
 
-4. **Anomaly Detection** microservice 
+4. **Anomaly Detection** microservice
    - Searches for similar submissions using **Submissions Search** services
    - Detects significant discrepancies between average grades of similar historical graded submissions and the current one
    - Flags such submissions as anomalies and forwards them to **Expert Admin Space** for later review
@@ -1353,14 +1388,14 @@ This workflow describes the process of Building the dataset that is used to moni
 This workflow describes an AI-assisted detection of anomalies in Expert-provided grades for the Aptitude Test.
 
 1. **Grade Submissions**
-  - **Expert** provides grade and feedback for Candidate's submission
+   - **Expert** provides grade and feedback for Candidate's submission
 
 2. **Find Similar Submissions**
    - **Submissions Search** service vectorizes the submission
    - **Submissions Search** service searches for similar submissions using vector similarity
    - **Submissions Search** service returns similar submissions with grades and feedback
 
-3. **Anomaly Detection** 
+3. **Anomaly Detection**
    - **Anomaly Detection** microservice compares the submission’s grade with historical grades of retrieved similar submissions.
    - **Anomaly Detection** finds anomalies using predefined criteria (e.g., >15% deviation from historical averages. It identifies **both** inflated scores (false approvals) and unduly low scores (false rejections).
    - **Anomaly Detection** forwards the anomalies for a re-validation.
@@ -1370,7 +1405,7 @@ This workflow describes an AI-assisted detection of anomalies in Expert-provided
    - **Designated Expert** reviews submission details, grades and historical comparisons.
    - **Designated Expert** **corrects** (update grade/feedback) or **ignores** (no action) the anomaly.
 
-4. **Anomaly Status Update**
+5. **Anomaly Status Update**
    - **Corrections Capture** microservice records the final status (*Corrected*/*Ignored*) and persists it to the **Performance Metrics DB** for auditing and analysis.
 
 **Appeal Process**
@@ -1385,7 +1420,7 @@ This workflow describes an AI-assisted detection of anomalies in Expert-provided
    - Appeal form is stored for later review by **Appeals App**
 
 2. **Appeal Review**
-   - **Appeals App** notifies **Designated Expert ** about new Appeals.
+   - **Appeals App** notifies **Designated Expert** about new Appeals.
    - **Designated Expert** reviews the submission, grade, feedback and candidate’s justification.
    - **Designated Expert** makes a decision:
      - **Approved (Full/Partial)**: Updates grade/feedback, potentially allowing the candidate to move to the next step in certification process.
@@ -1407,10 +1442,10 @@ This workflow describes an AI-assisted detection of anomalies in Expert-provided
 
 ![Diagram](future_state/solution_5/operational_viewpoint_analytics.png)
 
-#### Analytis Workflow
+#### Analytics Workflow
 
 1. **Capture Data**
-   - Information about submissions, appeal and anomalies, suggestions is presisted by corresponding **Capture** services to **Operational DB** staging area. This area sores raw events for a limited time period.
+   - Information about submissions, appeal and anomalies, suggestions is persisted by corresponding **Capture** services to **Operational DB** staging area. This area sores raw events for a limited time period.
 2. **Calculate Metrics**
    - **Operational Job** aggregates raw data from **Operational DB**, computes performance metrics, updates **Validation Analysis** DB with new data.
 3. **Analyze data**
