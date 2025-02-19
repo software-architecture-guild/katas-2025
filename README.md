@@ -1302,12 +1302,25 @@ This workflow describes the **AI-assisted grading process** for architecture sub
 
 - The AI-generated grading suggestions are **passed to the next stage**, where they can be reviewed and validated by Experts.
 
-#### Historical Restatements Workflow
+#### Extracted Short Answers Database Maintenance Workflow
 
 ![Diagram](future_state/solution_4/operational_viewpoint_restatement.jpg)
 
-This workflow describes the **AI-assisted restatement process**, which is triggered when a **case study is updated with new grading criteria**. The process ensures that past submissions are evaluated using the updated criteria by extracting short answers from historical solutions.
+The **Extracted Short Answers Database Maintenance** process consists of two key parts: 
 
+1. **Regular Maintenance** – An automated process that ensures all expert-graded submissions have their short answers stored in the historical database, making them available for further suggestions generation.
+2. **Historical Restatements** – AI-assisted restatement process, which is triggered when a case study is updated with new grading criteria.
+
+These processes together ensure a **consistent, scalable, and reliable** dataset for AI-generated grading suggestions, maintaining both accuracy and adaptability as grading criteria evolve.
+
+**Regular Maintenance**
+1. **Graded Submission Processing**
+   - The **Architecture Exam Historical Database** retrieves all **graded architecture solutions**.
+   - The system ensures that each submission has corresponding **short answers** linked to their **expert-grade and feedback**.
+   - The extracted short answers from the **Answers Extractor Microservice** are stored in the **Extracted Short Answers Historical Database**.
+   - These answers are linked to their respective **grading criteria**, **expert-validated grade**, and **feedback**.
+
+**Historical Restatements**
 1. **Submission Processing**
    - The **Architecture Exam Historical Database** retrieves past **graded architecture solutions** associated with the updated case study.
    - The corresponding **new grading criteria** are identified.
@@ -1331,7 +1344,7 @@ This workflow describes the **AI-assisted restatement process**, which is trigge
 - The system **backfills extracted short answers** for updated grading criteria in historical submissions.
 - These extracted answers are assigned a **lower weight** in AI-generated suggestions.
   - They are used when **no expert-graded similar response** is found for a given evaluation criterion and the unreviewed extracted answer meets similarity verification requirements.
-  - These unreviewed extracted answers are**displayed differently** in the UI to distinguish them from validated responses.
+  - These unreviewed extracted answers are **displayed differently** in the UI to distinguish them from validated responses.
   - Their **grading and feedback** are be derived from the **overall solution grade and feedback** to which they are linked.
 - The process ensures that **new grading criteria** are applied consistently across both **new and historical submissions**.
 
