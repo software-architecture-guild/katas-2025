@@ -509,6 +509,7 @@ Implementation details for those processes can be found in the architectural vie
 2. **AI-Assisted Grading Enhancements**
 
    - **Generate Suggestions**
+
      - AI generates grading and feedback suggestions for Aptitude and Case Study tests.
    - **Review / Adjust Suggestions**
 
@@ -939,25 +940,26 @@ However, Experts continue to review AI-generated suggestions in order to improve
 ### Core Components & Flow
 
 1. **Submission & Preprocessing**
+
    - Aptitude test short answers, grades and feedback are stored in the **Aptitude Test Historical Database**
    - The **Answers Preprocessing Microservice** converts the answers to embeddings and clusters similar ones to **identify representative examples**
    - The **Prompt Context Database** keeps short answers, their grades and feedback that are used as learning set to the actual questions
-
 2. **AI-Powered Suggestions Generation**
+
    - The **Suggestions Generator** retrieves clustered examples, expert grades and feedback, integrating them into a **grading prompt**
    - The LLM processes Candidate's response, analyzing it in **context** with the question, provided past answers and their expert evaluations
    - The model provides both a grade and structured feedback as a response
-
 3. **Expert Review & Validation**
+
    - AI-generated grades suggestions are forwarded to the **Expert Grading Space**
    - Experts review, refine, or override the AI-generated grades and feedback
    - The **Suggestions API Microservice** updates suggestion statuses based on expert validation
-
 4. **AI Oversight & Continuous Improvement**
+
    - AI Engineers use the **AI Admin UI** to monitor AI performance and optimize prompt templates, configs, etc.
    - Experts and AI Engineers regenerate suggestions when necessary to improve accuracy
-
 5. **Feedback Loop & Optimization**
+
    - AI-generated suggestions are continuously evaluated for accuracy
    - The system initiates **Prompt Context** datasets update, if the prompt performance is low for a short-answer question
 
@@ -975,19 +977,19 @@ However, this approach should be validated through a detailed requirements analy
 
 **Prompts Log (Solution 2 database)** stores records of the prompts used for generating grading suggestions:
 
-- **Prompt ID (PK)** – a unique identifier for each prompt  
-- **Question ID (FK)** – links the prompt to a specific question  
-- **Prompt** – the actual text of the prompt used for grading assistance  
-- **Created By / At** – metadata on who created the prompt and when  
+- **Prompt ID (PK)** – a unique identifier for each prompt
+- **Question ID (FK)** – links the prompt to a specific question
+- **Prompt** – the actual text of the prompt used for grading assistance
+- **Created By / At** – metadata on who created the prompt and when
 
- **Aptitude Test Feedbacks (Prompt Craft database)** stores actual examples for grading queries augmentation:
+**Aptitude Test Feedbacks (Prompt Craft database)** stores actual examples for grading queries augmentation:
 
 - **Aptitude test submission ID (PK)** – links the feedback to a specific aptitude test submission
 - **Question ID (PK)** – a unique identifier for each question
 - **Answer embedding (Index)** – a numerical representation (embedding) of the candidate’s answer,
-allowing for similarity comparison and clustering
+  allowing for similarity comparison and clustering
 - **Question** – the actual text of the question being answered
-- **Short answer** – the candidate's response to the question  
+- **Short answer** – the candidate's response to the question
 - **Grade** – the score or assessment assigned to the candidate’s response
 - **Feedback** – comments, suggestions, or explanations provided regarding the candidate’s answer
 - **Cluster ID** – an identifier grouping similar answers together based on their embeddings
@@ -1001,21 +1003,22 @@ allowing for similarity comparison and clustering
 #### Workflow
 
 1. **Answer Clustering & Preprocessing**
-   - The Answers Preprocessing Microservice clusters historical responses to provide **contextual examples** for grading
 
+   - The Answers Preprocessing Microservice clusters historical responses to provide **contextual examples** for grading
 2. **AI-Powered Grading**
+
    - The Suggestions Generator captures a submitted candidate's answer and injects a structured grading prompt into an **LLM**
    - The LLM analyzes the answer in the context of:
      - The question
      - Past graded responses on this question
      - Feedback provided by experts to the grade
    - The LLM generates a grade and detailed feedback, using its reasoning capability, static knowledge and long context understanding
-
 3. **Expert Review & Validation**
+
    - Human experts evaluate the AI-generated grades and feedback
    - The system tracks acceptance rates to improve AI-generated suggestions
-
 4. **Continuous Learning & Optimization**
+
    - The system evaluates AI performance
    - If a large percentage of suggestions are rejected, the new context data is introduced
 
@@ -1216,12 +1219,13 @@ This diagram illustrates a workflow for automatically creating optimized grading
 #### Workflow
 
 1. **Prepare Training Data**
+
    - Retrieve **graded submission feedback** from Architecture Exam Historical DB.
    - Combine **rejected AI suggestions** with expert-corrected feedback.
    - Cluster rejected suggestions and select the top 5 clusters.
    - Store the top 5 rejected suggestions with corrected feedback.
-
 2. **Create a New Version of the Grading Criterion Prompt**
+
    - Generate text-based critiques using **LLM**.
    - Compile an optimization prompt with **critiques**.
    - Execute in LLM to generate 1–3 new prompt versions.
@@ -1248,18 +1252,19 @@ Solution also introduces a challenge in maintaining an **up-to-date knowledge ba
 This solution follows the overall architecture, but introduces key enhancements:
 
 1. **Answers Extractor** *(New Component)*
+
    - Extracts short answers for each grading criterion from submitted architecture solutions using an LLM.
    - Ensures structured evaluation by generating specific responses based on the context of the candidate’s submission.
-
 2. **LLM (Large Language Model) Integration** *(New Component)*
+
    - Processes extracted responses to refine and structure the short answers.
    - Ensures consistent formatting and alignment with predefined grading criteria.
-
 3. **Similar Answers Finder** *(New Component)*
+
    - Searches the historical database to identify the most relevant past responses for comparison.
    - Uses vector-based similarity algorithms to ensure accurate matching between current and past submissions.
-
 4. **Extracted Short Answers Historical DB** *(New Component)*
+
    - Stores previously extracted and expert-graded short answers for reference in grading recommendations.
 
 These enhancements improve the grading process by enabling automated extraction, structuring, and evaluation of short answers, leading to a more consistent, scalable, and efficient approach to assessing architecture submissions.
@@ -1272,15 +1277,16 @@ These enhancements improve the grading process by enabling automated extraction,
 
 This solution introduces two key informational enhancements:
 
-1. **Enhanced AI Suggestions with Extracted Short Answers**  
+1. **Enhanced AI Suggestions with Extracted Short Answers**
+
    - Unlike other solutions, this system does not only generate a **grade and feedback** for each submission but also includes **extras** in the AI-generated suggestion.
    - These **extras** contain **extracted short answers** pulled directly from the candidate’s submission.
    - By providing structured short answers along with the suggested grade and feedback, experts receive **better context**, improving the efficiency and accuracy of manual validation.
+2. **Version Tracking for Solution Analytics and Performance Monitoring**
 
-2. **Version Tracking for Solution Analytics and Performance Monitoring**  
    - Each AI-generated suggestion will be **tagged with the version of the solution** that produced it.
    - This version tracking ensures that analytics can **correlate suggestion performance** with specific extraction methodology release.
-   - If a version performs poorly, this data allows for:  
+   - If a version performs poorly, this data allows for:
      - **Identifying under-performing versions** based on grading outcomes and expert modifications.
      - **Pinpointing the need for re-extraction** of short answers in the historical database for improved accuracy.
    - This mechanism ensures that **continuous optimization** is based on data-driven insights rather than assumptions.
@@ -1298,22 +1304,23 @@ By implementing these enhancements, the solution provides **greater transparency
 This workflow describes the **AI-assisted grading process** for architecture submissions. It includes **extracting short answers from submissions**, **finding relevant historical responses**, and **generating AI-based grading suggestions**.
 
 1. **Submission Processing**
+
    - A candidate's **architecture submission** is retrieved from the **Architecture Exam Historical Database**.
    - The corresponding **case study** and its **grading criteria** are identified.
-
 2. **Extracting Short Answers**
+
    - The **Answers Extractor** microservice initiates a new chat session with the **LLM**.
    - All files related to the architecture submission are uploaded as context.
    - The **Answers Extractor** sends specific questions to the **LLM** for each grading criterion, prompting it to generate relevant *Short answers*.
    - The extracted *Short answers* are sent back to the **Answers Extractor**.
-
 3. **Finding Similar Historical Responses**
+
    - The **Similar Answers Finder Microservice** receives the extracted *Short answers*.
    - Each *Short answer* is **vectorized** to enable similarity-based searching.
    - The system queries the **Extracted Short Answers Historical Database** to find the most relevant past responses.
    - The **nearest historical responses** are retrieved based on similarity scoring.
-
 4. **Generating AI-Based Suggestions**
+
    - The system **compiles AI-assisted grading suggestions** by combining:
      - The extracted short-answer responses from the submission.
      - The most relevant historical responses from graded architecture solutions.
@@ -1347,24 +1354,25 @@ These processes together ensure a **consistent, scalable, and reliable** dataset
 **Historical Restatements**
 
 1. **Submission Processing**
+
    - The **Architecture Exam Historical Database** retrieves past **graded architecture solutions** associated with the updated case study.
    - The corresponding **new grading criteria** are identified.
+2. **Extracting Short Answers for Updated Grading Criteria**
 
-2. **Extracting Short Answers for Updated Grading Criteria**  
    - The **Answers Extractor Microservice** starts a new chat session with the **LLM**.
    - All files related to the full **historical submission** are uploaded as **context** to the **LLM**.
    - The **Answers Extractor** sends specific questions to the **LLM** for each updated grading criterion, prompting it to generate relevant *Short answers*.
    - The LLM processes the request and returns *Short answers* for each grading criterion.
+3. **Storing Extracted Short Answers**
 
-3. **Storing Extracted Short Answers**  
    - The extracted short answers are stored in the **Extracted Short Answers Historical Database**.
    - These responses are linked to the corresponding **historical submission** along with its **overall grade and feedback**.
-
 4. **Iteration for All Historical Submissions**
+
    - The system verifies whether **all historical submissions** for the case study have been processed.
    - If not, the workflow is repeated for the next historical submission.
 
-**Outcome**  
+**Outcome**
 
 - The system **backfills extracted short answers** for updated grading criteria in historical submissions.
 - These extracted answers are assigned a **lower weight** in AI-generated suggestions.
@@ -1402,23 +1410,21 @@ Since the Data needed for Search, as well as queries performed are exactly the s
 Provided workflow overview only covers the interactions with or within the AI Analytics app.
 
 1. **Operational DB** stores raw, various types events for a limited time window before they are processed by **Analytics Job**.
-
 2. **Submissions Capture** microservice persists submissions in **Operational DB** for later use.
-
 3. **LIKE Aptitude Test: Solution 1 Submissions Search** and **LIKE Architecture Exam: Solution 4 Submissions Search** services
+
    - Preprocess provided submission for text search
    - Perform text search in internal Vector DB of previously graded submissions
    - Return similar submissions with their grades and feedback.
-
 4. **Anomaly Detection** microservice
+
    - Searches for similar submissions using **Submissions Search** services
    - Detects significant discrepancies between average grades of similar historical graded submissions and the current one
    - Flags such submissions as anomalies and forwards them to **Expert Admin Space** for later review
-
 5. **Designated Expert** re-validates the anomalies.
+
    - Submissions Grade and Feedback is Corrected
    - Anomaly Status (Confirmed / Ignored) is sent to the **Corrections Capture** service to be analyzed later.
-
 6. **Corrections Capture** persists the anomaly resolution to **Operational DB** for later processing.
 
 As an outcome, internal **Operational DB** contains information about submissions and their corrections made through **Anomaly Detection**.
@@ -1428,9 +1434,9 @@ As an outcome, internal **Operational DB** contains information about submission
 This workflow describes the process of reviewing submissions, whose grades were disputed by the Candidates.
 
 1. **Designated Expert** re-validates the appeals.
+
    - Submissions Grade and Feedback is Corrected
    - Appeal Status (Approved / Rejected) is sent to the **Corrections Capture** service to be analyzed later.
-
 2. **Corrections Capture** persists the anomaly resolution to **Operational DB** for later processing.
 
 As an outcome, internal **Operational DB** contains information about submissions and their corrections made through **Appeal Process**.
@@ -1440,11 +1446,8 @@ As an outcome, internal **Operational DB** contains information about submission
 This workflow describes the process of Building the dataset that is used to monitor accuracy and performance of **Experts** along with performance of AI solutions assisting in the process of grading and review.
 
 1. **Corrections Capture** persists AI suggestions to **Operational DB** for later processing.
-
 2. **Analytics Job** aggregates raw events and transforms them into final metrics dataset, that is then stored in **Validation Analysis** analytical DB.
-
 3. **Validation Analysis** analytical DB stores historical computed performance metrics.
-
 4. **AI Engineers** are able to access historical dataset and make informed decisions regarding Experts and AI Solutions performance.
 
 ### Operational Viewpoint
@@ -1460,24 +1463,25 @@ This workflow describes the process of Building the dataset that is used to moni
 This workflow describes an AI-assisted detection of anomalies in Expert-provided grades for the Aptitude Test.
 
 1. **Grade Submissions**
-   - **Expert** provides grade and feedback for Candidate's submission
 
+   - **Expert** provides grade and feedback for Candidate's submission
 2. **Find Similar Submissions**
+
    - **Submissions Search** service vectorizes the submission
    - **Submissions Search** service searches for similar submissions using vector similarity
    - **Submissions Search** service returns similar submissions with grades and feedback
-
 3. **Anomaly Detection**
+
    - **Anomaly Detection** microservice compares the submission’s grade with historical grades of retrieved similar submissions.
    - **Anomaly Detection** finds anomalies using predefined criteria (e.g., >15% deviation from historical averages. It identifies **both** inflated scores (false approvals) and unduly low scores (false rejections).
    - **Anomaly Detection** forwards the anomalies for a re-validation.
-
 4. **Anomaly Review**
+
    - **Designated Expert** is notified about the anomalies in **Anomalies App**.
    - **Designated Expert** reviews submission details, grades and historical comparisons.
    - **Designated Expert** **corrects** (update grade/feedback) or **ignores** (no action) the anomaly.
-
 5. **Anomaly Status Update**
+
    - **Corrections Capture** microservice records the final status (*Corrected*/*Ignored*) and persists it to the **Performance Metrics DB** for auditing and analysis.
 
 **Appeal Process**
@@ -1487,23 +1491,24 @@ This workflow describes an AI-assisted detection of anomalies in Expert-provided
 #### Appeal Process Workflow
 
 1. **File an Appeal**
+
    - **Candidate** receives graded results and feedback and decides to appeal.
    - **Candidate** fills out an Appeal form via the **Candidate Testing UI**
    - Appeal form is stored for later review by **Appeals App**
-
 2. **Appeal Review**
+
    - **Appeals App** notifies **Designated Expert** about new Appeals.
    - **Designated Expert** reviews the submission, grade, feedback and candidate’s justification.
    - **Designated Expert** makes a decision:
      - **Approved (Full/Partial)**: Updates grade/feedback, potentially allowing the candidate to move to the next step in certification process.
      - **Rejected**: No changes; original grade retained.
    - **Correction Capture** service persists reviewed appeal details to   **Operational DB**.
-
 3. **Notify Candidate about Appeal Result**
+
    - **Candidate** status is updated.
    - **Candidate** is notified about the appeal result via email.
-
 4. **Certification Process Adjustments**
+
    - **Approved Appeals** may change the grade so that the candidate can pass to the next step:
      - **Aptitude Test** grade is updated, **Candidate** is able to take Case Study Exam.
      - **Case Study Exam** grade is updated, **Candidate** receives certificate for passing the Certification.
@@ -1537,16 +1542,13 @@ The future of software architecture certification is **AI-augmented, not AI-repl
 
 While the proposed architecture lays a solid foundation, several enhancements could further optimize and scale the system:
 
-1. **Expert Performance Assessment & Promotion Mechanism**  
+1. **Expert Performance Assessment & Promotion Mechanism**
    The system already collects valuable data on expert performance. This data can be used to assess and promote high-performing experts while identifying underperformers for potential training or re-evaluation. Introducing this mechanism would improve grading consistency and incentivize experts to maintain high-quality evaluations.
-
-2. **LLM Interface with Caching and Cost Optimization**  
+2. **LLM Interface with Caching and Cost Optimization**
    We deliberately did not implement caching for LLM interactions, as the economic benefits seemed unnecessary in the current setup. However, if LLM cost optimization becomes a priority, a shared LLM interface could be introduced. This would allow multiple solutions to reuse responses, leverage deduplication techniques, and apply other cost-saving mechanisms when necessary.
-
-3. **Intelligent Work Distribution Between AI Solutions**  
+3. **Intelligent Work Distribution Between AI Solutions**
    Giving experts more than three suggestions for review is unlikely to improve efficiency. If we want to test multiple AI solutions or versions in production, an intelligent **work distributor/orchestrator** should be added. This component, integrated into the Core AI Assistant, would dynamically assign specific solutions to submissions, ensuring balanced testing while preventing expert overload.
-
-4. **Event-Driven Architecture Recommendation**  
+4. **Event-Driven Architecture Recommendation**
    We do not have confirmation whether the existing system is event-driven. However, transitioning to an **event-driven model**—at least for communication with the AI Assistant—would significantly improve system scalability, maintainability, and responsiveness.
 
 By implementing these improvements, the system can become even more scalable, cost-effective, and adaptive to evolving business needs.
