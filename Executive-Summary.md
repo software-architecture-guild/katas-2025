@@ -21,7 +21,7 @@ To address these challenges, **AI-assisted grading** is introduced as an **exper
    * **Solution 2 — In Context Learning:** The system maintains a structured database containing both high-quality and suboptimal suggestions. This database is a contextual foundation for guiding the Large Language Model (LLM) in grading. When assessing responses, the LLM references this educational context to generate informed evaluations, suggesting appropriate grades and providing constructive feedback.
 2. **AI-Assisted Architecture Exam Grading**
    * **Solution 3a — Direct Prompting:** Uses pre-defined AI grading prompts to generate scoring suggestions.
-   * **Solution 3b—Automatic Prompt Optimization:** Implements LLM-driven prompt adjustments to refine AI-generated grading prompts continuously based on Expert feedback.
+   * **Solution 3b — Automatic Prompt Optimization:** Implements LLM-driven prompt adjustments to refine AI-generated grading prompts continuously based on Expert feedback.
    * **Solution 4 — LLM-Powered Structured Parsing:** This approach utilizes an LLM to convert Architecture Exam submissions into a format similar to short-answer responses from the Aptitude Test. It then applies the grading algorithms from Solution 1 (Text & Semantic Search) and Solution 2 (AI-Generated Test Adjustments) to generate grading suggestions based on historical data.
 3. **Anomaly Detection & Appeals Process**
    * **Automated Detection of Grading Errors**: AI flags inconsistencies based on past expert-graded submissions.
