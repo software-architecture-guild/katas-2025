@@ -42,7 +42,7 @@
   - [Aptitude Test: Solution 2](#aptitude-test-solution-2)
   - [Architecture Exam: Solution 3a - Direct Prompting](#architecture-exam-solution-3a---direct-prompting)
   - [Architecture Exam: Solution 3b - Direct Prompting](#architecture-exam-solution-3b---direct-prompting)
-  - [Architecture Exam: Solution 4](#architecture-exam-solution-4)
+  - [Architecture Exam: Solution 4 - Transform Submission into Short Answers](#architecture-exam-solution-4)
   - [Appeal Process, Anomaly Detection and Analytics](#appeal-process-anomaly-detection-and-analytics)
 - [Final Words](#final-words)
   - [Further Improvement Possibilities](#further-improvement-possibilities)
@@ -1166,13 +1166,105 @@ This diagram illustrates the **workflow for generating and optimizing AI-generat
 
 This **iterative improvement cycle** ensures that AI-generated grading suggestions remain **accurate, reliable, and aligned with expert expectations**, leading to efficient and high-quality candidate evaluations.
 
-## Architecture Exam: Solution 4
+## Architecture Exam: Solution 4 - Transform Submission into Short Answers
 
-### Architecture
+### Idea
 
-Diagrams + ADRs
+The grading process for architecture submissions can be significantly improved by leveraging AI to extract relevant short answers for evaluation criteria, compare them with historical submissions, and generate automated grading and feedback suggestions. This solution integrates LLM-based answer extraction with a similarity search, matching newly submitted responses against previously graded ones. To maximize the value of historical data, all grading criteria are backfilled into past submissions, generating short-answer responses that lack expert evaluation but are linked to the overall solution grade and feedback. AI-generated suggestions help streamline Expert grading, enhancing efficiency, consistency, and accuracy over time.
 
-### Implementation Milestones
+### Context Viewpoint
+
+> *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
+
+![Diagram](future_state/solution_4/context_viewpoint.jpg)
+
+This solution follows the overall architecture, but introduces key enhancements:
+
+1. **Answers Extractor** *(New Component)*
+   - Extracts short answers for each grading criterion from submitted architecture solutions using an LLM.
+   - Ensures structured evaluation by generating specific responses based on the context of the candidate’s submission.
+
+2. **LLM (Large Language Model) Integration** *(New Component)*
+   - Processes extracted responses to refine and structure the short answers.
+   - Ensures consistent formatting and alignment with predefined grading criteria.
+
+3. **Similar Answers Finder** *(New Component)*
+   - Searches the historical database to identify the most relevant past responses for comparison.
+   - Uses vector-based similarity algorithms to ensure accurate matching between current and past submissions.
+
+4. **Extracted Short Answers Historical DB** *(New Component)*
+   - Stores previously extracted and expert-graded short answers for reference in grading recommendations.
+
+These enhancements improve the grading process by enabling automated extraction, structuring, and evaluation of short answers, leading to a more consistent, scalable, and efficient approach to assessing architecture submissions.
+
+### Operational Viewpoint
+
+> *Describes how the system will operate to fulfill the required functionality.*
+
+#### Business-as-Usual Workflow
+
+![Diagram](future_state/solution_4/operational_viewpoint_bau.jpg)
+
+This workflow describes the **AI-assisted grading process** for architecture submissions. It includes **extracting short answers from submissions**, **finding relevant historical responses**, and **generating AI-based grading suggestions**.
+
+1. **Submission Processing**
+   - A candidate's **architecture submission** is retrieved from the **Architecture Exam Historical Database**.
+   - The corresponding **case study** and its **grading criteria** are identified.
+
+2. **Extracting Short Answers**
+   - The **Answers Extractor** microservice initiates a new chat session with the **LLM**.
+   - All files related to the architecture submission are uploaded as context.
+   - The **Answers Extractor** sends specific questions to the **LLM** for each grading criterion, prompting it to generate relevant *Short answers*.
+   - The extracted *Short answers* are sent back to the **Answers Extractor**.
+
+3. **Finding Similar Historical Responses**
+   - The **Similar Answers Finder Microservice** receives the extracted *Short answers*.
+   - Each *Short answer* is **vectorized** to enable similarity-based searching.
+   - The system queries the **Extracted Short Answers Historical Database** to find the most relevant past responses.
+   - The **nearest historical responses** are retrieved based on similarity scoring.
+
+4. **Generating AI-Based Suggestions**
+   - The system **compiles AI-assisted grading suggestions** by combining:
+     - The extracted short-answer responses from the submission.
+     - The most relevant historical responses from graded architecture solutions.
+   - Each suggestion includes:
+     - A **short answer for each grading criterion**.
+     - **The closest historical response** along with its **grade and expert feedback**.
+
+**Outcome**
+- The AI-generated grading suggestions are **passed to the next stage**, where they can be reviewed and validated by Experts.
+
+#### Historical Restatements Workflow
+
+![Diagram](future_state/solution_4/operational_viewpoint_restatement.jpg)
+
+This workflow describes the **AI-assisted restatement process**, which is triggered when a **case study is updated with new grading criteria**. The process ensures that past submissions are evaluated using the updated criteria by extracting short answers from historical solutions.
+
+1. **Submission Processing**
+   - The **Architecture Exam Historical Database** retrieves past **graded architecture solutions** associated with the updated case study.
+   - The corresponding **new grading criteria** are identified.
+
+2. **Extracting Short Answers for Updated Grading Criteria**  
+   - The **Answers Extractor Microservice** starts a new chat session with the **LLM**.
+   - All files related to the full **historical submission** are uploaded as **context** to the **LLM**.
+   - The **Answers Extractor** sends specific questions to the **LLM** for each updated grading criterion, prompting it to generate relevant *Short answers*.
+   - The LLM processes the request and returns *Short answers* for each grading criterion.
+
+3. **Storing Extracted Short Answers**  
+   - The extracted short answers are stored in the **Extracted Short Answers Historical Database**.
+   - These responses are linked to the corresponding **historical submission** along with its **overall grade and feedback**.
+
+4. **Iteration for All Historical Submissions**  
+   - The system verifies whether **all historical submissions** for the case study have been processed.
+   - If not, the workflow is repeated for the next historical submission.
+
+**Outcome**  
+- The system **backfills extracted short answers** for updated grading criteria in historical submissions.
+- These extracted answers are assigned a **lower weight** in AI-generated suggestions.
+  - They are used when **no expert-graded similar response** is found for a given evaluation criterion and the unreviewed extracted answer meets similarity verification requirements.
+  - These unreviewed extracted answers are**displayed differently** in the UI to distinguish them from validated responses.
+  - Their **grading and feedback** are be derived from the **overall solution grade and feedback** to which they are linked.
+- The process ensures that **new grading criteria** are applied consistently across both **new and historical submissions**.
 
 ## Appeal Process, Anomaly Detection and Analytics
 
