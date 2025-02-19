@@ -918,15 +918,14 @@ This workflow integrates AI and human expertise, ensuring the grading process is
 
 We assume that short-answer questions primarily test factual knowledge rather than deep analysis or architectural design skills. 
 Given this scope, the LLM’s static knowledge base and reasoning ability are expected to be sufficient
-for determining correctness—whether an answer is correct, partially correct, or incorrect—while also providing explanatory feedback.
+for determining correctness — whether an answer is correct, partially correct, or incorrect — while also providing explanatory feedback.
 
-So, we ask the model to both grade responses and generate feedback for candidates’ answers. 
+So, we ask the model to both grade and generate feedback for candidates’ answers. 
 To enhance its accuracy, we provide a representative set of different answers from other candidates, along with expert evaluations. 
 By including these historical answers, grades, and feedback in the prompt,
 the model can better align its assessments with expert grading patterns while still allowing for flexibility in evaluating new cases.
 
-Unlike Solution 1, which primarily retrieves past answers from a database, Solution 2 can handle “cold start” scenarios,
-meaning it can evaluate responses to new questions without requiring prior examples.
+Solution 2 can better handle “cold start” scenarios, meaning it can evaluate responses to new questions without requiring prior examples.
 This enables broader applicability while still benefiting from historical grading data. 
 However, Experts continue to review AI-generated suggestions in order to improve grading accuracy over time.
 
@@ -942,10 +941,11 @@ However, Experts continue to review AI-generated suggestions in order to improve
 1. **Submission & Preprocessing**
    - Aptitude test short answers, grades and feedback are stored in the **Aptitude Test Historical Database**
    - The **Answers Preprocessing Microservice** converts the answers to embeddings and clusters similar ones to **identify representative examples**
+   - The **Prompt Context Database** keeps short answers, their gradings and feedback that are used as learning set to the actual questions 
 
 2. **AI-Powered Suggestions Generation**
-   - The **Suggestions Generator** retrieves clustered examples and their expert grade + feedback, integrating them into a **grading prompt**
-   - The LLM processes the response, analyzing it in **context** with **past answers and expert evaluations**
+   - The **Suggestions Generator** retrieves clustered examples, expert grades and feedback, integrating them into a **grading prompt**
+   - The LLM processes Candidate's response, analyzing it in **context** with the question, provided past answers and their expert evaluations
    - The model provides both a grade and structured feedback as a response
 
 3. **Expert Review & Validation**
@@ -956,14 +956,41 @@ However, Experts continue to review AI-generated suggestions in order to improve
 4. **AI Oversight & Continuous Improvement**
    - AI Engineers use the **AI Admin UI** to monitor AI performance and optimize prompt templates, configs, etc.
    - Experts and AI Engineers regenerate suggestions when necessary to improve accuracy
-   - The system adjusts grading criteria dynamically, refining AI performance
 
 5. **Feedback Loop & Optimization**
    - AI-generated suggestions are continuously evaluated for accuracy
-   - The system learns from expert decisions, refining grading logic, data preprocessing, and evaluation models
+   - The system initiates **Prompt Context** datasets update, if the prompt performance is low for a short-answer question 
 
-The Clusterization algorithm of **Answers Preprocessing Microservice** is assumed to be a combination of Transformer Encoder and any framework/service
-that supports distance calculation (ex. ElasticSearch or kmeans). However, it's optimal design is expected to be chosen by AI Engineers as a result of detailed requirements analysis and PoC.
+The **Clusterization algorithm** of the **Answers Preprocessing Microservice** is expected to combine
+a Transformer Encoder with a framework or service that supports distance calculation (e.g., ElasticSearch or K-Means).
+However, this approach should be validated through a detailed requirements analysis and a proof of concept (PoC).
+
+### Informational Viewpoint
+
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+
+![Diagram](future_state/solution_2/informational_viewpoint.jpg)
+
+#### Definitions
+
+**Prompts Log (Solution 2 database)** stores records of the prompts used for generating grading suggestions:
+
+- **Prompt ID (PK)** – a unique identifier for each prompt  
+- **Question ID (FK)** – links the prompt to a specific question  
+- **Prompt** – the actual text of the prompt used for grading assistance  
+- **Created By / At** – metadata on who created the prompt and when  
+
+ **Aptitude Test Feedbacks (Prompt Craft database)** stores actual examples for grading queries augmentation:
+
+- **Aptitude test submission ID (PK)** – links the feedback to a specific aptitude test submission
+- **Question ID (PK)** – a unique identifier for each question
+- **Answer embedding (Index)** – a numerical representation (embedding) of the candidate’s answer,
+allowing for similarity comparison and clustering
+- **Question** – the actual text of the question being answered
+- **Short answer** – the candidate's response to the question  
+- **Grade** – the score or assessment assigned to the candidate’s response
+- **Feedback** – comments, suggestions, or explanations provided regarding the candidate’s answer
+- **Cluster ID** – an identifier grouping similar answers together based on their embeddings
 
 ### Operational Viewpoint
 
@@ -977,11 +1004,11 @@ that supports distance calculation (ex. ElasticSearch or kmeans). However, it's 
    - The Answers Preprocessing Microservice clusters historical responses to provide **contextual examples** for grading
    
 2. **AI-Powered Grading**
-   - The Suggestions Generator captures a submitted answer and injects a structured grading prompt into an **LLM**
+   - The Suggestions Generator captures a submitted candidate's answer and injects a structured grading prompt into an **LLM**
    - The LLM analyzes the answer in the context of:
      - The question
-     - Past graded responses
-     - Feedback provided by experts
+     - Past graded responses on this question
+     - Feedback provided by experts to the gradings
    - The LLM generates a grade and detailed feedback, using its reasoning capability, static knowledge and long context understanding
    
 4. **Expert Review & Validation**
@@ -992,26 +1019,7 @@ that supports distance calculation (ex. ElasticSearch or kmeans). However, it's 
    - The system evaluates AI performance
    - If a large percentage of suggestions are rejected, the new context data is introduced
 
-This approach also assumes AI Engineer involvement in case the accuracy of Suggestions can not be improved with different context examples.
-
-### Informational Viewpoint
->
-> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
-
-![Diagram](future_state/solution_2/informational_viewpoint.jpg)
-
-#### Definitions
-
- **Aptitude Test Feedbacks (Prompt Craft database)** stores actual examples for grading queries augmentation:
-
-- **Aptitude test submission ID (PK)** – links the feedback to a specific aptitude test submission
-- **Question ID (PK)** – a unique identifier for each question
-- **Answer embedding (Index)** – a numerical representation (embedding) of the candidate’s answer,
-allowing for similarity comparison and clustering
-- **Question** – the actual text of the question being answered
-- **Grade** – the score or assessment assigned to the candidate’s response
-- **Feedback** – comments, suggestions, or explanations provided regarding the candidate’s answer
-- **Cluster ID** – an identifier grouping similar answers together based on their embeddings
+This approach also assumes AI Engineer involvement in case the accuracy of Suggestions can not be improved with different historical examples.
 
 ## Architecture Exam: Solution 3a - Direct Prompting
 
