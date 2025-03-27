@@ -2,6 +2,10 @@
 
 # The Architectural Kata by O'Reilly, February 2025 <!-- omit in toc -->
 
+<img align="right" width="329" height="612" src="third-place.png" alt="3rd place">
+
+## [Presentation](https://docs.google.com/presentation/d/1Jhoz8o-jFipVYG7Csil4WNf5b8xEDuZpPqYN_rgtZMM/edit?usp=sharing) and [Video](https://www.youtube.com/watch?v=SAUrHpBcq4E&t)
+
 ## [Executive Summary](Executive-Summary.md)
 
 ## Team members <!-- omit in toc -->
